@@ -22,16 +22,31 @@
     <link rel="stylesheet" href="{{ asset('themes/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('themes/dist/css/adminlte.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('themes/plugins/toastr/toastr.min.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/summernote/summernote-bs4.css') }}">
+    <!-- global custom css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+    <meta name="csrf_token" content="{{csrf_token()}}" />
+    <script src="{{ asset('assets/js/base.js') }}" defer></script>
+    <script>
+        const BASE_URL = '{{url('')}}';
+    </script>
+    @yield('script')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+{{--<div class="export-bar" id="spinLoading" hidden>--}}
+{{--    <i class="fas fa-circle-notch text-white fa-spin"></i>--}}
+{{--</div>--}}
 <div class="wrapper">
 
     <!-- Navbar -->
@@ -65,6 +80,8 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Toastr -->
+<script src="{{ asset('themes/plugins/toastr/toastr.min.js') }}"></script>
 <!-- ChartJS -->
 <script src="{{ asset('themes/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->

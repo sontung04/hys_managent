@@ -229,4 +229,16 @@ return [
 
     ],
 
+    'area' => [
+        0 => 'Chưa xác định',
+        1 => 'Tổng',
+        2 => 'Thăng Long ',
+        3 => 'Kim Liên',
+        4 => 'Đống Đa',
+        5 => 'Mê Linh',
+        6 => 'Phù Đồng',
+        7 => 'Hoa Lư',
+        8 => 'Doanh Nhân',
+    ],
+
 ];
