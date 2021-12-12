@@ -13,15 +13,18 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name'       => 'admin',
+            'code'       => '01HY00001',
+            'firstname'  => 'admin',
+            'lastname'   => 'Quang Bui',
             'email'      => 'admin@gmail.com',
             'password'   => Hash::make(env('PASSWORD_DEFAULT')),
             'phone'      => '0987654321',
             'birthday'   => date('d-m-Y', time()),
-            'img'        => 'url img',
-            'jointime'   => time(),
-            'created_at' => time(),
-            'updated_at' => time(),
+            'area'       => 1,
+            'img'        => env('AVATAR_DEFAULT'),
+            'jointime'   => date('Y-m-d H:i:s', time()),
+            'created_at' => date('Y-m-d H:i:s', time()),
+            'updated_at' => date('Y-m-d H:i:s', time()),
         ]);
     }
 }

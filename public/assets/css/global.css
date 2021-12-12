@@ -1,0 +1,43 @@
+/*.export-bar {*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    background-color: rgba(144, 144, 144, 0.5);*/
+/*    z-index: 99999;*/
+/*    font-size: 40px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.export-bar .card-loader {*/
+/*    width: 80%;*/
+/*    max-width: 900px;*/
+/*    padding: 10px;*/
+/*    background-color: #fff;*/
+/*}*/
+/*.export-bar .progress {*/
+/*    height: 20px;*/
+/*    border-radius: .2rem;*/
+/*    overflow: unset !important;*/
+/*}*/
+/*.export-bar .progress-bar {*/
+/*    border-radius: .2rem;*/
+/*    overflow: unset !important;*/
+/*}*/
+/*.export-bar .progress-bar.active {*/
+/*    animation: progress-bar-stripes .7s linear infinite;*/
+/*}*/
+/*.export-bar .process-text {*/
+/*    font-weight: bold;*/
+/*    color: #fff;*/
+/*    font-size: 12px;*/
+/*    margin-left: .5rem;*/
+/*}*/
+
+ul.nav.nav-treeview {
+    padding-left: 15px;
+}
+
+

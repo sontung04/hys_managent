@@ -15,7 +15,9 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->string('code', 20);
+            $table->string('firstname', 255);
+            $table->string('lastname', 255);
             $table->string('password', 255);
             $table->rememberToken();
             $table->string('email', 255)->unique();
@@ -25,21 +27,24 @@ class CreateUsersTable extends Migration
             $table->string('birthday', 255)->nullable();
             $table->string('school', 255)->nullable();
             $table->string('major', 255)->nullable();
+            $table->integer('area')->default(0);
             $table->longText('address')->nullable();
             $table->string('facebook', 255)->nullable();
             $table->string('img', 255);
             $table->tinyInteger('gender')->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->integer('group')->nullable();
-            $table->integer('jointime');
-            $table->integer('stoptime')->nullable();
-            $table->integer('lastaccess')->default(0);
+            $table->string('arealog',15)->nullable();
+            $table->timestamp('jointime', 0);
+            $table->timestamp('stoptime', 0)->nullable();
+            $table->timestamp('lastaccess', 0)->nullable();
             $table->longText('skill')->nullable();
+            $table->longText('desire')->nullable();
             $table->string('company', 255)->nullable();
             $table->string('work', 255)->nullable();
             $table->integer('created_by')->default(0);
-            $table->integer('created_at');
-            $table->integer('updated_at');
+            $table->integer('updated_by')->default(0);
+            $table->timestamps();
+
         });
     }
 
