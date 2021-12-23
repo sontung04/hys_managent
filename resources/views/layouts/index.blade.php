@@ -19,7 +19,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="{{ asset('themes/plugins/jqvmap/jqvmap.min.css') }}">
+{{--    <link rel="stylesheet" href="{{ asset('themes/plugins/jqvmap/jqvmap.min.css') }}">--}}
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('themes/dist/css/adminlte.min.css') }}">
     <!-- Toastr -->
@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{{ asset('themes/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/daterangepicker/daterangepicker.css') }}">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="{{ asset('themes/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/summernote/summernote-bs4.css') }}">
     <!-- global custom css -->
@@ -86,9 +88,12 @@
 <script src="{{ asset('themes/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{ asset('themes/plugins/sparklines/sparkline.js') }}"></script>
-<!-- JQVMap -->
-<script src="{{ asset('themes/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('themes/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+<!-- jquery-validation -->
+<script src="{{ asset('themes/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+{{--<!-- JQVMap -->--}}
+{{--<script src="{{ asset('themes/plugins/jqvmap/jquery.vmap.min.js') }}"></script>--}}
+{{--<script src="{{ asset('themes/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>--}}
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('themes/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
 <!-- daterangepicker -->

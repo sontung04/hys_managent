@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\View;
 class UserController extends Controller
 {
 
+    public function create()
+    {
+        return view('users.create');
+    }
+
     public function profile($id = null)
     {
         if(is_null($id)) {
@@ -30,7 +35,7 @@ class UserController extends Controller
         $requestData = $request->all();
 
         #create new user
-        if (empty($requestData['id'])) {
+        if (!isset($requestData['id']) || empty($requestData['id'])) {
 
             $user = new User();
             $user->code       = $requestData['code'];
@@ -72,7 +77,7 @@ class UserController extends Controller
             $user->company    = $requestData['company'];
             $user->work       = $requestData['work'];
             $user->updated_by = Auth::id();
-            $user->updated_at = time();
+            $user->updated_at = strtotime('now');
 
         }
 

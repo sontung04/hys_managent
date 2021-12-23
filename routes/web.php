@@ -22,8 +22,8 @@ Auth::routes();
 Route::middleware('auth')->group(function (){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::prefix('/user')->group(function () {
+        Route::get('/create', 'UserController@create')->name('user.create');
         Route::get('/profile/{id?}', 'UserController@profile')->name('user.profile')->where('id', '[0-9]+');
-        Route::get('/edit/{id?}', 'UserController@edit')->name('user.edit')->where('id', '[0-9]+');
         Route::post('/saveInfo', 'UserController@saveInfo');
     });
 

@@ -52,7 +52,7 @@
                                         <b>Chức vụ</b> <a class="float-right">13,287</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Trạng thái</b> <a class="float-right">@if($user->status) Đang hoạt động @else Đã nghỉ @endif</a>
+                                        <b>Trạng thái</b> <a class="float-right">@if($user->status) Đang hoạt động @else Dừng hoạt động @endif</a>
                                     </li>
                                 </ul>
 
@@ -421,38 +421,38 @@
 {{--                                            <input type="hidden" name="code" value="{{$user->code}}">--}}
 {{--                                            <input type="hidden" name="email" value="{{$user->email}}">--}}
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Họ</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="lastname" class="col-sm-2 col-form-label">Họ:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Họ" value="{{$user->lastname}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Tên</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="firstname" class="col-sm-2 col-form-label">Tên:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Tên" value="{{$user->firstname}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Số điện thoại</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="phone" class="col-sm-2 col-form-label">Số điện thoại:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="number" class="form-control" name="phone" id="phone" placeholder="Số điện thoại" value="{{$user->phone}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Giới tính</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="gender1" class="col-sm-2 col-form-label">Giới tính:</label>
+                                                <div class="form-group col-sm-10">
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="gender1" name="gender" value="1" checked>
+                                                        <input type="radio" id="gender1" name="gender" value="1" @if($user->gender) checked @endif>
                                                         <label for="gender1" style="margin-right: 10px">
                                                             Nam
                                                         </label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="gender2" name="gender" value="0">
+                                                        <input type="radio" id="gender2" name="gender" value="0" @if(!$user->gender) checked @endif>
                                                         <label for="gender2">
                                                             Nữ
                                                         </label>
@@ -460,71 +460,79 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="" class="col-sm-2 col-form-label">Ngày sinh</label>
-                                                <div class="col-sm-10">
-                                                    <input type="date" class="form-control" name="birthday" id="birthday" placeholder="Ngày sinh">
+                                            <div class="row">
+                                                <label for="birthday" class="col-sm-2 col-form-label">Ngày sinh:</label>
+                                                <div class="form-group col-sm-10">
+                                                    <div class="input-group date" id="birthdayDate" data-target-input="nearest">
+                                                        <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
+                                                            <div class="input-group-text">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
+                                                               data-toggle="datetimepicker" data-format="DD/MM/YYYY" data-min="01/01/1960" data-max="{{date("d/m/Y")}}"/>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Facebook</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="facebook" class="col-sm-2 col-form-label">Link Facebook:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="url" class="form-control" name="facebook" id="facebook" placeholder="Link Facebook" value="{{$user->facebook}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Trường học</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="school" class="col-sm-2 col-form-label">Trường học:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="school" id="school" placeholder="Tên trường" value="{{$user->school}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Ngành học</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="major" class="col-sm-2 col-form-label">Ngành học:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="major" id="major" placeholder="Ngành theo học" value="{{$user->major}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputExperience" class="col-sm-2 col-form-label">Quê quán</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="address" class="col-sm-2 col-form-label">Quê quán:</label>
+                                                <div class="form-group col-sm-10">
                                                     <textarea class="form-control" name="address" id="address" placeholder="Quê quán" value="{{$user->address}}"></textarea>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputExperience" class="col-sm-2 col-form-label">Kỹ năng</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="skill" class="col-sm-2 col-form-label">Kỹ năng:</label>
+                                                <div class="form-group col-sm-10">
                                                     <textarea class="form-control" name="skill" id="skill" placeholder="Kỹ năng cá nhân" value="{{$user->skill}}"></textarea>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Công việc hiện tại</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="work" class="col-sm-2 col-form-label">Công việc hiện tại:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="work" id="work" placeholder="Công việc hiện tại" value="{{$user->work}}">
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Nơi làm việc</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="company" class="col-sm-2 col-form-label">Nơi làm việc:</label>
+                                                <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="company" id="company" placeholder="Nơi làm việc hiện tại" value="{{$user->company}}">
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="inputExperience" class="col-sm-2 col-form-label">Mong muốn khi tham gia CLB</label>
-                                                <div class="col-sm-10">
+                                            <div class="row">
+                                                <label for="desire" class="col-sm-2 col-form-label">Mong muốn khi tham gia CLB:</label>
+                                                <div class="form-group col-sm-10">
                                                     <textarea class="form-control" name="desire" id="desire" placeholder="Mong muốn của bạn khi tham gia CLB" value="{{$user->derise}}"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <div class="offset-sm-2 col-sm-10">
-                                                    <button type="button" class="btn btn-danger" id="btnSubmit">Submit</button>
+                                                    <button type="submit" class="btn btn-danger" id="btnSubmit">Submit</button>
                                                 </div>
                                             </div>
 
