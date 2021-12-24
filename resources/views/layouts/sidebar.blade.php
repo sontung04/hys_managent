@@ -22,6 +22,7 @@
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
+                <!-- User Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
@@ -35,9 +36,9 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('user.profile')}}" class="nav-link">
-                                    <i class="fas fa-user-edit nav-icon"></i>
-                                    <p>Thông tin cá nhân</p>
+                                <a href="" class="nav-link">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách thành viên</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -46,8 +47,78 @@
                                     <p>Tạo người dùng mới</p>
                                 </a>
                             </li>
-
                         </ul>
+                    </li>
+                </ul>
+
+                <!-- Group, Department Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-layer-group nav-icon"></i>
+                            <p>
+                                Khu vực, phòng ban
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Event Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-fire nav-icon"></i>
+                            <p>
+                                Sự kiện
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách sự kiện</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="far fa-calendar-plus nav-icon"></i>
+                                    <p>Tạo sự kiên mới</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Class Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-graduation-cap nav-icon"></i>
+                            <p>
+                                Lớp học
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+{{--                        <ul class="nav nav-treeview">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a href="" class="nav-link">--}}
+{{--                                    <i class="fas fa-list nav-icon"></i>--}}
+{{--                                    <p>Danh sách sự kiện</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
                     </li>
                 </ul>
             </nav>
