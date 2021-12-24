@@ -7,11 +7,15 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{route('index')}}" class="nav-link">Home</a>
+                <a href="{{route('index')}}" class="nav-link">Trang chủ</a>
             </li>
-{{--            <li class="nav-item d-none d-sm-inline-block">--}}
-{{--                <a href="#" class="nav-link">Contact</a>--}}
-{{--            </li>--}}
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" id="navbarContact" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact</a>
+                <div class="dropdown-menu" aria-labelledby="navbarContact">
+                    <a class="dropdown-item" href="#">Contact mới</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                </div>
+            </li>
         </ul>
 
         <!-- SEARCH FORM -->
@@ -113,10 +117,22 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                    <i class="fas fa-th-large"></i>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-user"></i>
                 </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a href="{{route('user.profile')}}" class="dropdown-item">
+                        <i class="fas fa-user-edit mr-2"></i> Thông tin cá nhân
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-key mr-2"></i> Đổi mật khẩu
+                    </a>
+                    <div class="dropdown-divider"></div>
+
+                </div>
             </li>
         </ul>
     </nav>

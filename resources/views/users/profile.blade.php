@@ -182,7 +182,7 @@
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><i class="fas fa-file-signature mr-1"></i><b> Thời gian tham gia: </b></div>
-                                                    <div class="col-sm-10">{{$user->major}}</div>
+                                                    <div class="col-sm-10">{{$user->jointime}}</div>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
