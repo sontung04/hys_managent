@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="{{ asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- JQVMap -->
 {{--    <link rel="stylesheet" href="{{ asset('themes/plugins/jqvmap/jqvmap.min.css') }}">--}}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('themes/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('themes/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('themes/dist/css/adminlte.min.css') }}">
     <!-- Toastr -->
@@ -44,6 +47,7 @@
         const BASE_URL = '{{url('')}}';
     </script>
     @yield('script')
+    @yield('style')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 {{--<div class="export-bar" id="spinLoading" hidden>--}}
@@ -105,6 +109,11 @@
 <script src="{{ asset('themes/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- overlayScrollbars -->
 <script src="{{ asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ asset('themes/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('themes/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('themes/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

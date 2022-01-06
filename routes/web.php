@@ -22,9 +22,15 @@ Auth::routes();
 Route::middleware('auth')->group(function (){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::prefix('/user')->group(function () {
+        Route::get('/list', 'UserController@list')->name('user.list');
         Route::get('/create', 'UserController@create')->name('user.create');
         Route::get('/profile/{id?}', 'UserController@profile')->name('user.profile')->where('id', '[0-9]+');
         Route::post('/saveInfo', 'UserController@saveInfo');
+    });
+
+    Route::prefix('/group')->group(function () {
+        Route::get('/list', 'GroupController@list')->name('group.list');
+        Route::get('/detail', 'GroupController@detail');
     });
 
 });

@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->string('img', 255);
             $table->tinyInteger('gender')->nullable();
             $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('departStatus')->default(0);
             $table->string('arealog',15)->nullable();
             $table->timestamp('jointime', 0);
             $table->timestamp('stoptime', 0)->nullable();
