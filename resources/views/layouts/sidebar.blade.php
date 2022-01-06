@@ -36,7 +36,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{route('user.list')}}" class="nav-link">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách thành viên</p>
                                 </a>
@@ -63,7 +63,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{route('group.list')}}" class="nav-link">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách</p>
                                 </a>

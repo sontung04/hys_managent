@@ -1,0 +1,17 @@
+.bg-arielle-smile{background-image:radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%)}
+.widget-content{padding:1rem;flex-direction:row;align-items:center}
+.widget-heading{font-size: larger;font-weight:bold}
+.widget-content-wrapper{display:flex;flex:1;position:relative;align-items:center}
+.widget-content-right{margin-left:auto}
+.widget-numbers{font-weight:bold;font-size:1.8rem;display:block}
+
+#instaIcon {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    /* Also define standard property for compatibility */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /*font-size: 200px; !* change this to change the size*!*/
+
+}
