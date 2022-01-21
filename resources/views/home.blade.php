@@ -20,5 +20,5 @@
         </div>
     </div>
 </div>
-    <?php print_r($area); ?>
+
 @endsection

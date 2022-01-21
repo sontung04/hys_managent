@@ -86,9 +86,6 @@ class UserController extends Controller
 
         }
 
-        $user->save(['timestamps' => true]);
-        BaseHelper::ajaxResponse('Lưu dữ liệu thành công!', true);
-
         try {
             $user->save();
             BaseHelper::ajaxResponse('Lưu dữ liệu thành công!', true);

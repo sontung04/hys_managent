@@ -145,7 +145,7 @@
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><i class="fas fa-birthday-cake"></i><b> Ngày sinh: </b></div>
-                                                    <div class="col-sm-10">{{$user->birthday}}</div>
+                                                    <div class="col-sm-10">{{date('d/m/Y', strtotime($user->birthday))}}</div>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -531,7 +531,7 @@
 
                                             <div class="form-group row">
                                                 <div class="offset-sm-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-danger" id="btnSubmit">Submit</button>
+                                                    <button type="submit" class="btn btn-danger" id="btnSubmit">Cập nhật</button>
                                                 </div>
                                             </div>
 
