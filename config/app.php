@@ -241,4 +241,11 @@ return [
         8 => 'Doanh Nhân',
     ],
 
+    'groupType' => [
+        1 => 'HYS',
+        2 => 'Ban',
+        3 => 'Cơ sở',
+        4 => 'Đội',
+    ],
+
 ];

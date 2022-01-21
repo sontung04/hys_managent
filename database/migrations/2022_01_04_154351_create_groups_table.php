@@ -21,7 +21,7 @@ class CreateGroupsTable extends Migration
             $table->longText('description')->nullable();
             $table->integer('area')->default(0);
             $table->tinyInteger('type')->comment('1:Khu vực, 2:Ban, 3:Cơ sở, 4:Đội');
-            $table->tinyInteger('status')->default(1)->comment('1:Hoạt động, 2:Không hoạt động');
+            $table->tinyInteger('status')->default(1)->comment('1:Hoạt động, 0:Không hoạt động');
             $table->longText('slogan')->nullable();
             $table->string('song')->nullable();
             $table->string('color')->nullable();
@@ -33,6 +33,7 @@ class CreateGroupsTable extends Migration
             $table->string('youtube', 255)->nullable();
             $table->string('instagram', 255)->nullable();
             $table->string('tiktok', 255)->nullable();
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

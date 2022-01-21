@@ -15,5 +15,12 @@ class Controller extends BaseController
     public function __construct()
     {
         View::share('area', config('app.area'));
+        View::share('groupType', config('app.groupType'));
+    }
+
+    public function changeFormatDate( $date)
+    {
+        $date = explode('/', $date);
+        return implode('-', [$date[2], $date[1], $date[0]]);
     }
 }

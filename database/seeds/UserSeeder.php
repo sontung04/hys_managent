@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email'      => 'admin@gmail.com',
             'password'   => Hash::make(env('PASSWORD_DEFAULT')),
             'phone'      => '0987654321',
-            'birthday'   => date('d-m-Y', time()),
+            'birthday'   => date('Y-m-d H:i:s', time()),
             'area'       => 1,
             'img'        => env('AVATAR_DEFAULT'),
             'jointime'   => date('Y-m-d H:i:s', time()),

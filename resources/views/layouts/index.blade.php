@@ -7,9 +7,6 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Ionicons -->
@@ -40,8 +37,12 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+    <!-- Ckeidtor -->
+    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
 
-    <meta name="csrf_token" content="{{csrf_token()}}" />
+    <!-- CSRF Token -->
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
+
     <script src="{{ asset('assets/js/base.js') }}" defer></script>
     <script>
         const BASE_URL = '{{url('')}}';

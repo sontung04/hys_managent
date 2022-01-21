@@ -30,7 +30,8 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/group')->group(function () {
         Route::get('/list', 'GroupController@list')->name('group.list');
-        Route::get('/detail', 'GroupController@detail');
+        Route::get('/detail/{id}', 'GroupController@detail')->where('id', '[0-9]+')->name('group.detail');
+        Route::post('/saveInfo', 'GroupController@saveInfo');
     });
 
 });
