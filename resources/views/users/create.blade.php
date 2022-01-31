@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 @section('script')
 
-    <script src="{{ asset('assets/js/user.js') }}" defer></script>
+    <script src="{{ asset('assets/js/user/user.js') }}" defer></script>
 @endsection
 @section("content")
     <div class="content-wrapper">

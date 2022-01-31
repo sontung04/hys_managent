@@ -4392,7 +4392,7 @@ function expandRanges(daysOfWeek, startTime, framingRange, dateEnv) {
     var endMarker = framingRange.end;
     var instanceStarts = [];
     while (dayMarker < endMarker) {
-        var instanceStart 
+        var instanceStart
         // if everyday, or this particular day-of-week
         = void 0;
         // if everyday, or this particular day-of-week
@@ -7281,7 +7281,7 @@ var Calendar = /** @class */ (function () {
         }
         return end;
     };
-    // Public Events API
+    // Public events API
     // -----------------------------------------------------------------------------------------------------------------
     Calendar.prototype.addEvent = function (eventInput, sourceInput) {
         if (eventInput instanceof EventApi) {

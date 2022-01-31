@@ -1,14 +1,14 @@
 /*!
- * 
+ *
  * Super simple wysiwyg editor v0.8.16
  * https://summernote.org
- * 
- * 
+ *
+ *
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
- * 
+ *
  * Date: 2020-02-19T09:12Z
- * 
+ *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6273,7 +6273,7 @@ function () {
     this.$dropzone = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(['<div class="note-dropzone">', '<div class="note-dropzone-message"/>', '</div>'].join('')).prependTo(this.$editor);
   }
   /**
-   * attach Drag and Drop Events
+   * attach Drag and Drop events
    */
 
 
@@ -6294,7 +6294,7 @@ function () {
       }
     }
     /**
-     * attach Drag and Drop Events
+     * attach Drag and Drop events
      */
 
   }, {

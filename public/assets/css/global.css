@@ -40,4 +40,18 @@ ul.nav.nav-treeview {
     padding-left: 15px;
 }
 
+.widget-content{padding:1rem;flex-direction:row;align-items:center}
+.widget-content-outer{display:flex;flex:1;flex-direction:column}
+.widget-heading{font-size: larger;font-weight:bold}
+.widget-content-wrapper{display:flex;flex:1;position:relative;align-items:center}
+.widget-content .widget-content-left .widget-subheading{opacity:.5}
+.widget-content-right{margin-left:auto}
+
+.widget-content .widget-progress-wrapper{margin-top:1rem}
+
+.widget-numbers{font-weight:bold;font-size:1.8rem;display:block}
+.widget-content .widget-progress-wrapper .progress-sub-label{margin-top:.33333rem;opacity:.5;display:flex;align-content:center;align-items:center}
+
+.sub-label-right{margin-left:auto}
+
 

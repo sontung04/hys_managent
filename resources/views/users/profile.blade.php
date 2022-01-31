@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 @section('script')
-    <script src="{{ asset('assets/js/user.js') }}" defer></script>
+    <script src="{{ asset('assets/js/user/user.js') }}" defer></script>
 @endsection
 @section("content")
     <div class="content-wrapper">
@@ -32,8 +32,7 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle"
-                                         src="{{ asset($user->img) }}"
-                                         alt="User profile picture">
+                                         src="{{ asset($user->img) }}" alt="User profile picture">
                                 </div>
 
                                 <h3 class="profile-username text-center">{{$user->lastname . ' ' . $user->firstname }}</h3>

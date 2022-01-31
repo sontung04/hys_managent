@@ -359,7 +359,7 @@ temporary rendered events).
   opacity: 0.75;
 }
 
-/* Horizontal Events
+/* Horizontal events
 --------------------------------------------------------------------------------------------------*/
 /* bigger touch area when selected */
 .fc-h-event.fc-selected:before {

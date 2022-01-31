@@ -18,7 +18,7 @@ class Controller extends BaseController
         View::share('groupType', config('app.groupType'));
     }
 
-    public function changeFormatDate( $date)
+    protected function changeFormatDate( $date)
     {
         $date = explode('/', $date);
         return implode('-', [$date[2], $date[1], $date[0]]);
