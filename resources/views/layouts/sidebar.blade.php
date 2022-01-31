@@ -1,11 +1,14 @@
 @extends('layouts.navbar')
 @section('sidebar')
+    <?php
+        $user = \Illuminate\Support\Facades\Auth::user();
+    ?>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="" class="brand-link">
-            <img src="{{ asset('themes/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        <a href="{{route('index')}}" class="brand-link">
+            <img src="{{ asset('assets/img/HYSLogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
+            <span class="brand-text font-weight-light">HYS Manager</span>
         </a>
 
         <!-- Sidebar -->
@@ -13,10 +16,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="{{ asset('themes/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                    <img src="{{ asset($user->img) }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="{{route('user.profile')}} " class="d-block">Alexander Pierce</a>
+                    <a href="{{route('user.profile')}} " class="d-block">{{$user->lastname . ' ' . $user->firstname }}</a>
                 </div>
             </div>
 
@@ -27,7 +30,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/user') !== false) menu-open @endif">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/user') !== false) active @endif">
                             <i class="fas fa-user nav-icon"></i>
                             <p>
                                 Người dùng
@@ -36,13 +39,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('user.list')}}" class="nav-link">
+                                <a href="{{route('user.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/user/list') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách thành viên</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('user.create')}}" class="nav-link">
+                                <a href="{{route('user.create')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/user/create') !== false) active @endif">
                                     <i class="fas fa-user-plus nav-icon"></i>
                                     <p>Tạo người dùng mới</p>
                                 </a>
@@ -53,8 +56,8 @@
 
                 <!-- Group, Department Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/group') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/group') !== false) active @endif">
                             <i class="fas fa-layer-group nav-icon"></i>
                             <p>
                                 Khu vực, phòng ban
@@ -63,7 +66,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('group.list')}}" class="nav-link">
+                                <a href="{{route('group.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/group/list') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách</p>
                                 </a>
@@ -74,8 +77,8 @@
 
                 <!-- Event Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/event') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/event') !== false) active @endif" >
                             <i class="fas fa-fire nav-icon"></i>
                             <p>
                                 Sự kiện
@@ -84,13 +87,11 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{route('event.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/event/list') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách sự kiện</p>
                                 </a>
                             </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="" class="nav-link">
                                     <i class="far fa-calendar-plus nav-icon"></i>
@@ -119,6 +120,32 @@
 {{--                                </a>--}}
 {{--                            </li>--}}
 {{--                        </ul>--}}
+                    </li>
+                </ul>
+
+                <!-- Contact Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-address-book"></i>
+                            <p>
+                                Contact
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Role Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user-tag"></i>
+                            <p>
+                                Chức vụ
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
                     </li>
                 </ul>
             </nav>

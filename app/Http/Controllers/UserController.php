@@ -44,22 +44,9 @@ class UserController extends Controller
 
             $user = new User();
             $user->code       = $requestData['code'];
-            $user->firstname  = $requestData['firstname'];
-            $user->lastname   = $requestData['lastname'];
             $user->password   = Hash::make(env('PASSWORD_DEFAULT'));
             $user->email      = $requestData['email'];
-            $user->phone      = $requestData['phone'];
-            $user->birthday   = $requestData['birthday'];
-            $user->school     = $requestData['school'];
-            $user->major      = $requestData['major'];
-            $user->address    = $requestData['address'];
-            $user->facebook   = $requestData['facebook'];
             $user->img        = env('AVATAR_DEFAULT');
-            $user->gender     = $requestData['gender'];
-            $user->skill      = $requestData['skill'];
-            $user->desire     = $requestData['desire'];
-            $user->company    = $requestData['company'];
-            $user->work       = $requestData['work'];
             $user->created_at = time();
             $user->updated_at = time();
             $user->created_by = Auth::id();
@@ -68,23 +55,25 @@ class UserController extends Controller
 
             #update data user
             $user = User::find($requestData['id']);
-            $user->firstname  = $requestData['firstname'];
-            $user->lastname   = $requestData['lastname'];
-            $user->phone      = $requestData['phone'];
-            $user->birthday   = $requestData['birthday'];
-            $user->school     = $requestData['school'];
-            $user->major      = $requestData['major'];
-            $user->address    = $requestData['address'];
-            $user->facebook   = $requestData['facebook'];
-            $user->gender     = $requestData['gender'];
-            $user->skill      = $requestData['skill'];
-            $user->desire     = $requestData['desire'];
-            $user->company    = $requestData['company'];
-            $user->work       = $requestData['work'];
+
             $user->updated_by = Auth::id();
             $user->updated_at = strtotime('now');
 
         }
+
+        $user->firstname  = $requestData['firstname'];
+        $user->lastname   = $requestData['lastname'];
+        $user->phone      = $requestData['phone'];
+        $user->birthday   = $this->changeFormatDate($requestData['birthday']);
+        $user->school     = $requestData['school'];
+        $user->major      = $requestData['major'];
+        $user->address    = $requestData['address'];
+        $user->facebook   = $requestData['facebook'];
+        $user->gender     = $requestData['gender'];
+        $user->skill      = $requestData['skill'];
+        $user->desire     = $requestData['desire'];
+        $user->company    = $requestData['company'];
+        $user->work       = $requestData['work'];
 
         try {
             $user->save();

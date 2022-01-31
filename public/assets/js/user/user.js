@@ -184,8 +184,4 @@ $(document).ready(function() {
     //đọc để làm nốt validate
     // https://viblo.asia/p/tim-hieu-ve-jquery-validation-phan-1-E375zEqRlGW
 
-    $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-    });
 });

@@ -13,14 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+
 
 Auth::routes();
 
 Route::middleware('auth')->group(function (){
+    Route::get('/', function () {
+        return view('index');
+    })->name('index');
+
     Route::get('/home', 'HomeController@index')->name('home');
+
     Route::prefix('/user')->group(function () {
         Route::get('/list', 'UserController@list')->name('user.list');
         Route::get('/create', 'UserController@create')->name('user.create');
@@ -32,6 +35,11 @@ Route::middleware('auth')->group(function (){
         Route::get('/list', 'GroupController@list')->name('group.list');
         Route::get('/detail/{id}', 'GroupController@detail')->where('id', '[0-9]+')->name('group.detail');
         Route::post('/saveInfo', 'GroupController@saveInfo');
+    });
+
+    Route::prefix('/event')->group(function () {
+        Route::get('/list', function () {
+            return view('events.list');})->name('event.list');
     });
 
 });
