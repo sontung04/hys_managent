@@ -42,5 +42,10 @@ Route::middleware('auth')->group(function (){
             return view('events.list');})->name('event.list');
     });
 
+    Route::prefix('/role')->group(function () {
+        Route::get('/list', 'RoleController@list')->name('role.list');
+        Route::get('/manage', 'RoleController@manage')->name('role.manage');
+    });
+
 });
 
