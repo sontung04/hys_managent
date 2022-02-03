@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 @section('script')
+    <!-- Ckeidtor -->
+    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
     <script src="{{ asset('assets/js/group.js') }}" defer></script>
 @endsection
 

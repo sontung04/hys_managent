@@ -184,18 +184,28 @@ function change_alias( alias ){
 
 try {
     //show notify message
-    function notifyMessage(title = 'Lỗi!', message = '', type = 'error', timeout = 7000) {
+    function notifyMessage(title = 'Lỗi!', message = '', type = 'error', timeout = 5000) {
         if (!timeout) {
             timeout = 5000;
         }
-        toastr.options.escapeHtml  = true;
-        toastr.options.closeButton = true;
 
         if (['success', 'info', 'warning', 'error'].indexOf(type) > -1) {
-            toastr[type](message, title, {timeOut: timeout});
+            Swal.fire({
+                title: title,
+                icon: type,
+                text: message,
+                showConfirmButton: false,
+                timer: timeout
+            });
             return;
         }
-        toastr.error(message, title, {timeOut: timeout});
+        Swal.fire({
+            title: title,
+            icon: 'error',
+            text: message,
+            showConfirmButton: false,
+            timer: timeout
+        });
         return;
     }
 
