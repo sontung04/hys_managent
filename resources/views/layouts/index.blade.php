@@ -37,8 +37,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-    <!-- Ckeidtor -->
-    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf_token" content="{{ csrf_token() }}" />
