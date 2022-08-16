@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('school', 255)->nullable();
             $table->string('major', 255)->nullable();
             $table->integer('area')->default(0);
-            $table->longText('address')->nullable();
+            $table->string('address')->nullable();
             $table->string('facebook', 255)->nullable();
             $table->string('img', 255);
             $table->tinyInteger('gender')->default(0);
@@ -38,8 +38,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('jointime', 0)->nullable();
             $table->timestamp('stoptime', 0)->nullable();
             $table->timestamp('lastaccess', 0)->nullable();
-            $table->longText('skill')->nullable();
-            $table->longText('desire')->nullable();
+            $table->text('skill')->nullable();
+            $table->text('desire')->nullable();
             $table->string('company', 255)->nullable();
             $table->string('work', 255)->nullable();
             $table->integer('created_by')->default(0);

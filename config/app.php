@@ -229,20 +229,35 @@ return [
 
     ],
 
-    'area' => [
+    'textSaveSuccess' => 'Lưu dữ liệu thành công!',
+    'textSaveError' => 'Có lỗi trong quá trình xử lý dữ liệu!',
+
+    'areaName' => [
         0 => 'Chưa xác định',
         1 => 'Tổng',
-        2 => 'Thăng Long ',
+        2 => 'Thăng Long',
         3 => 'Kim Liên',
         4 => 'Đống Đa',
         5 => 'Mê Linh',
-        6 => 'Phù Đồng',
-        7 => 'Hoa Lư',
-        8 => 'Doanh Nhân',
+        6 => 'Hoa Lư',
+        7 => 'Phù Đổng',
+//        8 => 'Doanh Nhân',
+    ],
+
+    'areaColor' => [
+        0 => 'blue',
+        1 => 'blue',
+        2 => 'yellow',
+        3 => 'orange',
+        4 => 'cyan',
+        5 => 'red',
+        6 => 'pink',
+        7 => 'lime',
+        8 => 'blue',
     ],
 
     'groupType' => [
-        1 => 'HYS',
+        1 => 'Khu vực',
         2 => 'Ban',
         3 => 'Cơ sở',
         4 => 'Đội',

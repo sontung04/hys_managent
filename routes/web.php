@@ -25,16 +25,21 @@ Route::middleware('auth')->group(function (){
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::prefix('/user')->group(function () {
-        Route::get('/list', 'UserController@list')->name('user.list');
+        Route::match(['get', 'post'],'/list', 'UserController@list')->name('user.list');
         Route::get('/create', 'UserController@create')->name('user.create');
         Route::get('/profile/{id?}', 'UserController@profile')->name('user.profile')->where('id', '[0-9]+');
         Route::post('/saveInfo', 'UserController@saveInfo');
     });
 
     Route::prefix('/group')->group(function () {
+        Route::get('/test', 'GroupController@test')->name('group.test');
+        Route::get('/manage', 'GroupController@manage')->name('group.manage');
         Route::get('/list', 'GroupController@list')->name('group.list');
         Route::get('/detail/{id}', 'GroupController@detail')->where('id', '[0-9]+')->name('group.detail');
         Route::post('/saveInfo', 'GroupController@saveInfo');
+        Route::get('/getInfoGroupAjax/{id}', 'GroupController@getInfoGroupAjax')->where('id', '[0-9]+');
+        Route::get('/getListGroupChild', 'GroupController@getListGroupChild');
+        Route::get('/getListGroupOption', 'GroupController@getListGroupOption');
     });
 
     Route::prefix('/event')->group(function () {
@@ -45,6 +50,18 @@ Route::middleware('auth')->group(function (){
     Route::prefix('/role')->group(function () {
         Route::get('/list', 'RoleController@list')->name('role.list');
         Route::get('/manage', 'RoleController@manage')->name('role.manage');
+        Route::get('/test', 'RoleController@manageTest')->name('role.test');
+        Route::get('/test2/{userid}', 'RoleController@manageTest2')->name('role.test2');
+        Route::get('/getInfo/{id}', 'RoleController@getInfo');
+        Route::get('/getListRole', 'RoleController@getListRole');
+        Route::post('/saveInfo', 'RoleController@saveInfo');
+    });
+
+    Route::prefix('/ugr')->group(function () {
+        Route::get('/getInfoAjax', 'UserGroupRoleController@getInfoAjax');
+        Route::post('/saveInfoUgr', 'UserGroupRoleController@saveInfoUgr');
+        Route::post('/updateStatusUg', 'UserGroupRoleController@updateStatusUg');
+        Route::get('/deleteAjax/{id}', 'UserGroupRoleController@deleteAjax');
     });
 
 });

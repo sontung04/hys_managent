@@ -252,7 +252,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="" id="" method="" class="form-horizontal">
+                <form action="" id="" method="post" class="form-horizontal">
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id">
                         <input type="hidden" id="type" name="type">

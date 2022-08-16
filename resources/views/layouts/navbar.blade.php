@@ -130,6 +130,13 @@
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-key mr-2"></i> Đổi mật khẩu
                     </a>
+                    <a href="{{route('logout')}}" class="dropdown-item" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                     <div class="dropdown-divider"></div>
 
                 </div>
