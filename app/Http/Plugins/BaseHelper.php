@@ -30,8 +30,6 @@ class BaseHelper
 
     /**
      * function clean_data.
-     * @author Ducbui
-     * @date 24/09/2020
      * @param string , array $e element of array clear tag xss clean
      * @return $e element of array.
      */
