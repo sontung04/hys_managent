@@ -120,6 +120,28 @@
                     </li>
                 </ul>
 
+                <!-- Calendar Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-calendar"></i>
+                            <p>
+                                Lịch hoạt động
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('calendar.weekHys')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/calendar/weekHys') !== false) active @endif">
+                                    <i class="fa-solid fa-calendar-week"></i>
+                                    <p>Lịch tuần HYS</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+
                 <!-- Course Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item has-treeview ">
@@ -130,6 +152,36 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('course.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/course/list') !== false) active @endif">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách khóa học</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Lesson Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-graduation-cap nav-icon"></i>
+                            <p>
+                                Bài học
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('lesson.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/lesson/list') !== false) active @endif">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách bài học</p>
+                                </a>
+                            </li>
+                        </ul>
+
                     </li>
                 </ul>
 
@@ -137,7 +189,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item has-treeview ">
                         <a href="#" class="nav-link">
-                            <i class="fas fa-graduation-cap nav-icon"></i>
+                            <i class="fa-solid fa-chalkboard-user"></i>
                             <p>
                                 Lớp học
                                 <i class="right fas fa-angle-left"></i>

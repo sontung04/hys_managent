@@ -64,5 +64,16 @@ Route::middleware('auth')->group(function (){
         Route::get('/deleteAjax/{id}', 'UserGroupRoleController@deleteAjax');
     });
 
+    Route::prefix('/calendar')->group(function () {
+        Route::get('/weekHys', 'CalendarController@weekHys')->name('calendar.weekHys');
+    });
+
+    Route::prefix('/course')->group(function () {
+        Route::get('/list', 'CourseController@list')->name('course.list');
+    });
+
+    Route::prefix('/lesson')->group(function () {
+        Route::get('/list', 'LessonController@list')->name('lesson.list');
+    });
 });
 
