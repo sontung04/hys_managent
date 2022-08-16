@@ -40,9 +40,9 @@
                                     <label for="area" class="col-sm-3">Khu vực hoạt động: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
                                         <select class="form-control custom-select" name="area" id="area">
-                                            <option selected disabled>Select one</option>
-                                            @foreach($area as $key => $value)
-                                            <option value="{{$key}}">{{ $key ? 'HYS ' . $value : $value}}</option>
+                                            <option selected disabled>Chọn Khu vực</option>
+                                            @foreach($areaName as $key => $value)
+                                                <option value="{{$key}}">{{ $key ? 'HYS ' . $value : $value}}</option>
                                             @endforeach
                                         </select>
                                     </div>

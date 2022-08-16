@@ -23,9 +23,13 @@ $(document).ready(function() {
         modalAddGroup.modal('show');
     });
 
+    //close Modal xóa dữ liệu và validate
     $('.closeModal').on('click', function () {
-        modalAddGroup.find('.form-control').val('');
+        CKEDITOR.instances['description'].setData('');
     });
+
+    //Xóa validate khi ẩn modal
+    eventCloseHiddenModal(modalAddGroup);
 
     let inputBirthday = modalAddGroup.find('#birthday');
 
@@ -46,7 +50,7 @@ $(document).ready(function() {
 
             callAjaxPost(BASE_URL + '/group/saveInfo', data).done(function (res) {
                 if (!res.status) {
-                    notifyMessage('Oops!', res.msg, 'error', 5000);
+                    notifyMessage('Lỗi!', res.msg, 'error', 5000);
                     return;
                 }
                 notifyMessage('Thông báo!', res.msg,'success');

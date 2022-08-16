@@ -3,6 +3,14 @@
     <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
 @endsection
 @section("content")
+    <style>
+        .cell-table-scroll {
+            max-height: 50px;
+            overflow: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -27,15 +35,22 @@
                 <div class="card">
                     <div class="card-header">
 
-                        <form action="">
+                        <form action="{{route('user.list')}}" method="post" id="formFilterUser">
+                            @csrf
+                            <input type="hidden" name="page" value="">
+
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Khu vực:</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="type" id="select_cate_type">
-                                                <option name="type" value=""> Test 1</option>
-                                                <option name="type" value=""> Test 2</option>
+                                            <select class="form-control" name="area" id="area">
+                                                <option value="" >Chọn Khu vực</option>
+                                                @foreach($areaName as $key => $value)
+                                                    <option value="{{$key}}" {{ (isset($filters['area']) && $key == $filters['area']) ? 'selected' : ''}}>
+                                                        {{ $key ? 'HYS ' . $value : $value}}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -44,9 +59,13 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Ban: </label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="type" id="select_cate_type">
-                                                <option name="type" value=""> Test 1</option>
-                                                <option name="type" value=""> Test 2</option>
+                                            <select class="form-control" name="depart" id="depart">
+                                                <option value="" >Chọn Phòng ban</option>
+                                                @foreach($departs as $depart)
+                                                    <option value="{{$depart->id}}" {{ (isset($filters['depart']) && $depart->id == $filters['depart']) ? 'selected' : ''}}>
+                                                        {{ 'Ban ' . $depart->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -63,46 +82,52 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <label class="col-sm-5 col-form-label" style="text-align: right">Chức vụ:</label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="type" id="select_cate_type">
-                                            <option name="type" value=""> Test 1</option>
-                                            <option name="type" value=""> Test 2</option>
-                                        </select>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Trạng thái TV:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="status" id="status">
+                                                <option value="" {{ (isset($filters['status']) && '' == $filters['status']) ? 'selected' : ''}}>Chọn trạng thái</option>
+                                                <option value="1" {{ (isset($filters['status']) && 1 == $filters['status']) ? 'selected' : ''}}>Đang hoạt động</option>
+                                                <option value="0" {{ (isset($filters['status']) && 0 == $filters['status']) ? 'selected' : ''}}>Dừng hoạt động</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label" style="text-align: right">Thời gian tham gia:</label>
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Mã thành viên:</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="type" id="select_cate_type">
-                                                <option name="type" value=""> Test 1</option>
-                                                <option name="type" value=""> Test 2</option>
-                                            </select>
+                                            <input class="form-control" name="code" id="code"
+                                                   value="{{ isset($filters['code']) ? $filters['code'] : '' }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label" style="text-align: right">Input:</label>
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Họ tên:</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="type" id="select_cate_type">
-                                                <option name="type" value=""> Test 1</option>
-                                                <option name="type" value=""> Test 2</option>
-                                            </select>
+                                            <input class="form-control" name="name" id="name"
+                                                   value="{{ isset($filters['name']) ? $filters['name'] : '' }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label" style="text-align: right">Input:</label>
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Ngày tham gia:</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="type" id="select_cate_type">
-                                                <option name="type" value=""> Test 1</option>
-                                                <option name="type" value=""> Test 2</option>
-                                            </select>
+                                            <div class="input-group date" id="filterJointime" data-target-input="nearest">
+                                                <div class="input-group-append" data-target="#filterJointime" data-toggle="datetimepicker">
+                                                    <div class="input-group-text">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" class="form-control datetimepicker-input" id="jointime" name="jointime"
+                                                       data-target="#filterJointime" data-toggle="datetimepicker" data-format="DD/MM/YYYY"
+                                                       data-min="17/11/2013" data-max="{{date("d/m/Y")}}"
+                                                       data-value="{{ isset($filters['jointime']) ? $filters['jointime'] : '' }}"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -110,8 +135,8 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5"></label>
                                         <div class="col-sm-7">
-                                            <button type="submit" class="btn btn-info mr-2" id=""><span class="fa fa-search"></span> Lọc</button>
-                                            <button type="button" class="btn btn-default" id="">Đặt lại</button>
+                                            <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>
+                                            <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>
                                         </div>
                                     </div>
                                 </div>
@@ -121,436 +146,119 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="usersTable" class="table table-bordered table-striped table-hover">
                             <thead>
-                            <tr>
+                            <tr style="text-align: center">
+                                <th>Mã thành viên</th>
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
+                                <th>Facebook</th>
+                                <th>Ngày sinh</th>
                                 <th>Quê quán</th>
-                                <th>Chức vụ</th>
+                                <th>Ngày tham gia</th>
+                                <th>Trạng thái</th>
+                                <th>Khu vực</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.5
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5.5</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 6
-                                </td>
-                                <td>Win 98+</td>
-                                <td>6</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet Explorer 7</td>
-                                <td>Win XP SP2+</td>
-                                <td>7</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>AOL browser (AOL desktop)</td>
-                                <td>Win XP</td>
-                                <td>6</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 1.0</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 1.5</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 2.0</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 3.0</td>
-                                <td>Win 2k+ / OSX.3+</td>
-                                <td>1.9</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Camino 1.0</td>
-                                <td>OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Camino 1.5</td>
-                                <td>OSX.3+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Netscape 7.2</td>
-                                <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Netscape Browser 8</td>
-                                <td>Win 98SE+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Netscape Navigator 9</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.0</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.1</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.1</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.2</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.2</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.3</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.3</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.4</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.4</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.5</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.5</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.6</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.6</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.7</td>
-                                <td>Win 98+ / OSX.1+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.8</td>
-                                <td>Win 98+ / OSX.1+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Seamonkey 1.1</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Gecko</td>
-                                <td>Epiphany 2.20</td>
-                                <td>Gnome</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>Safari 1.2</td>
-                                <td>OSX.3</td>
-                                <td>125.5</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>Safari 1.3</td>
-                                <td>OSX.3</td>
-                                <td>312.8</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>Safari 2.0</td>
-                                <td>OSX.4+</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>Safari 3.0</td>
-                                <td>OSX.4+</td>
-                                <td>522.1</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>OmniWeb 5.5</td>
-                                <td>OSX.4+</td>
-                                <td>420</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>iPod Touch / iPhone</td>
-                                <td>iPod</td>
-                                <td>420.1</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>S60</td>
-                                <td>S60</td>
-                                <td>413</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 7.0</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 7.5</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 8.0</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 8.5</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.0</td>
-                                <td>Win 95+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.2</td>
-                                <td>Win 88+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.5</td>
-                                <td>Win 88+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Opera for Wii</td>
-                                <td>Wii</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Nokia N800</td>
-                                <td>N800</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Presto</td>
-                                <td>Nintendo DS browser</td>
-                                <td>Nintendo DS</td>
-                                <td>8.5</td>
-                                <td>C/A<sup>1</sup></td>
-                            </tr>
-                            <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.1</td>
-                                <td>KDE 3.1</td>
-                                <td>3.1</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.3</td>
-                                <td>KDE 3.3</td>
-                                <td>3.3</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.5</td>
-                                <td>KDE 3.5</td>
-                                <td>3.5</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 4.5</td>
-                                <td>Mac OS 8-9</td>
-                                <td>-</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 5.1</td>
-                                <td>Mac OS 7.6-9</td>
-                                <td>1</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 5.2</td>
-                                <td>Mac OS 8-X</td>
-                                <td>1</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>NetFront 3.1</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>NetFront 3.4</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>Dillo 0.8</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>Links</td>
-                                <td>Text only</td>
-                                <td>-</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>Lynx</td>
-                                <td>Text only</td>
-                                <td>-</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>IE Mobile</td>
-                                <td>Windows Mobile 6</td>
-                                <td>-</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Misc</td>
-                                <td>PSP browser</td>
-                                <td>PSP</td>
-                                <td>-</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Other browsers</td>
-                                <td>All others</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>U</td>
-                            </tr>
+                            @forelse($users as $user)
+                                <tr id="role-{{$user->id}}">
+                                    <td style="text-align: center">{{$user->code}}</td>
+                                    <td>{{$user->lastname . ' ' . $user->firstname}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->phone}}</td>
+                                    <td>
+                                        @if(!empty($user->facebook))
+                                            <a href="{{$user->facebook}}" target="_blank">Link</a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(!empty($user->birthday))
+                                            {{date('d/m/Y', strtotime($user->birthday))}}
+                                        @endif
+                                    </td>
+                                    <td class="cell-table-scroll" style="max-width: 240px; ">
+                                        {{$user->address}}
+                                    </td>
+                                    <td>
+                                        @if(!empty($user->jointime))
+                                            {{date('d/m/Y', strtotime($user->jointime))}}
+                                        @endif
+                                    </td>
+                                    <td style="text-align: center">
+                                        <?php echo $user->status ? '<span style="color:green;">Đang hoạt động</span>' : '<span style="color:red">Dừng hoạt động</span>' ?>
+                                    </td>
+                                    <td><?php echo $user->area ? 'HYS ' . $areaName[$user->area] : '' ?></td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary btnViewProfile mr-1" data-id="{{$user->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem thông tin cá nhân">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btnViewUrg" data-id="{{$user->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem lịch sử hoạt động">
+                                            <i class="fa-brands fa-font-awesome"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <th colspan="11" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
+                                </tr>
+                            @endforelse
+
                             </tbody>
                             <tfoot>
-                            <tr>
+                            <tr style="text-align: center">
+                                <th>Mã thành viên</th>
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
+                                <th>Facebook</th>
                                 <th>Quê quán</th>
+                                <th>Ngày tham gia</th>
+                                <th>Trạng thái</th>
+                                <th>Khu vực</th>
                                 <th>Chức vụ</th>
+                                <th>Hành động</th>
                             </tr>
                             </tfoot>
                         </table>
                     </div>
+                    @if ($users->hasPages())
+                        <div class="card-footer clearfix">
+                            <ul class="pagination m-0 float-right">
+                                @if (!$users->onFirstPage())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$users->currentPage() - 1}}" href="">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @for($i = 1; $i <= $users->lastPage(); $i++)
+                                    @if($i == 1 || $i == $users->lastPage() || ($i <= ($users->currentPage() + 1) && $i >= ($users->currentPage() - 1)))
+
+                                        <li class="btn page-item {{$i == $users->currentPage() ? 'active' : ''}}">
+                                            <a class="page-link" data-page="{{$i}}" href="">{{$i}}</a>
+                                        </li>
+                                    @elseif($i == $users->currentPage() - 2 || $i == $users->currentPage() + 2)
+                                        <li class="btn page-item disabled"><a class="page-link" >...</a></li>
+                                    @endif
+                                @endfor
+
+                                @if($users->hasMorePages())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$users->currentPage() + 1}}" href="">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
+
                     <!-- /.card-body -->
                 </div>
             </div>

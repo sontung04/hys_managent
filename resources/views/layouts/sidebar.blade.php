@@ -67,8 +67,26 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{route('group.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/group/list') !== false) active @endif">
+                                    <i class="fas fa-home"></i>
+                                    <p>DS Khu vực, phòng ban</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('group.manage')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/group/manage') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
-                                    <p>Danh sách</p>
+                                    <p>Quản lý chung</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('group.test')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/group/test') !== false) active @endif">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Group Test</p>
                                 </a>
                             </li>
                         </ul>
@@ -99,6 +117,19 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                </ul>
+
+                <!-- Course Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-book-open"></i>
+                            <p>
+                                Khóa học
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
                     </li>
                 </ul>
 
@@ -157,6 +188,19 @@
                                 <a href="{{route('role.manage')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/role/manage') !== false) active @endif">
                                     <i class="fas fa-user-cog"></i>
                                     <p>Quản lý chức vụ</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('role.test')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/role/test') !== false) active @endif">
+                                    <i class="fas fa-user-cog"></i>
+                                    <p>Quản lý Role Test</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/role/test2') !== false) active @endif">
+                                    <i class="fas fa-user-cog"></i>
+                                    <p>Quản lý Role Test 2</p>
                                 </a>
                             </li>
                         </ul>

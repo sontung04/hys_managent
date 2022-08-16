@@ -182,6 +182,21 @@ function change_alias( alias ){
     return str;
 }
 
+/* Xóa các dữ liệu, validate các trường khi ẩn Modal */
+function eventCloseHiddenModal(modal, fieldSelect = []) {
+    modal.find('.is-invalid').removeClass('is-invalid');
+    modal.find('.form-control').val('');
+    if(fieldSelect.length > 0) {
+        fieldSelect.forEach(field => {
+            modal.find('#' + field).find(`option[value=""]`).prop('selected', true);
+        });
+    }
+}
+
+function setOptionSelectedDisable(id, text) {
+    document.getElementById(id).innerHTML = '<option value="" selected disabled>--- Chọn ' + text + ' ---</option>';
+}
+
 try {
     //show notify message
     function notifyMessage(title = 'Lỗi!', message = '', type = 'error', timeout = 5000) {
@@ -194,7 +209,8 @@ try {
                 title: title,
                 icon: type,
                 text: message,
-                showConfirmButton: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Đóng',
                 timer: timeout
             });
             return;
@@ -203,7 +219,8 @@ try {
             title: title,
             icon: 'error',
             text: message,
-            showConfirmButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Đóng',
             timer: timeout
         });
         return;
@@ -291,6 +308,15 @@ try {
             } */
         });
     }
+
+    function checkErrorResAjax(res) {
+        if (!res.status) {
+            notifyMessage('Thông báo Lỗi!', res.msg, 'error', 3000);
+            return;
+        }
+    }
 } catch(err) {
     console.log(err);
 }
+
+$('[data-toggle="popover"]').popover();

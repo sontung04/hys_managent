@@ -3,18 +3,91 @@
 namespace App\Http\Controllers;
 
 use App\Http\Plugins\BaseHelper;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 
 class UserController extends Controller
 {
 
-    public function list()
+    public function list(Request $request, User $user)
     {
-        return view('users.list');
+        $filters = $request->all();
+
+//        $testQuery = DB::table('users', 'u');
+//        $test = $testQuery->join('user_groups as ug', 'u.id', '=', 'ug.user_id')->where('u.id', '=', 6)->get();
+//        print_r($test);
+//        die();
+        $query = DB::table('users', 'u');
+
+        $departs = DB::table('groups')
+            ->select('id', 'name')
+            ->where([
+//                ['status', '=', 1],
+                ['area', '=', 1],
+                ['parent', '=', 1],
+                ['type', '=', 2],
+            ])->get();
+
+        if($request->isMethod('POST'))
+        {
+//            print_r($filters);
+//            die();
+            $paged = $filters['page'];
+            unset($filters['_token']);
+            unset($filters['page']);
+//            $query = $user;
+
+            foreach ($filters as $key => $value) {
+                if($value != '' && $value != NULL ) {
+                    switch ($key) {
+                        case 'area':
+                            $query = $query->where('u.area', '=', $value);
+                            break;
+                        case 'code':
+                            $query = $query->where('u.code', 'LIKE', '%' . $value . '%');
+                            break;
+                        case 'name':
+                            $strNameArr = explode(' ', $value);
+                            if(count($strNameArr) == 1) {
+                                $query = $query->where(function ($query) use ($value) {
+                                    $query->where('u.firstname', 'LIKE', '%' . $value . '%')
+                                        ->orWhere('u.lastname', 'LIKE', '%' . $value . '%');
+                                });
+                            } else {
+                                $firstname = $strNameArr[count($strNameArr) - 1];
+                                unset($strNameArr[count($strNameArr) - 1]);
+                                $lastname = implode(' ', $strNameArr);
+                                $query = $query->where([
+                                        ['u.firstname', 'LIKE', '%' . $firstname . '%'],
+                                        ['u.lastname', 'LIKE', '%' . $lastname . '%'],
+                                    ]);
+                            }
+                            break;
+                        case 'status':
+                            $query = $query->where('status', '=', $value);
+                            break;
+                        case 'jointime':
+                            $query = $query->where('u.jointime', '>=', $this->changeFormatDateInput($filters['jointime']));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            $users = $query->paginate(25, ['*'], 'page', $paged);
+        } else {
+            $users = $query->paginate(25);
+        }
+//        $users = DB::table('users')->paginate(1);
+//        $paged = $users->currentPage();
+
+        return view('users.list', compact('users', 'filters', 'departs'));
     }
 
     public function create()
@@ -33,9 +106,7 @@ class UserController extends Controller
 
     public function saveInfo(Request $request)
     {
-        if(!$request->ajax()){
-            BaseHelper::ajaxResponse('Permission denied!');
-        }
+        $this->checkRequestAjax($request);
 
         $requestData = $request->all();
 
@@ -64,7 +135,7 @@ class UserController extends Controller
         $user->firstname  = $requestData['firstname'];
         $user->lastname   = $requestData['lastname'];
         $user->phone      = $requestData['phone'];
-        $user->birthday   = $this->changeFormatDate($requestData['birthday']);
+        $user->birthday   = $this->changeFormatDateInput($requestData['birthday']);
         $user->school     = $requestData['school'];
         $user->major      = $requestData['major'];
         $user->address    = $requestData['address'];
