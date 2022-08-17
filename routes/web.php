@@ -70,10 +70,14 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/course')->group(function () {
         Route::get('/list', 'CourseController@list')->name('course.list');
+        Route::get('/getInfo/{id}', 'CourseController@getInfo')->name('course.getInfo');
+        Route::post('/saveInfo','CourseController@saveInfo')->name('course.saveInfo');
     });
 
     Route::prefix('/lesson')->group(function () {
         Route::get('/list', 'LessonController@list')->name('lesson.list');
+        Route::get('/getInfo/{id}','LessonController@getInfo')->name('lesson.getInfo');
+        Route::post('/saveInfo','LessonController@saveInfo')->name('lesson.saveInfo');
     });
 });
 
