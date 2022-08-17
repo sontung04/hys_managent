@@ -70,14 +70,18 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/course')->group(function () {
         Route::get('/list', 'CourseController@list')->name('course.list');
-        Route::get('/getInfo/{id}', 'CourseController@getInfo')->name('course.getInfo');
-        Route::post('/saveInfo','CourseController@saveInfo')->name('course.saveInfo');
+        Route::get('/getInfo/{id}', 'CourseController@getInfoAjax');
+        Route::post('/saveInfo', 'CourseController@saveInfoAjax');
+
+        Route::get('/teacher', 'TeacherController@list')->name('course.teacher');
+        Route::get('/getInfo/{id}', 'TeacherController@getInfoAjax');
+        Route::post('/saveInfo', 'TeacherController@saveInfoAjax');
     });
 
     Route::prefix('/lesson')->group(function () {
         Route::get('/list', 'LessonController@list')->name('lesson.list');
-        Route::get('/getInfo/{id}','LessonController@getInfo')->name('lesson.getInfo');
-        Route::post('/saveInfo','LessonController@saveInfo')->name('lesson.saveInfo');
+        Route::get('/getInfo/{id}', 'LessonController@getInfoAjax');
+        Route::post('/saveInfo', 'LessonController@saveInfoAjax');
     });
 });
 
