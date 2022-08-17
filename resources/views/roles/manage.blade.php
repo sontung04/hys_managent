@@ -210,6 +210,7 @@
                                                 <div class="timeline-item">
                                                     <h3 class="timeline-header"><b class="labelTimelineItem">
                                                             Trạng thái: Đang hoạt động | Thời gian: 05/06/2020 - 25/11/2020
+                                                            
                                                         </b>
                                                         <a href="" class="btnEditUserGroup" data-toggle="popover" data-trigger="hover" data-placement="bottom"
                                                            data-content="Thay đổi trạng thái hoạt động" data-id="6">
