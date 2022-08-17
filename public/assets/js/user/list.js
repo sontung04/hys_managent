@@ -32,10 +32,10 @@ $(document).ready(function() {
         window.open(BASE_URL + '/user/profile/' + id);
     });
 
-    // $("#usersTable").on('click', '.btnView', function () {
-    //     let id = $(this).attr('data-id');
-    //     window.open(BASE_URL + '/group/detail/' + id);
-    // });
+    $("#usersTable").on('click', '.btnViewUrg', function () {
+        let id = $(this).attr('data-id');
+        window.open(BASE_URL + '/role/manage/' + id);
+    });
 
     //Đặt các trường dữ liệu về empty khi khi bấm reset form filter
     formFilterUser.on('click', '#btnReset', function () {

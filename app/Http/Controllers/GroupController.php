@@ -58,6 +58,9 @@ class GroupController extends Controller
     public function test(Request $request)
     {
 
+        $tests = DB::table('users', 'u')
+            ->get();
+
         $groups = DB::table('groups', 'g')
             ->join('users as u', 'g.created_by', '=', 'u.id')
             ->select('g.id', 'g.parent', 'g.name', 'g.area', 'g.depart', 'g.type', 'g.status', 'g.created_at', 'u.firstname', 'u.lastname')
@@ -66,7 +69,7 @@ class GroupController extends Controller
         return view('groups.test', compact('groups', 'groupInfos'));
     }
 
-    public function saveInfo(Request $request)
+    public function saveInfoAjax(Request $request)
     {
         $this->checkRequestAjax($request);
 

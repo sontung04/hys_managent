@@ -264,4 +264,6 @@ return [
         5 => 'Team',
     ],
 
+    'avatarDefault' => 'themes/dist/img/user2-160x160.jpg',
+
 ];

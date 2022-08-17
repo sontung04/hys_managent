@@ -10,8 +10,6 @@ $(function () {
         this.maxDate    = moment(addUserGroupRoleModal.find('#inputAddStarttime').data('max'), this.dateFormat);
         this.minDate    = moment('17/11/2013', this.dateFormat);
     };
-    console.log(settingDateTime.maxDate);
-    console.log(settingDateTime.minDate);
 
     ['addStarttime', 'addFinishtime', 'updateStarttime', 'updateFinishtime'].forEach(field => {
         $('#' + field).datetimepicker({
