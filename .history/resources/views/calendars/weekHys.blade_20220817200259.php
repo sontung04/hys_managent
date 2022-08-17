@@ -77,7 +77,7 @@
                 <input type="text" name="title2" id="title2" class="form-control modal-title" value="">
                 </div>
             </div>
-            <div class="row2">
+            <div class="row">
                        <div class="form-group row" id="inputBirthday">
                                     <label class="col-lg-3 col-form-label" for="birthday">Bắt Đầu Sự kiện :</label>
                                     <div class="ipu">
@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
             </div>
-            <div class="row2">
+            <div class="row">
                         <div class="form-group row" id="inputBirthday">
                                     <label class="col-lg-3 col-form-label" for="birthday">Kết Thúc Sự kiện:</label>
                                     <div class="ipu">

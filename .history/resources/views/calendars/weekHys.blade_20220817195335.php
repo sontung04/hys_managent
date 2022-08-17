@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="row2">
-                       <div class="form-group row" id="inputBirthday">
+                       <div class="form-group row2" id="inputBirthday">
                                     <label class="col-lg-3 col-form-label" for="birthday">Bắt Đầu Sự kiện :</label>
                                     <div class="ipu">
                                         <div class="input-group date" id="starts-at1" data-target-input="nearest">
@@ -93,7 +93,7 @@
                                 </div>
             </div>
             <div class="row2">
-                        <div class="form-group row" id="inputBirthday">
+                        <div class="form-group row2" id="inputBirthday">
                                     <label class="col-lg-3 col-form-label" for="birthday">Kết Thúc Sự kiện:</label>
                                     <div class="ipu">
                                         <div class="input-group date" id="ends-at1" data-target-input="nearest">

@@ -22,20 +22,20 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách các Sự Kiện  HYS</h1>
+                        <h1>Danh sách Chức vụ HYS</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('index')}}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Danh sách các Sự Kiện  HYS</li>
+                            <li class="breadcrumb-item active">Danh sách Chức vụ HYS</li>
                         </ol>
                     </div>
                 </div>
             </div>
         </section>
-    <div class="card">
+    <div id="card">
         <!-- <button id="add" class="addBtn" style="margin-left: 98.75em">Them moi</button> -->
-    <button type="button" class="btn btn-primary" id="addBtn" data-toggle="modal" data-target="#exampleModal" style="margin-left: 68.35em; height:auto;width: 156px;">
+    <button type="button" class="btn btn-primary" id="addBtn" data-toggle="modal" data-target="#exampleModal" style="margin-left: 59.75em">
     Thêm mới sự kiện 
     </button>
 
@@ -77,10 +77,10 @@
                 <input type="text" name="title2" id="title2" class="form-control modal-title" value="">
                 </div>
             </div>
-            <div class="row2">
+            <div class="row">
                        <div class="form-group row" id="inputBirthday">
                                     <label class="col-lg-3 col-form-label" for="birthday">Bắt Đầu Sự kiện :</label>
-                                    <div class="ipu">
+                                    <div class="col-lg-9">
                                         <div class="input-group date" id="starts-at1" data-target-input="nearest">
                                             <div class="input-group-append" data-target="#starts-at1" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
@@ -91,11 +91,9 @@
                                         </div>
                                     </div>
                                 </div>
-            </div>
-            <div class="row2">
                         <div class="form-group row" id="inputBirthday">
                                     <label class="col-lg-3 col-form-label" for="birthday">Kết Thúc Sự kiện:</label>
-                                    <div class="ipu">
+                                    <div class="col-lg-9">
                                         <div class="input-group date" id="ends-at1" data-target-input="nearest">
                                             <div class="input-group-append" data-target="#ends-at1" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
