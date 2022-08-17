@@ -23,14 +23,14 @@ class CourseController extends Controller
         return view('courses.list',compact('courses'));
     }
 
-    public function getInfo(Request $request, $id){
+    public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
         $course = Course::findOrFail($id);
         BaseHelper::ajaxResponse('Success!', true, $course);
     }
 
-    public function saveInfo(Request $request ){
+    public function saveInfoAjax(Request $request ){
         $this->checkRequestAjax($request);
 
 //        $validateData = $request->validate([
@@ -56,16 +56,16 @@ class CourseController extends Controller
             $course->updated_by = Auth::id();
             $course->updated_at = Carbon::now();
         }
-        $course->name = $requestData['name'];
-        $course->fees = $requestData['fees'];
+        $course->name        = $requestData['name'];
+        $course->fees        = $requestData['fees'];
         $course->description = $requestData['description'];
-        $course->status = $requestData['status'];
+        $course->status      = $requestData['status'];
 
         try {
             $course->save();
-            BaseHelper::ajaxResponse('Success!',true,$course);
+            BaseHelper::ajaxResponse('Success!', true, $course);
         }catch (\Exception $exception){
-            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu',false);
+            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
         }
     }
 }

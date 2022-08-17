@@ -9,8 +9,9 @@ class Lesson extends Model
 {
     use Notifiable;
 
-    protected $table = 'lesson';
+    protected $table = 'lessons';
+
     protected $fillable = [
-        'name','teacher','description','question','document','homework','courses_id','created_by','updated_by','created_at','updated_at'
+        'name', 'teacher', 'description', 'question', 'document', 'homework', 'courses_id', 'created_by', 'updated_by', 'created_at', 'updated_at'
     ];
 }

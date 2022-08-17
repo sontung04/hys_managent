@@ -23,7 +23,7 @@ class TeacherController extends Controller
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
-        $teacher = Teacher::finOrFail($id);
+        $teacher = Teacher::findOrFail($id);
         BaseHelper::ajaxResponse('Success!', true, $teacher);
     }
 

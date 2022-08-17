@@ -25,15 +25,15 @@ class LessonController extends Controller
         return view('lessons.list',compact('lesson'));
     }
 
-    public function getInfo(Request $request, $id){
+    public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
         $lesson = Lesson::findOrFail($id);
-        BaseHelper::ajaxResponse('Succses!',true, $lesson);
+        BaseHelper::ajaxResponse('Success!', true, $lesson);
 
     }
 
-    public function saveInfo(Request $request){
+    public function saveInfoAjax(Request $request){
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
@@ -50,12 +50,12 @@ class LessonController extends Controller
             $lesson->updated_at = Carbon::now();
         }
 
-        $lesson->name = $requestData['name'];
-        $lesson->teacher = $requestData['teacher'];
-        $lesson->description = $requestData['description'];
-        $lesson->question = $requestData['question'];
-        $lesson->document = $requestData['document'];
-        $lesson->homework = $requestData['homework'];
+        $lesson->name       = $requestData['name'];
+        $lesson->teacher    = $requestData['teacher'];
+        $lesson->description= $requestData['description'];
+        $lesson->question   = $requestData['question'];
+        $lesson->document   = $requestData['document'];
+        $lesson->homework   = $requestData['homework'];
         $lesson->courses_id = $requestData['courses_id'];
 
         try {

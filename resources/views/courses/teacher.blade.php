@@ -18,7 +18,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách Giảng viên khóa học</h1>
+                        <h1>Danh sách Giảng viên</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -49,16 +49,14 @@
                                 <table class="table table-bordered table-hover">
                                     <thead >
                                     <tr style="text-align: center" >
-                                        <th style="width: 2%">STT</th>
-                                        <th style="width: 7% ">Tên</th>
-                                        <th style="width: 5%">Giới tính</th>
-                                        <th style="width: 7%">Ngày sinh</th>
-                                        <th style="width: 9%" >Quê quán</th>
-                                        <th style="width: 7%">Nghề nghệp</th>
-                                        <th style="width: 13%">Trình độ</th>
-                                        <th style="width: 20%">Chức vụ</th>
-                                        <th style="width: 35%">Mô tả</th>
-                                        <th style="width: 5%">Hành động</th>
+                                        <th style="width: 3%">STT</th>
+                                        <th>Tên</th>
+                                        <th>Giới tính</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Quê quán</th>
+                                        <th>Nghề nghệp</th>
+                                        <th>Trình độ</th>
+                                        <th>Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody id="tableRoleList">
@@ -68,16 +66,15 @@
                                             <th style="text-align: center">{{$teacher->name}}</th>
                                             <th style="text-align: center">{{$teacher->gender ? "Nam" : "Nữ"}}</th>
                                             <th style="text-align: center">{{$teacher->birthday}}</th>
-                                            <th>{{$teacher->native_place}}</th>
+                                            <th>{{$teacher->address}}</th>
                                             <th>{{$teacher->level}}</th>
                                             <th>{{$teacher->job}}</th>
-                                            <th><?php echo $teacher->position; ?></th>
-                                            <th><?php echo $teacher->description; ?></th>
+                                            <th style="text-align: center"><button type="button" class="btn btn-outline-primary btn-sm btnView" data-id="{{$teacher->id}}">Xem</button></th>
                                             <th style="text-align: center"><button type="button" class="btn btn-outline-success btn-sm btnEdit" data-id="{{$teacher->id}}">Chỉnh sửa</button></th>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <th colspan="10" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
+                                            <th colspan="8" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
                                         </tr>
                                     @endforelse
                                     </tbody>
