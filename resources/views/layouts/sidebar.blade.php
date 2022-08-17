@@ -236,25 +236,6 @@
                                     <p>Các chức vụ HYS</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{route('role.manage')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/role/manage') !== false) active @endif">
-                                    <i class="fas fa-user-cog"></i>
-                                    <p>Quản lý chức vụ</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('role.test')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/role/test') !== false) active @endif">
-                                    <i class="fas fa-user-cog"></i>
-                                    <p>Quản lý Role Test</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/role/test2') !== false) active @endif">
-                                    <i class="fas fa-user-cog"></i>
-                                    <p>Quản lý Role Test 2</p>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -164,7 +164,7 @@
                             </thead>
                             <tbody>
                             @forelse($users as $user)
-                                <tr id="role-{{$user->id}}">
+                                <tr>
                                     <td style="text-align: center">{{$user->code}}</td>
                                     <td>{{$user->lastname . ' ' . $user->firstname}}</td>
                                     <td>{{$user->email}}</td>
@@ -216,11 +216,11 @@
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
                                 <th>Facebook</th>
+                                <th>Ngày sinh</th>
                                 <th>Quê quán</th>
                                 <th>Ngày tham gia</th>
                                 <th>Trạng thái</th>
                                 <th>Khu vực</th>
-                                <th>Chức vụ</th>
                                 <th>Hành động</th>
                             </tr>
                             </tfoot>
