@@ -3,7 +3,7 @@
 @section('script')
     <!-- Ckeidtor -->
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-    <script src="{{ asset('assets/js/role/list.js') }}" defer></script> <!-- Change link assets -->
+    <script src="{{ asset('assets/js/course/teacher.js') }}" defer></script>
 @endsection
 
 @section("content")
@@ -39,7 +39,7 @@
                             <div class="card-header">
                                 <h3 class="card-title"></h3>
 
-                                <a class="btn btn-success text-white float-right" id="btnAddRole">
+                                <a class="btn btn-success text-white float-right" id="btnAddTeacher">
                                     <i class="fas fa-cog"></i>
                                     Thêm Giảng viên mới
                                 </a>
@@ -59,7 +59,7 @@
                                         <th>Hành động</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="tableRoleList">
+                                    <tbody id="tableTeacherList">
                                     @forelse($teachers as $key => $teacher)
                                         <tr id="teacher-{{$teacher->id}}">
                                             <th style="text-align: center">{{++$key}}</th>
@@ -89,11 +89,11 @@
     </div>
 
     <!-- modal Add New Role -->
-    <div class="modal fade" id="modalAddRole">
+    <div class="modal fade" id="modalAddTeacher">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="modalAddRoleTitle">Modal default</h4>
+                    <h4 class="modal-title" id="modalAddTeacherTitle">Modal default</h4>
                     <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -104,13 +104,21 @@
                         <input type="hidden" id="id" class="form-control" name="id">
 
                         <div class="row">
-                            <label class="col-lg-2 col-form-label" for="name" id="inputNameTitle">Họ và Tên: <span class="text-danger">*</span></label>
+                            <label class="col-lg-2 col-form-label" for="name" id="">Họ và Tên: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-10">
                                 <input type="text" name="name" id="name" class="form-control" >
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label" for="birthday"> Ngày sinh:  <span class="text-danger">*</span></label>
+                            <div class="form-group col-lg-10">
+                                <input type="date" name="birthday" id="birthday" class="form-control">
+                            </div>
+                        </div>
+
                         <div class="row">
-                            <label class="col-lg-2 col-form-label" for="gender">Giới tính:  <span class="text-danger">*</span></label>
+                            <label class="col-lg-2 col-form-label" for="gender">Giới tính:</label>
                             <div class="form-group col-lg-10">
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="gender1" name="gender" value="1" checked>
@@ -126,12 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-lg-2 col-form-label" for="birthday"> Ngày sinh:  <span class="text-danger">*</span></label>
-                            <div class="form-group col-lg-10">
-                                <input type="date" name="birthday" id="birthday" class="form-control">
-                            </div>
-                        </div>
+
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label" for="native_place">Quê quán: </label>
                             <div class="form-group col-lg-10">
@@ -153,7 +156,7 @@
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label" for="position">Chức vụ: </label>
                             <div class="form-group col-lg-10">
-                                <input type="text" name="position" id="póitition" class="form-control">
+                                <input type="text" name="position" id="position" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row" >

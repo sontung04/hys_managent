@@ -122,8 +122,8 @@
 
                 <!-- Calendar Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/calendar') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/calendar') !== false) active @endif">
                             <i class="fa-solid fa-calendar"></i>
                             <p>
                                 Lịch hoạt động
@@ -144,8 +144,8 @@
 
                 <!-- Course Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/course') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/course') !== false) active @endif">
                             <i class="fas fa-book-open"></i>
                             <p>
                                 Khóa học
@@ -157,6 +157,13 @@
                                 <a href="{{route('course.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/course/list') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách khóa học</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('course.teacherList')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/course/teacher') !== false) active @endif">
+                                    <i class="fa-solid fa-person-chalkboard"></i>
+                                    <p>Danh sách Giảng viên</p>
                                 </a>
                             </li>
                         </ul>
@@ -181,7 +188,6 @@
                                 </a>
                             </li>
                         </ul>
-
                     </li>
                 </ul>
 

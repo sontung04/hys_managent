@@ -12,28 +12,25 @@ $(document).ready(function() {
         selectHelper: true,
         editable: true,
         eventLimit: true, // allow "more" link when too many events
-        select: $('#addBtn').click('#addBtn', function(start, end) {
+        select: $('#btnAddCalendarWeekHys').on('click', function(start, end) {
             // Display the modal.
             // You could fill in the start and end fields based on the parameters
 
 
-            $("#exampleModal")
+            $("#modalAddCalWeekHys")
                 .find("#title")
                 .val("");
-            $("#exampleModal")
-                .find("#title2")
+            $("#modalAddCalWeekHys")
+                .find("#description")
                 .val("");
-            $("#exampleModal")
+            $("#modalAddCalWeekHys")
                 .find("#starts-at")
                 .val("");
-            $("#exampleModal")
+            $("#modalAddCalWeekHys")
                 .find("#ends-at")
                 .val("");
-            console.log(557);
-            // $("#exampleModal").modal("show");
-            console.log(12354)
 
-
+            $("#modalAddCalWeekHys").modal("show");
 
         }),
 
@@ -53,26 +50,26 @@ $(document).ready(function() {
 
             // Display the modal and set event values.
             // $(".modal").modal("show");
-            $(".modal")
+            $("#modalAddCalWeekHys")
                 .find("#title")
                 .val(calEvent.title);
-            $(".modal")
+            $("#modalAddCalWeekHys")
                 .find("#id")
                 .val(calEvent.id);
-            $(".modal")
-                .find("#title2")
-                .val(calEvent.title2);
-            $(".modal")
+            $("#modalAddCalWeekHys")
+                .find("#description")
+                .val(calEvent.description);
+            $("#modalAddCalWeekHys")
                 .find("#starts-at")
                 .val(calEvent.start);
-            $(".modal")
+            $("#modalAddCalWeekHys")
                 .find("#ends-at")
                 .val(calEvent.end);
             console.log(123);
-            $("#edit").attr("hidden", false);
-            $("#save-event").attr("hidden", true);
 
-
+            $("#modalAddCalWeekHys").modal('show')
+            $("#edit").attr("hidden", "hidden");
+            $("#save-event").attr("hidden", "hidden");
 
         }
     });
@@ -83,7 +80,7 @@ $(document).ready(function() {
     //click to save "save"
     $("#save-event").on("click", function(event) {
         var title = $("#title").val();
-        var title2 = $("#title2").val();
+        var title2 = $("#description").val();
         var start = $('#starts-at').val();
         var end = $('#ends-at').val();
 
@@ -94,7 +91,7 @@ $(document).ready(function() {
         if (title) {
             var eventData = {
                 title: title,
-                title2: title2,
+                description: title2,
                 id: id,
                 start: start,
                 end: end
@@ -111,9 +108,10 @@ $(document).ready(function() {
         // hide modal
         $(".modal").modal("hide");
     });
+
     $(".editBtn").on("click", function(events, element) {
         var title3 = $("#title").val();
-        var title4 = $("#title2").val();
+        var title4 = $("#description").val();
         var id = $("#id").val();
         var start2 = $("#starts-at").val();
         var end2 = $("#ends-at").val();
@@ -122,7 +120,7 @@ $(document).ready(function() {
         if (title) {
             var events = {
                 title: title3,
-                title2: title4,
+                description: title4,
                 id: id,
                 start: start2,
                 end: end2,

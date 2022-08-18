@@ -21,7 +21,7 @@ class LessonController extends Controller
     {
         $this->checkRequestAjax($request);
 
-        $lesson = DB::table('lessons')->where('courses_id',$request->input())->get();
+        $lesson = DB::table('lessons')->where('course_id',$request->input())->get();
         return view('lessons.list',compact('lesson'));
     }
 
@@ -56,7 +56,7 @@ class LessonController extends Controller
         $lesson->question   = $requestData['question'];
         $lesson->document   = $requestData['document'];
         $lesson->homework   = $requestData['homework'];
-        $lesson->courses_id = $requestData['courses_id'];
+        $lesson->course_id = $requestData['course_id'];
 
         try {
             $lesson->save();

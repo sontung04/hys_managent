@@ -16,15 +16,17 @@ class CreateTeachersTable extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->string('name',255);
-            $table->tinyInteger('gender')->default('0');
-            $table->date('birthday');
+            $table->tinyInteger('gender')->default(0);
+            $table->timestamp('birthday');
+            $table->string('img', 255)->nullable();
             $table->string('address',255)->nullable();
             $table->string('level',255)->nullable();
             $table->string('job',255)->nullable();
             $table->string('position','255')->nullable();
             $table->text('description')->nullable();
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('status')->default(1);
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }

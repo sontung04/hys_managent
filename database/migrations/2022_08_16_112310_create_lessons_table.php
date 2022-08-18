@@ -16,14 +16,15 @@ class CreateLessonsTable extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->string('name',255);
-            $table->string('teacher',255);
-            $table->text('description');
+            $table->integer('teacher_id')->default(0);
+            $table->text('description')->nullable();
             $table->text('question')->nullable();
             $table->text('document')->nullable();
             $table->text('homework')->nullable();
-            $table->integer('courses_id');
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('status')->default(1);
+            $table->integer('course_id')->default(0);
+            $table->integer('created_by')->default(0);
+            $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }
