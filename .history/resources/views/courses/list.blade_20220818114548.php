@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('script')
-    <!-- <script src="{{ asset('assets/js/courses/jquery.min.js') }}"></script> -->
+    <script src="{{ asset('assets/js/courses/jquery.min.js') }}"></script>
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
     <script src="{{ asset('assets/js/courses/list.js') }}" defer></script>
     <script>
@@ -10,39 +10,51 @@
         });
     </script>
     <script type="text/javascript">
-            $(document).ready(function () {
-            $.validator.setDefaults({
-                submitHandler: function () {
-                alert("Form successful submitted!");
-                }
-            });
-            $('#formAddCourse').validate({
-                rules: {
-                name: {
-                    required: true,
-                },
-
-                },
-                messages: {
-                name: {
-                    required: "Tên khóa học không được bỏ trống"
-                },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-                }
-            });
-            });
-
-    </script>
+        $(document).ready(function () {
+        $.validator.setDefaults({
+            submitHandler: function () {
+            alert("Form successful submitted!");
+            }
+        });
+        $('#formAddCourse').validate({
+            rules: {
+            text: {
+                required: true,
+                email: true,
+            },
+            password: {
+                required: true,
+                minlength: 5
+            },
+            terms: {
+                required: true
+            },
+            },
+            messages: {
+            email: {
+                required: "Please enter a email address",
+                email: "Please enter a vaild email address"
+            },
+            password: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 5 characters long"
+            },
+            terms: "Please accept our terms"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+            }
+        });
+        });
+    </script> 
     <script src="{{ asset('assets/js/courses/jquery.validate.min.js') }}" defer></script>
     <script src="{{ asset('assets/js/courses/additional-methods.min.js') }}" defer></script>
         <!-- <script src="./jquery.validate.min.js"></script>
@@ -254,6 +266,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
+                                                <!-- <label for="name" style="width:18%">Tên khóa học: </label>
+                                                <input type="text" id="name" name="name" style="width:81%"><br>
+                                                <label for="course-id" style="width:18%">Học phí: </label>
+                                                <input type="text" id="course-id" name="course-id" style="width:81%"><br>
+                                                <label for="description" style="width:18%" style="display: inline;">Mô tả: </label>
+                                                <textarea name="description" class="ckeditor" style="background-color=red"></textarea>
+                                                <br>
+                                                <label for="status" style="width:18%">Trạng thái:</label>
+                                                Mở <input type="radio" name="status" value="open">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Đóng <input type="radio" name="status" value="close"> -->
 
                                             </div>
 

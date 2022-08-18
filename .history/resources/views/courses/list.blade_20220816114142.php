@@ -1,52 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('script')
-    <!-- <script src="{{ asset('assets/js/courses/jquery.min.js') }}"></script> -->
-    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-    <script src="{{ asset('assets/js/courses/list.js') }}" defer></script>
-    <script>
-        $( ".editCourseModal" ).click(function() {
-            $('#modalAddCourse').modal('show');
-        });
-    </script>
-    <script type="text/javascript">
-            $(document).ready(function () {
-            $.validator.setDefaults({
-                submitHandler: function () {
-                alert("Form successful submitted!");
-                }
-            });
-            $('#formAddCourse').validate({
-                rules: {
-                name: {
-                    required: true,
-                },
 
-                },
-                messages: {
-                name: {
-                    required: "Tên khóa học không được bỏ trống"
-                },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-                }
-            });
-            });
-
-    </script>
-    <script src="{{ asset('assets/js/courses/jquery.validate.min.js') }}" defer></script>
-    <script src="{{ asset('assets/js/courses/additional-methods.min.js') }}" defer></script>
-        <!-- <script src="./jquery.validate.min.js"></script>
-    <script src="./additional-methods.min.js"></script> -->
 @endsection
 
 @section('style')
@@ -93,7 +48,6 @@
                                                     <th style="width: 12%">Học phí</th>
                                                     <th style="width: 45%">Mô tả</th>
                                                     <th style="width: 10%">Trạng thái</th>
-                                                    <th style="width: 8%">Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -108,17 +62,6 @@
                                                         nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
                                                         aliquam repellendus impedit!</td>
                                                     <td style="text-align:center;"><span class="badge bg-success">Mở</span></td>
-                                                        <th>
-                                                        <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" id=>
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </button>
-                                                        <!-- <button type="button" class="btn btn-outline-primary btnView" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
-                                                        <i class="fas fa-eye"></i>
-                                                        </button> -->
-                                                        </th>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align:center;">1</td>
@@ -131,13 +74,6 @@
                                                         nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
                                                         aliquam repellendus impedit!</td>
                                                     <td style="text-align:center;"><span class="badge bg-success">Mở</span></td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" >
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align:center;">1</td>
@@ -150,13 +86,6 @@
                                                         nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
                                                         aliquam repellendus impedit!</td>
                                                     <td style="text-align:center;"><span class="badge bg-danger">Đóng</span></td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" data-toggle="modal" data-target="#modalAddCourse">
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align:center;">1</td>
@@ -169,13 +98,6 @@
                                                         nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
                                                         aliquam repellendus impedit!</td>
                                                     <td style="text-align:center;"><span class="badge bg-success">Mở</span></td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" >
-                                                            <i class="fas fa-edit"></i>
-                                                        
-                                                        </button>
-                                                    </td>
                                                 </tr>
 
 
@@ -202,68 +124,39 @@
 
 
                         <!-- The Modal -->
-                        <div class="modal fade" id="modalAddCourse">
+                        <div class="modal fade" id="myModal">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <form action="" id="formAddCourse" class="form-horizontal" method="get">
+                                    <form action="/action_page.php">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                            <h4 class="modal-title" id="modalAddCourseTitle">Thêm Khóa học</h4>
-                                            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                            <h4 class="modal-title">Thêm bài giảng</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
 
                                         <!-- Modal body -->
-                                    
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <label class="col-lg-2 col-form-label" for="name" id="inputNameTitle"> Tên khóa học: <span class="text-danger">*</span></label>
-                                                    <div class="form-group col-lg-10">
-                                                        <input type="text" name="name" id="name" class="form-control" >
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-lg-2 col-form-label" for="fee">Học phí (VNĐ)</label>
-                                                    <div class="form-group col-lg-10">
-                                                        <input type="number" min="0" max="10000" name="fee" id="fee" class="form-control" >
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div class="form-group row" >
-                                                    <label class="col-lg-2 col-form-label" for="description">Mô tả:</label>
-                                                    <div class="col-lg-10">
-                                                        <textarea type="text" name="description" id="description" class="form-control" ></textarea>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="row">
-                                                    <label class="col-lg-2 col-form-label" for="status">Trạng thái: </label>
-                                                    <div class="form-group col-lg-10">
-                                                        <div class="icheck-primary d-inline">
-                                                            <input type="radio" id="status1" name="status" value="1" checked>
-                                                            <label for="status1" style="margin-right: 10px">
-                                                                Mở
-                                                            </label>
-                                                        </div>
-                                                        <div class="icheck-primary d-inline">
-                                                            <input type="radio" id="status2" name="status" value="0">
-                                                            <label for="status2">
-                                                            Đóng
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                            </div>
+                                        <div class="modal-body">
+                                            <label for="name" style="width:18%">Tên khóa học: </label>
+                                            <input type="text" id="name" name="name" style="width:81%"><br>
+                                            <label for="course-id" style="width:18%">Học phí: </label>
+                                            <input type="text" id="course-id" name="course-id" style="width:81%"><br>
+                                            <label for="description" style="width:18%" style="display: inline;">Mô tả: </label>
+                                            <textarea name="description" class="ckeditor" style="background-color=red"></textarea>
+                                            <br>
+                                            <label for="status" style="width:18%">Trạng thái:</label>
+                                            <!-- <input type="text" id="quiz" name="quiz" style="width:81%"><br> -->
+                                            Mở <input type="radio" name="status" value="open">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Đóng <input type="radio" name="status" value="close">
+
+                                        </div>
 
 
                                         <!-- Modal footer -->
 
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                            <!-- <button type="reset" class="btn btn-primary">clear</button> -->
-                                            <!-- <input type="submit" class="btn btn-primary" value="Lưu"> -->
+                                            <input type="submit" class="btn btn-primary" value="Lưu">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                         </div>
                                     </form>
@@ -271,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-
+ 
                         <!-- /.row -->
 
                         <!-- /.row -->

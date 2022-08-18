@@ -10,39 +10,51 @@
         });
     </script>
     <script type="text/javascript">
-            $(document).ready(function () {
-            $.validator.setDefaults({
-                submitHandler: function () {
-                alert("Form successful submitted!");
-                }
-            });
-            $('#formAddCourse').validate({
-                rules: {
-                name: {
-                    required: true,
-                },
-
-                },
-                messages: {
-                name: {
-                    required: "Tên khóa học không được bỏ trống"
-                },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-                }
-            });
-            });
-
-    </script>
+        $(document).ready(function () {
+        $.validator.setDefaults({
+            submitHandler: function () {
+            alert("Form successful submitted!");
+            }
+        });
+        $('#quickForm').validate({
+            rules: {
+            email: {
+                required: true,
+                email: true,
+            },
+            password: {
+                required: true,
+                minlength: 5
+            },
+            terms: {
+                required: true
+            },
+            },
+            messages: {
+            email: {
+                required: "Please enter a email address",
+                email: "Please enter a vaild email address"
+            },
+            password: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 5 characters long"
+            },
+            terms: "Please accept our terms"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+            }
+        });
+        });
+    </script> 
     <script src="{{ asset('assets/js/courses/jquery.validate.min.js') }}" defer></script>
     <script src="{{ asset('assets/js/courses/additional-methods.min.js') }}" defer></script>
         <!-- <script src="./jquery.validate.min.js"></script>
@@ -205,7 +217,7 @@
                         <div class="modal fade" id="modalAddCourse">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <form action="" id="formAddCourse" class="form-horizontal" method="get">
+                                    <form action="" id="" class="form-horizontal" method="get">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
                                             <h4 class="modal-title" id="modalAddCourseTitle">Thêm Khóa học</h4>
@@ -224,9 +236,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-lg-2 col-form-label" for="fee">Học phí (VNĐ)</label>
+                                                    <label class="col-lg-2 col-form-label" for="fee">Học phí</label>
+                                                    
                                                     <div class="form-group col-lg-10">
-                                                        <input type="number" min="0" max="10000" name="fee" id="fee" class="form-control" >
+                                                        <input type="text" name="fee" id="fee" class="form-control" >
                                                     </div>
                                                     
                                                 </div>
@@ -254,6 +267,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
+                                                <!-- <label for="name" style="width:18%">Tên khóa học: </label>
+                                                <input type="text" id="name" name="name" style="width:81%"><br>
+                                                <label for="course-id" style="width:18%">Học phí: </label>
+                                                <input type="text" id="course-id" name="course-id" style="width:81%"><br>
+                                                <label for="description" style="width:18%" style="display: inline;">Mô tả: </label>
+                                                <textarea name="description" class="ckeditor" style="background-color=red"></textarea>
+                                                <br>
+                                                <label for="status" style="width:18%">Trạng thái:</label>
+                                                Mở <input type="radio" name="status" value="open">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Đóng <input type="radio" name="status" value="close"> -->
 
                                             </div>
 
@@ -262,7 +287,7 @@
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
-                                            <!-- <button type="reset" class="btn btn-primary">clear</button> -->
+                                            <button type="reset" class="btn btn-primary">clear</button>
                                             <!-- <input type="submit" class="btn btn-primary" value="Lưu"> -->
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                         </div>

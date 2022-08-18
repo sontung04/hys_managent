@@ -254,6 +254,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
+                                                <!-- <label for="name" style="width:18%">Tên khóa học: </label>
+                                                <input type="text" id="name" name="name" style="width:81%"><br>
+                                                <label for="course-id" style="width:18%">Học phí: </label>
+                                                <input type="text" id="course-id" name="course-id" style="width:81%"><br>
+                                                <label for="description" style="width:18%" style="display: inline;">Mô tả: </label>
+                                                <textarea name="description" class="ckeditor" style="background-color=red"></textarea>
+                                                <br>
+                                                <label for="status" style="width:18%">Trạng thái:</label>
+                                                Mở <input type="radio" name="status" value="open">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Đóng <input type="radio" name="status" value="close"> -->
 
                                             </div>
 
