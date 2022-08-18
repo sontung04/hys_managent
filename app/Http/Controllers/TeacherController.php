@@ -24,15 +24,13 @@ class TeacherController extends Controller
         $this->checkRequestAjax($request);
 
         $teacher = Teacher::findOrFail($id);
-        BaseHelper::ajaxResponse('Success!', true, $teacher);
+        BaseHelper::ajaxResponse('success', true, $teacher);
     }
 
     public function saveInfoAjax(Request $request){
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
-        print_r($requestData);
-        die();
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # Create new teacher
             $teacher = new Teacher();
@@ -48,7 +46,7 @@ class TeacherController extends Controller
         $teacher->gender        = $requestData['gender'];
         $teacher->birthday      = $requestData['birthday'];
         $teacher->img           = config('app.avatarDefault');
-        $teacher->native_place  = $requestData['native_place'];
+        $teacher->address       = $requestData['address'];
         $teacher->level         = $requestData['level'];
         $teacher->job           = $requestData['job'];
         $teacher->position      = $requestData['position'];
@@ -56,8 +54,10 @@ class TeacherController extends Controller
 
         try {
             $teacher->save();
-            BaseHelper::ajaxResponse('Success', true, $teacher);
+            BaseHelper::ajaxResponse('success', true);
         }catch (\Exception $exception){
+            print_r($exception);
+            die();
             BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
         }
 
