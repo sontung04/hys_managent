@@ -8,9 +8,9 @@ use Illuminate\Notifications\Notifiable;
 class Course extends Model
 {
     use Notifiable;
-    protected $table = 'courses';
+    protected $table = 'course';
 
     protected $fillable = [
-        'name', 'fees', 'description', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'
+        'name', 'fees', 'lenght', 'description', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'
     ];
 }

@@ -10,7 +10,7 @@ body {
 }
 
 #calendar {
-    width: 1230px;
+    /*width: 1230px;*/
     margin: 0px 20px;
     border: 2px solid #1f2d3d1a;
 }

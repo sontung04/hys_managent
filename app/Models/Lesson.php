@@ -12,6 +12,7 @@ class Lesson extends Model
     protected $table = 'lessons';
 
     protected $fillable = [
-        'name', 'teacher', 'description', 'question', 'document', 'homework', 'courses_id', 'created_by', 'updated_by', 'created_at', 'updated_at'
+        'name', 'teacher_id', 'description', 'question', 'document', 'homework', 'course_id', 'status',
+        'created_by', 'updated_by', 'created_at', 'updated_at'
     ];
 }

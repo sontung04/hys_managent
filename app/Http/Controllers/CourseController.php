@@ -20,7 +20,7 @@ class CourseController extends Controller
     public function list()
     {
         $courses = Course::all();
-        return view('courses.list',compact('courses'));
+        return view('course.list',compact('courses'));
     }
 
     public function getInfoAjax(Request $request, $id){
@@ -58,6 +58,7 @@ class CourseController extends Controller
         }
         $course->name        = $requestData['name'];
         $course->fees        = $requestData['fees'];
+        $course->lenght      = $requestData['lenght'];
         $course->description = $requestData['description'];
         $course->status      = $requestData['status'];
 

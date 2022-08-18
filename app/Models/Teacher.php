@@ -12,6 +12,7 @@ class Teacher extends Model
     protected $table = 'teachers';
 
     protected $fillable = [
-        'name', 'gender', 'birthday', 'native_place', 'level', 'job', 'description', 'created_by', 'updated_by', 'created_at', 'updated_at'
+        'name', 'gender', 'birthday', 'img', 'native_place', 'level', 'job', 'description',
+        'status', 'created_by', 'updated_by', 'created_at', 'updated_at'
     ];
 }

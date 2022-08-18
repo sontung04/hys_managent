@@ -28,53 +28,49 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title"></h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"></h3>
 
-                                <a class="btn btn-success text-white float-right" id="btnAddRole">
-                                    <i class="fas fa-cog"></i>
-                                    Thêm Chức vụ mới
-                                </a>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                    <tr style="text-align: center">
-                                        <th style="width: 3%">STT</th>
-                                        <th style="width: 15%">Chức vụ</th>
-                                        <th style="width: 55%">Mô tả</th>
-                                        <th style="width: 10%">Trạng thái</th>
-                                        <th style="width: 7%">Cấp</th>
-                                        <th style="width: 10%">Hành động</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="tableRoleList">
-                                    @forelse($roles as $key => $role)
-                                        <tr id="role-{{$role->id}}">
-                                            <th style="text-align: center">{{++$key}}</th>
-                                            <th>{{$role->name}}</th>
-                                            <th><?php echo $role->description;  ?></th>
-                                            <th style="text-align: center">
-                                                <?php echo $role->status ? '<span style="color:green;">Đang hoạt động</span>' : '<span style="color:red">Dừng hoạt động</span>' ?>
-                                            </th>
-                                            <th style="text-align: center"><?php echo $role->group_type ? $groupType[$role->group_type] : '' ?></th>
-                                            <th style="text-align: center"><button type="button" class="btn btn-outline-success btn-sm btnEdit" data-id="{{$role->id}}">Chỉnh sửa</button></th>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <th colspan="6" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
-                                        </tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
+                        <a class="btn btn-success text-white float-right" id="btnAddRole">
+                            <i class="fas fa-cog"></i>
+                            Thêm Chức vụ mới
+                        </a>
                     </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr style="text-align: center">
+                                <th style="width: 3%">STT</th>
+                                <th style="width: 15%">Chức vụ</th>
+                                <th style="width: 55%">Mô tả</th>
+                                <th style="width: 10%">Trạng thái</th>
+                                <th style="width: 7%">Cấp</th>
+                                <th style="width: 10%">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tableRoleList">
+                            @forelse($roles as $key => $role)
+                                <tr id="role-{{$role->id}}">
+                                    <th style="text-align: center">{{++$key}}</th>
+                                    <th>{{$role->name}}</th>
+                                    <th><?php echo $role->description;  ?></th>
+                                    <th style="text-align: center">
+                                        <?php echo $role->status ? '<span style="color:green;">Đang hoạt động</span>' : '<span style="color:red">Dừng hoạt động</span>' ?>
+                                    </th>
+                                    <th style="text-align: center"><?php echo $role->group_type ? $groupType[$role->group_type] : '' ?></th>
+                                    <th style="text-align: center"><button type="button" class="btn btn-outline-success btn-sm btnEdit" data-id="{{$role->id}}">Chỉnh sửa</button></th>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <th colspan="6" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </section>

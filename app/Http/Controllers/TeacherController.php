@@ -31,6 +31,8 @@ class TeacherController extends Controller
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
+        print_r($requestData);
+        die();
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # Create new teacher
             $teacher = new Teacher();
@@ -45,6 +47,7 @@ class TeacherController extends Controller
         $teacher->name          = $requestData['name'];
         $teacher->gender        = $requestData['gender'];
         $teacher->birthday      = $requestData['birthday'];
+        $teacher->img           = config('app.avatarDefault');
         $teacher->native_place  = $requestData['native_place'];
         $teacher->level         = $requestData['level'];
         $teacher->job           = $requestData['job'];
