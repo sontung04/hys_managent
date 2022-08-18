@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function (){
     Route::prefix('/course')->group(function () {
         Route::get('/list', 'CourseController@list')->name('course.list');
         Route::get('/getInfo/{id}', 'CourseController@getInfoAjax');
+        Route::get('/getListCourse','CourseController@getListCourseAjax');
         Route::post('/saveInfo', 'CourseController@saveInfoAjax');
 
         Route::prefix('/teacher')->group(function () {
