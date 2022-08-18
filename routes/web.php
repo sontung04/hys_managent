@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,7 +66,12 @@ Route::middleware('auth')->group(function (){
     });
 
     Route::prefix('/calendar')->group(function () {
-        Route::get('/weekHys', 'CalendarController@weekHys')->name('calendar.weekHys');
+        Route::get('/', [CalendarController::class, 'weekHys'])->name('calendar.weekHys');
+        Route::get('/weekHys', [CalendarController::class, 'weekHys'])->name('calendar.weekHys');
+        Route::get('/getInfoCalendar/{id}', [CalendarController::class, 'getInfoCalendar'])->name('calendar.getInfo');
+        Route::get('/create', [CalendarController::class, 'create'])->name('calendar.create');
+        Route::post('/create', [CalendarController::class, 'store1'])->name('calendar.store1');
+        Route::post('/saveCalendar', [CalendarController::class, 'store2'])->name('calendar.store2');
     });
 
     Route::prefix('/course')->group(function () {
