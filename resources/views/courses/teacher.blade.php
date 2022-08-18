@@ -8,7 +8,7 @@
 
 @section("content")
     <style>
-        .table thead th {
+        .table th {
             vertical-align: middle;
         }
     </style>
@@ -56,7 +56,7 @@
                                         <th>Quê quán</th>
                                         <th>Nghề nghệp</th>
                                         <th>Trình độ</th>
-                                        <th>Hành động</th>
+                                        <th style="width: 5%">Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody id="tableTeacherList">
@@ -65,12 +65,20 @@
                                             <th style="text-align: center">{{++$key}}</th>
                                             <th style="text-align: center">{{$teacher->name}}</th>
                                             <th style="text-align: center">{{$teacher->gender ? "Nam" : "Nữ"}}</th>
-                                            <th style="text-align: center">{{$teacher->birthday}}</th>
-                                            <th>{{$teacher->address}}</th>
-                                            <th>{{$teacher->level}}</th>
-                                            <th>{{$teacher->job}}</th>
-                                            <th style="text-align: center"><button type="button" class="btn btn-outline-primary btn-sm btnView" data-id="{{$teacher->id}}">Xem</button></th>
-                                            <th style="text-align: center"><button type="button" class="btn btn-outline-success btn-sm btnEdit" data-id="{{$teacher->id}}">Chỉnh sửa</button></th>
+                                            <th style="text-align: center">{{date('d/m/Y',strtotime($teacher->birthday))}}</th>
+                                            <th style="text-align: center">{{$teacher->address}}</th>
+                                            <th style="text-align: center" >{{$teacher->job}}</th>
+                                            <th style="text-align: center">{{$teacher->level}}</th>
+                                            <th>
+                                                <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$teacher->id}}"
+                                                        data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-primary btnView" data-id="{{$teacher->id}}"
+                                                        data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </th>
                                         </tr>
                                     @empty
                                         <tr>
@@ -136,9 +144,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-2 col-form-label" for="native_place">Quê quán: </label>
+                            <label class="col-lg-2 col-form-label" for="address">Quê quán: </label>
                             <div class="form-group col-lg-10">
-                                <input type="text" name="native_place" id="native_place" class="form-control">
+                                <input type="text" name="address" id="address" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">

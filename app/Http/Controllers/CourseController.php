@@ -20,7 +20,7 @@ class CourseController extends Controller
     public function list()
     {
         $courses = Course::all();
-        return view('course.list',compact('courses'));
+        return view('courses.list',compact('courses'));
     }
 
     public function getInfoAjax(Request $request, $id){
@@ -58,7 +58,7 @@ class CourseController extends Controller
         }
         $course->name        = $requestData['name'];
         $course->fees        = $requestData['fees'];
-        $course->lenght      = $requestData['lenght'];
+        $course->length      = $requestData['length'];
         $course->description = $requestData['description'];
         $course->status      = $requestData['status'];
 
@@ -68,5 +68,29 @@ class CourseController extends Controller
         }catch (\Exception $exception){
             BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
         }
+    }
+
+    public function getListCourseAjax(Request $request){
+        //$this->checkRequestAjax($request);
+
+        $requestData = $request->all();
+        $arrCondition = [];
+        foreach ($requestData as $key => $value) {
+            $arrCondition[] = [$key, '=', $value];
+        }
+
+        $results = DB::table('courses')
+            ->where($arrCondition)
+            ->select('id', 'name')->get();
+
+        $datas = [];
+
+        foreach ($results as $val) {
+            $datas[$val->id] = [
+                'id'   => $val->id,
+                'name' => $val->name,
+            ];
+        }
+        BaseHelper::ajaxResponse('Success!', true, $datas);
     }
 }
