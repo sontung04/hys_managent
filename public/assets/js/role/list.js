@@ -17,7 +17,7 @@ $(function () {
         document.getElementById('modalAddRoleTitle').innerText = 'Chỉnh sửa chức vụ';
 
         let id = $(this).attr('data-id');
-        callAjaxGet(BASE_URL + '/role/getInfo/' + id).done(function (res) {
+        callAjaxGet(BASE_URL + '/role/getInfoAjax/' + id).done(function (res) {
             if (!res.status) {
                 notifyMessage('Lỗi!', res.msg, 'error', 5000);
                 return;
@@ -57,7 +57,7 @@ $(function () {
             modalAddRole.find('#description').val(CKEDITOR.instances['description'].getData());
             let data = modalAddRole.find('form').serialize();
 
-            callAjaxPost(BASE_URL + '/role/saveInfo', data).done(function(res) {
+            callAjaxPost(BASE_URL + '/role/saveInfoAjax', data).done(function(res) {
                 if (!res.status) {
                     notifyMessage('Lỗi!', res.msg, 'error', 5000);
                     return;

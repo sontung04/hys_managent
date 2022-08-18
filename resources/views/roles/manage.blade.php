@@ -1,35 +1,70 @@
 @extends('layouts.sidebar')
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/role/manage.css') }}">
+@endsection
+
 @section('script')
     <script src="{{ asset('assets/js/role/manage.js') }}" defer></script>
 @endsection
 
 @section("content")
-    <style>
-        .labelTimelineItem {
-            font-size: 16px;
-            color: #007bff;
-        }
-        .labelTimelineItem:hover {
-            color: #0056b3;
-        }
-        b {
-            font-size: 14px;
-        }
-    </style>
     <?php
-
     $iconList = [
         'userNow'  => '<i class="fas fa-user-check bg-green"></i>',
         'userStop' => '<i class="fas fa-user-times bg-red"></i>',
         'location' => '<i class="fas fa-location-arrow bg-blue"></i>',
+        'circleEnd'    => '<i class="fas fa-circle bg-gray"></i>',
         'itemLastNow'  => '<i class="fas fa-user-check bg-green" style="margin-top: 8px"></i>',
         'itemLastStop' => '<i class="fas fa-user-times bg-red" style="margin-top: 8px"></i>',
+        'ugStatusNow'  => '<i class="fas fa-check-circle bg-teal"></i>',
+        'ugStatusStop' => '<i class="fas fa-times-circle bg-maroon"></i>',
     ];
 
-    function htmlTimelineItem($data, $iconList, $roles, $lastItem = false) {
+    function htmlTagAEditPopover($type, $id) {
+        $htmlText = '<a href="" class="btnEditStatus"';
+        if($type == 'ugr') {
+            $textContent = 'chức vụ';
+        } else {
+            $textContent = 'hoạt động';
+        }
+        $htmlText .= ' data-toggle="popover" data-trigger="hover" data-placement="bottom"
+                            data-content="Cập nhập trạng thái ';
+        $htmlText .= $textContent;
+        $htmlText .= '" data-type="';
+        $htmlText .= $type;
+        $htmlText .= '" data-id="';
+        $htmlText .= $id;
 
+        $htmlText .= '"><i class="fas fa-edit ml-2"></i></a>';
+
+        return $htmlText;
+    }
+
+    function htmlStatusLogGroup($data, $iconList) {
+
+        $htmlText = '<div>';
+        $htmlText .= $data['status'] ? $iconList['ugStatusNow'] : $iconList['ugStatusStop'];
+        $htmlText .= '<div class="timeline-item">';
+        $htmlText .= '<h3 class="timeline-header">';
+        $htmlText .= '<b class="labelTimelineItem">';
+        $htmlText .= 'Trạng thái: ';
+        $htmlText .= $data['status'] ? 'Đang hoạt động' : 'Dừng hoạt động';
+        $htmlText .= ' | ';
+        $htmlText .= 'Thời gian: ';
+        $htmlText .= date('d/m/Y', strtotime($data['startTime']));
+        $htmlText .= !empty($data['endTime']) ? ' - ' . date('d/m/Y', strtotime($data['endTime'])) : '';
+        $htmlText .= '</b>';
+        $htmlText .= htmlTagAEditPopover('ug', $data['ugid']);
+        $htmlText .= '</div>';
+        $htmlText .= '</div>';
+
+        return $htmlText;
+    }
+
+    function htmlTimelineItem($data, $iconList, $roles, $lastItem = false) {
         echo '<div>';
+
         if($lastItem) {
             echo $data['status'] ? $iconList['itemLastNow'] : $iconList['itemLastStop'];
         } else {
@@ -37,14 +72,18 @@
         }
 
         echo '<div class="timeline-item">';
-        echo '<span class="time"><i class="fas fa-clock"></i> ';
+        echo '<h3 class="timeline-header no-border">';
+        echo '<b class="labelTimelineItem">';
+        echo (!$data['roleid'] ? 'Thành viên' : $roles[$data['roleid']]) . ': ';
         echo date('d/m/Y', strtotime($data['startTime']));
         echo !empty($data['endTime']) ? ' - ' . date('d/m/Y', strtotime($data['endTime'])) : '';
-        echo '</span>';
-
-        echo '<h3 class="timeline-header no-border"><a href="#">' . (!$data['roleid'] ? 'Thành viên' : $roles[$data['roleid']]) . '</a></h3>';
+        echo '</b>';
+        echo htmlTagAEditPopover('ugr', $data['ugrid']);
+        echo '<a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
+                        data-content="Xóa chức vụ" data-id="' . $data['ugrid'] .'">
+                            <i class="fas fa-trash ml-2" style="color: red"></i></a>';
+        echo '</h3>';
         echo '</div></div>';
-
     }
 
     function showChildGroupRole($items, $iconList, $roles, $groupType) {
@@ -53,97 +92,49 @@
 
             echo '<div>';
 
-            if((count($item['roles']) == 1) && (!isset($item['list']) || empty($item['list']))) {
+            echo $iconList['location'];
+            echo '<div class="timeline-item">';
+            echo '<h3 class="timeline-header no-border">';
+            echo '<b class="labelTimelineItem">' . $groupType[$item['type']] . ' ' . $item ['name'] . '</b>';
+            echo '</h3>';
+            echo '<div class="timeline-body"><div class="timeline">';
+            echo htmlStatusLogGroup($item, $iconList);
 
-                $role = $item['roles'][0];
+            if(count($item['roles']) == 0 && (!isset($item['list']) || empty($item['list']))) {
 
-                echo $role['status'] ? $iconList['userNow'] : $iconList['userStop'];
-
+                echo '<div>';
+                echo $item['status'] ? $iconList['itemLastNow'] : $iconList['itemLastStop'];
                 echo '<div class="timeline-item">';
-                echo '<span class="time"><i class="fas fa-clock"></i> ';
-                echo date('d/m/Y', strtotime($role['startTime']));
-                echo !empty($role['endTime']) ? ' - ' . date('d/m/Y', strtotime($role['endTime'])) : '';
-                echo '</span>';
-
-                echo '<h3 class="timeline-header no-border"><a href="#">';
-                echo  $groupType[$item['type']] . ' ' . $item ['name'] . ' - ' . (!$role['roleid'] ? 'Thành viên' : $roles[$role['roleid']]);
-                echo '</a></h3>';
-                echo '</div>';
-
-            } elseif(count($item['roles']) > 1) {
-
-                echo $iconList['location'];
-                echo '<div class="timeline-item">';
-
-                if(isset($item['startTime'])) {
-                    echo '<span class="time"><i class="fas fa-clock"></i> ';
-                    echo date('d/m/Y', strtotime($item['startTime']));
-                    echo !empty($item['endTime']) ? ' - ' . date('d/m/Y', strtotime($item['endTime'])) : '';
-                    echo '</span>';
-                }
-
-                echo '<h3 class="timeline-header no-border"><a href="#">';
-                echo  $groupType[$item['type']] . ' ' . $item ['name'];
-                echo '</a></h3>';
-
-                echo '<div class="timeline-body"><div class="timeline">';
-
-
-                if(!isset($item['list']) || empty($item['list'])) {
-                    $index = 0;
-                    foreach ($item['roles'] as $key => $role) {
-                        if($index == (count($item['roles']) - 1) && $index != 0 ) {
-                            htmlTimelineItem($role, $iconList, $roles, true);
-                        } else {
-                            htmlTimelineItem($role, $iconList, $roles);
-                        }
-                        $index++;
-                    }
-                } else {
-                    showChildGroupRole($item['list'], $iconList, $roles, $groupType);
-                    echo '<div><i class="fas fa-circle bg-gray"></i></div>';
-
-                }
-
-                echo '</div></div>';
-                echo '</div>';
-
-            } elseif (count($item['roles']) == 0) {
-
-                if(!isset($item['list']) || empty($item['list'])) {
-                    echo $item['status'] ? $iconList['userNow'] : $iconList['userStop'];
-                } else {
-                    echo $iconList['location'];
-                }
-
-                echo '<div class="timeline-item">';
-                echo '<span class="time"><i class="fas fa-clock"></i> ';
+                echo '<h3 class="timeline-header no-border">';
+                echo '<b class="labelTimelineItem">';
+                echo 'Thành viên: ';
                 echo date('d/m/Y', strtotime($item['startTime']));
                 echo !empty($item['endTime']) ? ' - ' . date('d/m/Y', strtotime($item['endTime'])) : '';
-                echo '</span>';
-                echo '<h3 class="timeline-header no-border"><a href="#">';
+                echo '</b>';
+//                echo htmlTagAEditPopover('ug', $item['ugid']);
+                echo '</h3>';
+                echo '</div></div>';
 
-                if(!isset($item['list']) || empty($item['list'])) {
-                    echo  $groupType[$item['type']] . ' ' . $item ['name'] . ' - Thành viên';
-                    echo '</a></h3>';
-                    echo '</div>';
-                } else {
-                    echo  $groupType[$item['type']] . ' ' . $item ['name'];
-                    echo '</a></h3>';
-                    echo '<div class="timeline-body"><div class="timeline">';
-
-                    showChildGroupRole($item['list'], $iconList, $roles, $groupType);
-
-                    echo '<div><i class="fas fa-circle bg-gray"></i></div>';
-                    echo '</div></div>';
-                    echo '</div>';
+            } else {
+                $index = 1;
+                foreach ($item['roles'] as $key => $role) {
+                    if($index == count($item['roles']) && (!isset($item['list']) || empty($item['list']))) {
+                        htmlTimelineItem($role, $iconList, $roles, true);
+                    } else {
+                        htmlTimelineItem($role, $iconList, $roles);
+                    }
+                    $index++;
                 }
 
+                if(isset($item['list']) && !empty($item['list'])) {
+                    showChildGroupRole($item['list'], $iconList, $roles, $groupType);
+                    echo '<div>' . $iconList['circleEnd'] . '</div>';
+                }
             }
-
+            echo '</div></div>';
+            echo '</div>';
             echo '</div>';
         }
-
     }
     ?>
     <div class="content-wrapper">
@@ -172,22 +163,23 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="{{asset('themes/dist/img/user1-128x128.jpg')}}" alt="user image">
+                                    <img class="img-circle img-bordered-sm" src="{{ !empty($userInfo->img) ? asset($userInfo->img) : asset(config('app.avatarDefault')) }}" alt="user image">
                                     <span class="username">
-                                            <a href="#">Username</a>
+                                            <a href="#">{{$userInfo->lastname . ' ' . $userInfo->firstname }}</a>
                                         </span>
-                                    <span class="description" style="font-size: 16px">Trạng thái:<strong> Đang Hoạt động</strong></span>
+                                    <span class="description" style="font-size: 16px">
+                                        Trạng thái:<strong> {{$userInfo->status ? 'Đang hoạt động' : 'Dừng hoạt động'}} </strong>
+                                    </span>
                                 </div>
 
                                 <a class="btn btn-success text-white float-right" id="btnAddRoleUser">
-                                    <i class="fas fa-cog"></i>
-                                    Thêm/Chỉnh Sửa Chức vụ
+                                    <i class="fas fa-user-cog"></i>
+                                    Thêm Chức vụ
                                 </a>
                             </div>
 
                             <!-- /.card-header -->
                             <div class="card-body">
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="timeline">
@@ -210,7 +202,6 @@
                                                 <div class="timeline-item">
                                                     <h3 class="timeline-header"><b class="labelTimelineItem">
                                                             Trạng thái: Đang hoạt động | Thời gian: 05/06/2020 - 25/11/2020
-                                                            
                                                         </b>
                                                         <a href="" class="btnEditUserGroup" data-toggle="popover" data-trigger="hover" data-placement="bottom"
                                                            data-content="Thay đổi trạng thái hoạt động" data-id="6">
@@ -507,90 +498,82 @@
 
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </section>
+        </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="addEditRoleModal" tabindex="-1" role="dialog" aria-labelledby="addEditRoleModalLabel" aria-hidden="true">
+    <!-- Modal editStatusModal -->
+    <div class="modal fade" id="editStatusModal" tabindex="-1" role="dialog" aria-labelledby="editStatusModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addEditRoleModalTitle"></h5>
+                    <h5 class="modal-title" id="editStatusModalTitle"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="" id="" method="" class="form-horizontal">
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="name" id="">Khu vực: <span style="color: red">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <select class="form-control custom-select">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
-                                </select>
-                            </div>
-                        </div>
+                <form action="" id="" method="post" class="form-horizontal">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" id="id" name="id">
+                        <input type="hidden" id="type" name="type">
+                        {{--                        <input type="hidden" id="groupParent" name="groupParent">--}}
 
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="name" id="">Cơ sở: </label>
-                            <div class="form-group col-lg-9">
-                                <select class="form-control custom-select">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="name" id="">Ban: </label>
-                            <div class="form-group col-lg-9">
-                                <select class="form-control custom-select">
-                                    <option>option 1</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="name" id="">Chức vụ: <span style="color: red">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <select class="form-control custom-select">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="row">
                             <label for="status" class="col-sm-3">Trạng thái: <span style="color: red">*</span></label>
                             <div class="form-group col-sm-9">
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status1" name="status" value="1" checked>
-                                    <label for="status1" style="margin-right: 10px">
-                                        Hoạt động
+                                    <input type="radio" id="statusU1" name="status" value="1" checked>
+                                    <label for="statusU1" style="margin-right: 10px">
+                                        Đang hoạt động
                                     </label>
                                 </div>
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status2" name="status" value="0">
-                                    <label for="status2">
-                                        Nghỉ chức vụ
+                                    <input type="radio" id="statusU2" name="status" value="0">
+                                    <label for="statusU2">
+                                        Dừng hoạt động
                                     </label>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary">Lưu thông tin</button>
-                </div>
+
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label" style="text-align: right">Ngày bắt đầu:</label>
+                            <div class="form-group col-sm-9">
+                                <div class="input-group date" id="updateStarttime" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#updateStarttime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="inputUpdateStarttime"
+                                           name="starttime" data-target="#updateStarttime" data-toggle="datetimepicker"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label" style="text-align: right">Ngày kết thúc:</label>
+                            <div class="form-group col-sm-9">
+                                <div class="input-group date" id="updateFinishtime" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#updateFinishtime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="inputUpdateFinishtime"
+                                           name="finishtime" data-target="#updateFinishtime" data-toggle="datetimepicker"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu thông tin</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
