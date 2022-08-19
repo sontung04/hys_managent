@@ -56,8 +56,6 @@ class TeacherController extends Controller
             $teacher->save();
             BaseHelper::ajaxResponse('success', true);
         }catch (\Exception $exception){
-            print_r($exception);
-            die();
             BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
         }
 
