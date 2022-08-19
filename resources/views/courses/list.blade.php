@@ -1,53 +1,9 @@
 @extends('layouts.sidebar')
 
 @section('script')
-    <!-- <script src="{{ asset('assets/js/courses/jquery.min.js') }}"></script> -->
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-    <script src="{{ asset('assets/js/courses/list.js') }}" defer></script>
-    <script>
-        $( ".editCourseModal" ).click(function() {
-            $('#modalAddCourse').modal('show');
-        });
-    </script>
-    <script type="text/javascript">
-            $(document).ready(function () {
-            $.validator.setDefaults({
-                submitHandler: function () {
-                alert("Form successful submitted!");
-                }
-            });
-            $('#formAddCourse').validate({
-                rules: {
-                name: {
-                    required: true,
-                },
-
-                },
-                messages: {
-                name: {
-                    required: "Tên khóa học không được bỏ trống"
-                },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-                }
-            });
-            });
-
-    </script>
-    <script src="{{ asset('assets/js/courses/jquery.validate.min.js') }}" defer></script>
-    <script src="{{ asset('assets/js/courses/additional-methods.min.js') }}" defer></script>
-        <!-- <script src="./jquery.validate.min.js"></script>
-    <script src="./additional-methods.min.js"></script> -->
-@endsection
+    <script src="{{ asset('assets/js/course/list.js') }}" defer></script>
+ @endsection
 
 @section('style')
     
