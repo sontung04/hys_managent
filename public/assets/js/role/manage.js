@@ -10,8 +10,6 @@ $(function () {
         this.maxDate    = moment(addUserGroupRoleModal.find('#inputAddStarttime').data('max'), this.dateFormat);
         this.minDate    = moment('17/11/2013', this.dateFormat);
     };
-    console.log(settingDateTime.maxDate);
-    console.log(settingDateTime.minDate);
 
     ['addStarttime', 'addFinishtime', 'updateStarttime', 'updateFinishtime'].forEach(field => {
         $('#' + field).datetimepicker({
@@ -97,9 +95,9 @@ $(function () {
             callAjaxPost(BASE_URL + '/ugr/saveInfoUgr', data).done(function(res) {
                 checkErrorResAjax(res);
 
-                // notifyMessage('Thông báo!', res.msg,'success');
-                // addUserGroupRoleModal.modal('hide');
-                // setTimeout(function(){ window.location.reload(); }, 1000);
+                notifyMessage('Thông báo!', res.msg,'success');
+                addUserGroupRoleModal.modal('hide');
+                setTimeout(function(){ window.location.reload(); }, 1000);
             });
         },
 
@@ -151,22 +149,29 @@ $(function () {
         let id = $(this).attr('data-id');
         let type = $(this).attr('data-type');
         let content = $(this).attr('data-content');
-        // callAjaxGet(BASE_URL + '/ugr/getInfoAjax', {type: type, id: id}).done(function(res) {
-        //     checkErrorResAjax(res);
-        //     console.log(res.data)
-        // });
+        callAjaxGet(BASE_URL + '/ugr/getInfoAjax', {type: type, id: id}).done(function(res) {
+            checkErrorResAjax(res);
+
+            console.log(res.data)
+            let data = res.data;
+            editStatusModal.find('#id').val(id);
+            editStatusModal.find('#type').val(type);
+
+            if(data.status == '1') {
+                editStatusModal.find('#statusU1').prop('checked', true);
+            } else {
+                editStatusModal.find('#statusU2').prop('checked', true);
+            }
+
+            editStatusModal.find('#inputUpdateStarttime').val(data.starttime);
+            editStatusModal.find('#inputUpdateFinishtime').val(data.finishtime);
+
+            document.getElementById('editStatusModalTitle').innerText = content;
+            editStatusModal.modal('show');
+        });
 
         /* set field value */
-        editStatusModal.find('#id').val(id);
-        editStatusModal.find('#type').val(type);
-        // if(status == '1') {
-        //     editStatusModal.find('#statusU1').prop('checked', true);
-        // } else {
-        //     editStatusModal.find('#statusU2').prop('checked', true);
-        // }
-        //
-        document.getElementById('editStatusModalTitle').innerText = content;
-        editStatusModal.modal('show');
+
     });
 
     //Update Status Record submit form

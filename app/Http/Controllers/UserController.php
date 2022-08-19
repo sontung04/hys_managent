@@ -117,7 +117,7 @@ class UserController extends Controller
             $user->code       = $requestData['code'];
             $user->password   = Hash::make(env('PASSWORD_DEFAULT'));
             $user->email      = $requestData['email'];
-            $user->img        = env('AVATAR_DEFAULT');
+            $user->img        = config('app.avatarDefault');
             $user->created_at = time();
             $user->updated_at = time();
             $user->created_by = Auth::id();

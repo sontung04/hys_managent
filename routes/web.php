@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function (){
         Route::get('/manage', 'GroupController@manage')->name('group.manage');
         Route::get('/list', 'GroupController@list')->name('group.list');
         Route::get('/detail/{id}', 'GroupController@detail')->where('id', '[0-9]+')->name('group.detail');
-        Route::post('/saveInfo', 'GroupController@saveInfo');
+        Route::post('/saveInfoAjax', 'GroupController@saveInfoAjax');
         Route::get('/getInfoGroupAjax/{id}', 'GroupController@getInfoGroupAjax')->where('id', '[0-9]+');
         Route::get('/getListGroupChild', 'GroupController@getListGroupChild');
         Route::get('/getListGroupOption', 'GroupController@getListGroupOption');
@@ -49,12 +49,11 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/role')->group(function () {
         Route::get('/list', 'RoleController@list')->name('role.list');
-        Route::get('/manage', 'RoleController@manage')->name('role.manage');
-        Route::get('/test', 'RoleController@manageTest')->name('role.test');
+        Route::get('/manage/{userid}', 'RoleController@manage')->where('id', '[0-9]+')->name('role.manage');
         Route::get('/test2/{userid}', 'RoleController@manageTest2')->name('role.test2');
-        Route::get('/getInfo/{id}', 'RoleController@getInfo');
+        Route::get('/getInfoAjax/{id}', 'RoleController@getInfoAjax');
         Route::get('/getListRole', 'RoleController@getListRole');
-        Route::post('/saveInfo', 'RoleController@saveInfo');
+        Route::post('/saveInfoAjax', 'RoleController@saveInfoAjax');
     });
 
     Route::prefix('/ugr')->group(function () {
@@ -70,10 +69,21 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/course')->group(function () {
         Route::get('/list', 'CourseController@list')->name('course.list');
+        Route::get('/getInfo/{id}', 'CourseController@getInfoAjax');
+        Route::get('/getListCourse','CourseController@getListCourseAjax');
+        Route::post('/saveInfo', 'CourseController@saveInfoAjax');
+
+        Route::prefix('/teacher')->group(function () {
+            Route::get('/', 'TeacherController@list')->name('course.teacherList');
+            Route::get('/getInfoAjax/{id}', 'TeacherController@getInfoAjax');
+            Route::post('/saveInfoAjax', 'TeacherController@saveInfoAjax');
+        });
     });
 
     Route::prefix('/lesson')->group(function () {
         Route::get('/list', 'LessonController@list')->name('lesson.list');
+        Route::get('/getInfo/{id}', 'LessonController@getInfoAjax');
+        Route::post('/saveInfo', 'LessonController@saveInfoAjax');
     });
 });
 

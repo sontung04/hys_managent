@@ -256,7 +256,7 @@ $(document).ready(function() {
 
             let data = modalAddGroup.find('form').serialize();
 
-            callAjaxPost(BASE_URL + '/group/saveInfo', data).done(function(res) {
+            callAjaxPost(BASE_URL + '/group/saveInfoAjax', data).done(function(res) {
                 if (!res.status) {
                     notifyMessage('Lỗi!', res.msg, 'error', 5000);
                     return;

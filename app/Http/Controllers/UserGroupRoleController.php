@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserGroup;
 use App\Models\UserGroupRole;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,18 +52,10 @@ class UserGroupRoleController extends Controller
         }
 
         $requestData['starttime']  = $this->changeFormatDateInput($requestData['starttime']);
+        if(empty($requestData['starttime'])) $requestData['starttime'] = Carbon::parse(time());
         $requestData['finishtime'] = $this->changeFormatDateInput($requestData['finishtime']);
+        if(empty($requestData['finishtime'])) $requestData['finishtime'] = Carbon::parse(time());
         unset($requestData['_token']);
-
-//        $groupInfo = Group::select('id', 'parent', 'type', 'depart','area')
-//            ->where('id', $requestData['group_id'])->get();
-//        print_r($requestData);
-//        die();
-//        $userInfo = User::select('id', 'area')->where('id', $requestData['userid'])->get();
-//        $test = DB::table('user_groups')->select('group_id')->where('user_id', 6)->get()->toArray();
-//        print_r($test);
-//        die();
-//        print_r($userInfo);0
 
         $userGroupArea = UserGroup::firstOrCreate(
             [
@@ -80,24 +73,26 @@ class UserGroupRoleController extends Controller
             ]
         );
 
-        switch ($requestData['type']) {
+        $groupInfo = Group::select('id', 'parent', 'type', 'depart','area')
+            ->where('id', $requestData['group_id'])->get();
+        $groupInfo = $groupInfo[0];
+        switch ($requestData['group_type']) {
 //            case 1:
 //                $ugRecordId = $userGroupArea->id;
 //                break;
             case 2:
-                if($requestData['parent'] != $requestData['parent']) {
-                    $groupInfo = Group::select('id', 'parent', 'type', 'depart','area')
-                        ->where('id', $requestData['group_id'])->get();
+
+                if($groupInfo->parent != $groupInfo->area) {
 
                     $userGroupParent = UserGroup::firstOrCreate(
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $groupInfo[0]->parent,
+                            'group_id' => $groupInfo->parent,
                             'area'     => $requestData['area'],
                         ],
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $groupInfo[0]->parent,
+                            'group_id' => $groupInfo->parent,
                             'area'     => $requestData['area'],
                             'starttime'  => $requestData['starttime'],
                             'finishtime' => $requestData['finishtime'],
@@ -108,12 +103,12 @@ class UserGroupRoleController extends Controller
                     $userGroupDepart = UserGroup::firstOrCreate(
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $groupInfo[0]->depart,
+                            'group_id' => $groupInfo->depart,
                             'area'     => $requestData['area'],
                         ],
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $groupInfo[0]->depart,
+                            'group_id' => $groupInfo->depart,
                             'area'     => $requestData['area'],
                             'starttime'  => $requestData['starttime'],
                             'finishtime' => $requestData['finishtime'],
@@ -126,15 +121,16 @@ class UserGroupRoleController extends Controller
 //            case 3:
 //                break;
             case 4:
+
                 $userGroupParent = UserGroup::firstOrCreate(
                     [
                         'user_id'  => $requestData['userid'],
-                        'group_id' => $requestData['parent'],
+                        'group_id' => $groupInfo->parent,
                         'area'     => $requestData['area'],
                     ],
                     [
                         'user_id'  => $requestData['userid'],
-                        'group_id' => $requestData['parent'],
+                        'group_id' => $groupInfo->parent,
                         'area'     => $requestData['area'],
                         'starttime'  => $requestData['starttime'],
                         'finishtime' => $requestData['finishtime'],
@@ -144,18 +140,19 @@ class UserGroupRoleController extends Controller
 
                 break;
             case 5:
-                $groupInfo = Group::select('id', 'parent', 'type', 'depart','area')
-                    ->where('id', $requestData['group_id'])->get();
-                if($requestData['parent'] == $requestData['parent']) {
+//                print_r('case5');
+//                die();
+                if($groupInfo->parent == $groupInfo->area) {
+
                     $userGroupDepart = UserGroup::firstOrCreate(
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $groupInfo[0]->depart,
+                            'group_id' => $groupInfo->depart,
                             'area'     => $requestData['area'],
                         ],
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $groupInfo[0]->depart,
+                            'group_id' => $groupInfo->depart,
                             'area'     => $requestData['area'],
                             'starttime'  => $requestData['starttime'],
                             'finishtime' => $requestData['finishtime'],
@@ -163,18 +160,19 @@ class UserGroupRoleController extends Controller
                         ]
                     );
                 } else {
+
                     $groupDepartInfo = Group::select('id', 'parent', 'type', 'depart','area')
-                        ->where('id', $groupInfo[0]->depart)->get();
+                        ->where('id', $groupInfo->depart)->get();
 
                     $userGroupParent = UserGroup::firstOrCreate(
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $requestData['parent'],
+                            'group_id' => $groupInfo->parent,
                             'area'     => $requestData['area'],
                         ],
                         [
                             'user_id'  => $requestData['userid'],
-                            'group_id' => $requestData['parent'],
+                            'group_id' => $groupInfo->parent,
                             'area'     => $requestData['area'],
                             'starttime'  => $requestData['starttime'],
                             'finishtime' => $requestData['finishtime'],
@@ -218,9 +216,15 @@ class UserGroupRoleController extends Controller
 //            default:
 //                break;
         }
+//        print_r(1233);
+//        die();
 
-        if ($requestData['type'] == 1) {
+        if ($requestData['group_type'] == 1) {
             $userGroupRecordId = $userGroupArea->id;
+            if(empty($requestData['role_id'])) {
+                $userGroupArea->status = 0;
+                $userGroupArea->save();
+            }
         } else {
             $userGroupRecord = UserGroup::firstOrCreate(
                 [
@@ -237,6 +241,11 @@ class UserGroupRoleController extends Controller
                     'created_at' => time()
                 ]
             );
+
+            if(empty($requestData['role_id'])) {
+                $userGroupRecord->status = 0;
+                $userGroupRecord->save();
+            }
 
             $userGroupRecordId = $userGroupRecord->id;
         }
@@ -271,11 +280,20 @@ class UserGroupRoleController extends Controller
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
+
+        $requestData['starttime']  = $this->changeFormatDateInput($requestData['starttime']);
+        if(empty($requestData['starttime'])) $requestData['starttime'] = Carbon::parse(time());
+
+        $requestData['finishtime'] = $this->changeFormatDateInput($requestData['finishtime']);
+        if(empty($requestData['finishtime'])) $requestData['finishtime'] = Carbon::parse(time());
+
         if (isset($requestData['type']) && !empty($requestData['type'])) {
             if($requestData['type'] == 'ug') {
                 $ug = UserGroup::find($requestData['id']);
                 $this->checkEmptyDataAjax($ug);
                 $ug->status = $requestData['status'];
+                $ug->starttime  = $requestData['starttime'];
+                $ug->finishtime = $requestData['finishtime'];
                 $ug->updated_at = time();
 
                 try {
@@ -289,6 +307,8 @@ class UserGroupRoleController extends Controller
                 $ugr = UserGroupRole::find($requestData['id']);
                 $this->checkEmptyDataAjax($ugr);
                 $ugr->status = $requestData['status'];
+                $ugr->starttime  = $requestData['starttime'];
+                $ugr->finishtime = $requestData['finishtime'];
                 $ugr->updated_by = Auth::id();
                 $ugr->updated_at = time();
                 try {
