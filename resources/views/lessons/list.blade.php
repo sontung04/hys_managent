@@ -14,12 +14,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-md-6">
-            <h1>Danh sách bài giảng</h1>
+            <h1>Danh sách bài học</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('index')}}">Trang chủ</a></li>
-              <li class="breadcrumb-item active">Danh sách khóa học</li>
+              <li class="breadcrumb-item active">Danh sách bài học</li>
             </ol>
           </div>
         </div>
@@ -31,7 +31,8 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <a class="btn btn-success text-white float-right" id="btnAddLesson" data-toggle="modal" data-target="#modalAddLesson">
+                <h3 class="card-title"></h3>
+                <a class="btn btn-success text-white float-right" id="btnAddLesson" >
                                             <i class="fas fa-cog"></i>
                                             Thêm bài học mới
                                         </a>
@@ -42,128 +43,86 @@
                   <thead>
                     <tr style="text-align: center">
                       <th style="width: 10px">STT</th>
-                      <th class="course-id" style="width: 10px">Khóa học</th>
-                      <th class="name">Tên Bài giảng</th>
+                      
+                      <th >Tên Bài giảng</th>
+                      <th style="width: 10px">Khóa học</th>
                       <th>Giáo viên</th>
                       <th style="width: 15%">Mô tả</th>
-                      <th style="width: 15%">Quiz</th>
+                      <th style="width: 15%">Câu hỏi</th>
                       <th style="width: 15%">Tài liệu</th>
                       <th style="width: 15%">Bài tập về nhà</th>
                       <th style="width: 8%">Hành động</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td style="text-align:center;">1</td>
-                      <td class="course-id">1</td>
-                      <td class="name">ABC</td>
-                      <td style="text-align:center;">
-                        Nguyen Van A
-                      </td>
-                      <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio nulla doloribus
-                        voluptatum autem recusandae placeat suscipit voluptatem sunt nesciunt iste commodi, delectus
-                        molestias praesentium aperiam. Laborum aliquam repellendus impedit!</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-success btnEdit mr-1 editModalLesson" data-toggle="popover"
-                          data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
+                  <tbody id="tableLessonList">
+                  @forelse($lessons as $key => $lesson)
+                    <tr id="lesson-{{$lesson->id}}">
+                      <th style="text-align:center;">{{++$key}}</th>
+                      <th style="text-align:center;">{{$lesson->name}}</th>
+                      <th style="text-align:center;">{{$lesson->course_id}}</th>
+                      <th style="text-align:center;">{{$lesson->teacher_id}}</th>
+                      <th style="text-align:center;">{{$lesson->description}}</th>
+                      <th style="text-align:center;">{{$lesson->question}}</th>
+                      <th style="text-align:center;">{{$lesson->document}}</th>
+                      <th style="text-align:center;">{{$lesson->homework}}</th>
+                      <th>
+                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$lesson->id}}"
+                         data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                           <i class="fas fa-edit"></i>
                         </button>
-                      </td>
-
+                      </th>
                     </tr>
+                  @empty
                     <tr>
-                      <td style="text-align:center;">1</td>
-                      <td class="course-id">1</td>
-                      <td class="name">ABC</td>
-                      <td style="text-align:center;">
-                        Nguyen Van A
-                      </td>
-                      <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio nulla doloribus
-                        voluptatum autem recusandae placeat suscipit voluptatem sunt nesciunt iste commodi, delectus
-                        molestias praesentium aperiam. Laborum aliquam repellendus impedit!</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-success btnEdit mr-1 editModalLesson" data-toggle="popover"
-                          data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                      </td>
+                      <th colspan="8" style="text-align: center">Không có dữ hiệu hiển thị! Vui lòng thử lại</th>
                     </tr>
-                    <tr>
-                      <td style="text-align:center;">1</td>
-                      <td class="course-id">1</td>
-                      <td class="name">ABC</td>
-                      <td style="text-align:center;">
-                        Nguyen Van A
-                      </td>
-                      <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio nulla doloribus
-                        voluptatum autem recusandae placeat suscipit voluptatem sunt nesciunt iste commodi, delectus
-                        molestias praesentium aperiam. Laborum aliquam repellendus impedit!</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>aaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaa aaaaaaaa</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-success btnEdit mr-1 editModalLesson" data-toggle="popover"
-                          data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                      </td>
-                    </tr>
+                  @forelse
                   </tbody>
                 </table>
               </div>
-                <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-right">
-                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
+  </div>
+  </section>
+</div>
     <!-- </section> -->
   <!-- The Modal -->
   <div class="modal fade" id="modalAddLesson">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="" id="formAddLesson" class="form-horizonal" method="get">
-          <!-- Modal Header -->
+           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Thêm bài giảng</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;
+            <h4 class="modal-title" id="modalAddLessonTitle">Thêm bài học mới</h4>
+            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
+          <form action="" id="formAddLesson" class="form-horizonal" method="post">
+        @csrf
           <!-- Modal body -->
 
 
           <div class="modal-body">
+          <input type="hidden" id="id" class="form-control" name="id">
             <div class="row">
-              <label class="col-lg-2 col-form-label" for="nameLesson" id="inputNameTitle"> Tên bài giảng: <span
+              <label class="col-lg-2 col-form-label" for="name" id="inputNameTitle"> Tên bài giảng: <span
                   class="text-danger">*</span></label>
               <div class="form-group col-lg-10">
-                <input type="text" name="name" id="nameLesson" class="form-control">
+                <input type="text" name="name" id="name" class="form-control">
               </div>
             </div>
             <div class="row">
               <label class="col-lg-2 col-form-label" for="course_id" id="inputNameTitle"> Khóa học: <span
                   class="text-danger">*</span></label>
               <div class="form-group col-lg-10">
-                <input type="text" name="course_id" id="name" class="form-control">
+                <input type="text" name="course_id" id="course_id" class="form-control">
               </div>
             </div>
             <div class="row">
-              <label class="col-lg-2 col-form-label" for="teacher"> Giảng viên: </label>
+              <label class="col-lg-2 col-form-label" for="teacher_id"> Giảng viên: </label>
               <div class="form-group col-lg-10">
-                <input type="text" name="teacher" id="name" class="form-control">
+                <input type="text" name="teacher_id" id="teacher_id" class="form-control">
               </div>
             </div>
             <div class="form-group row">
@@ -184,7 +143,7 @@
                 <textarea type="text" name="document" id="document" class="form-control"></textarea>
               </div>
             </div>
-              <div class="form-group row">
+            <div class="form-group row">
               <label class="col-lg-2 col-form-label" for="homework">Bài tập:</label>
               <div class="col-lg-10">
                 <textarea type="text" name="description" id="homework" class="form-control"></textarea>
@@ -194,9 +153,9 @@
             <!-- Modal footer -->
             
           </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" >Lưu</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+          <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>
+          <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
           </div>
         </form>
 
@@ -204,9 +163,6 @@
     </div>
   </div>
 
-  </div>
-  </section>
-</div>
 
 
 

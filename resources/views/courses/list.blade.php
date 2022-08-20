@@ -6,7 +6,11 @@
  @endsection
 
 @section('style')
-    
+<style>
+        .table th {
+            vertical-align: middle;
+        }
+</style>   
 @endsection
 
 
@@ -34,7 +38,7 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title"></h3>
-                                        <a class="btn btn-success text-white float-right" id="btnAddCourse" data-toggle="modal" data-target="#modalAddCourse">
+                                        <a class="btn btn-success text-white float-right" id="btnAddCourse">
                                             <i class="fas fa-cog"></i>
                                             Thêm Khóa học mới
                                         </a>
@@ -44,124 +48,54 @@
                                         <table class="table table-bordered table-hover">
                                             <thead>
                                                 <tr style="text-align: center">
-                                                    <th style="width: 10px">STT</th>
-                                                    <th>Tên khóa học</th>
-                                                    <th style="width: 12%">Học phí</th>
-                                                    <th style="width: 45%">Mô tả</th>
+                                                    <th style="width: 3%">STT</th>
+                                                    <th style="width: 15%">Tên khóa học</th>
+                                                    <th style="width: 12%">Học phí (VNĐ)</th>
+                                                    <th style="width: 12%">Thời gian (giờ)</th>
+                                                    <th>Mô tả</th>
                                                     <th style="width: 10%">Trạng thái</th>
-                                                    <th style="width: 8%">Hành động</th>
+                                                    <th style="width: 5%">Hành động</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="text-align:center;">1</td>
-                                                    <td>ABC</td>
-                                                    <td style="text-align:center;">
-                                                        10000000
-                                                    </td>
-                                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio
-                                                        nulla doloribus voluptatum autem recusandae placeat suscipit voluptatem sunt
-                                                        nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
-                                                        aliquam repellendus impedit!</td>
-                                                    <td style="text-align:center;"><span class="badge bg-success">Mở</span></td>
-                                                        <th>
-                                                        <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" id=>
+                                            <tbody id="tableCourseList">
+                                            @forelse($courses as $key => $course)
+                                                <tr id="course-{{$course->id}}">
+                                                    <th style="text-align:center;">{{++$key}}</th>
+                                                    <th style="text-align:center;">{{$course->name}}</th>
+                                                    <th style="text-align:center;">{{$course->fees}}</th>
+                                                    <th style="text-align:center;">{{$course->length}}</th>
+                                                    <th style="text-align: center">{{$course->status ? "Mở" : "Đóng"}}</th>
+                                                    <th>
+                                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$course->id}}"
+                                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                                             <i class="fas fa-edit"></i>
-
                                                         </button>
-                                                        <!-- <button type="button" class="btn btn-outline-primary btnView" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
-                                                        <i class="fas fa-eye"></i>
-                                                        </button> -->
-                                                        </th>
+                                                    </th>
                                                 </tr>
+                                            @empty
                                                 <tr>
-                                                    <td style="text-align:center;">1</td>
-                                                    <td>ABC</td>
-                                                    <td style="text-align:center;">
-                                                        10000000
-                                                    </td>
-                                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio
-                                                        nulla doloribus voluptatum autem recusandae placeat suscipit voluptatem sunt
-                                                        nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
-                                                        aliquam repellendus impedit!</td>
-                                                    <td style="text-align:center;"><span class="badge bg-success">Mở</span></td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" >
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </button>
-                                                    </td>
+                                                <th colspan="8" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
                                                 </tr>
-                                                <tr>
-                                                    <td style="text-align:center;">1</td>
-                                                    <td>ABC</td>
-                                                    <td style="text-align:center;">
-                                                        10000000
-                                                    </td>
-                                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio
-                                                        nulla doloribus voluptatum autem recusandae placeat suscipit voluptatem sunt
-                                                        nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
-                                                        aliquam repellendus impedit!</td>
-                                                    <td style="text-align:center;"><span class="badge bg-danger">Đóng</span></td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" data-toggle="modal" data-target="#modalAddCourse">
-                                                            <i class="fas fa-edit"></i>
-
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:center;">1</td>
-                                                    <td>ABC</td>
-                                                    <td style="text-align:center;">
-                                                        10000000
-                                                    </td>
-                                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, distinctio
-                                                        nulla doloribus voluptatum autem recusandae placeat suscipit voluptatem sunt
-                                                        nesciunt iste commodi, delectus molestias praesentium aperiam. Laborum
-                                                        aliquam repellendus impedit!</td>
-                                                    <td style="text-align:center;"><span class="badge bg-success">Mở</span></td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-outline-success btnEdit mr-1 editCourseModal" 
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa" >
-                                                            <i class="fas fa-edit"></i>
-                                                        
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-
+                                            @endforelse
                                             </tbody>
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
-                                    <div class="card-footer clearfix">
-                                        <ul class="pagination pagination-sm m-0 float-right">
-                                            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                        </ul>
-                                    </div>
                                 </div>
 
                             </div>
 
                         </div>
-
-
+                    </div>
+                </section>
+            </div>
 
 
                         <!-- The Modal -->
                         <div class="modal fade" id="modalAddCourse">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <form action="" id="formAddCourse" class="form-horizontal" method="get">
+                                    
                                         <!-- Modal Header -->
                                         <div class="modal-header">
                                             <h4 class="modal-title" id="modalAddCourseTitle">Thêm Khóa học</h4>
@@ -169,23 +103,31 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-
+                                        <form action="" id="formAddCourse" class="form-horizontal" method="post">
                                         <!-- Modal body -->
-                                    
+                                            @csrf
                                             <div class="modal-body">
+                                                <input type="hidden" id="id" class="form-control" name="id">
                                                 <div class="row">
                                                     <label class="col-lg-2 col-form-label" for="name" id="inputNameTitle"> Tên khóa học: <span class="text-danger">*</span></label>
                                                     <div class="form-group col-lg-10">
                                                         <input type="text" name="name" id="name" class="form-control" >
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label" for="fee">Học phí (VNĐ)</label>
                                                     <div class="form-group col-lg-10">
-                                                        <input type="number" min="0" max="10000" name="fee" id="fee" class="form-control" >
+                                                        <input type="number" min="0" max="1000000000" name="fee" id="fee" class="form-control" >
                                                     </div>
-                                                    
+                                                   
                                                 </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label" for="length">Thời gian (giờ)</label>
+                                                    <div class="form-group col-lg-10">
+                                                        <input type="number" min="0" max="10000" name="length" id="length" class="form-control" >
+                                                    </div>
+                                                   
+                                                </div>                                                
                                                 <div class="form-group row" >
                                                     <label class="col-lg-2 col-form-label" for="description">Mô tả:</label>
                                                     <div class="col-lg-10">
@@ -216,11 +158,9 @@
 
                                         <!-- Modal footer -->
 
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                            <!-- <button type="reset" class="btn btn-primary">clear</button> -->
-                                            <!-- <input type="submit" class="btn btn-primary" value="Lưu"> -->
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>
+                                            <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
                                         </div>
                                     </form>
 
@@ -231,9 +171,7 @@
                         <!-- /.row -->
 
                         <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-        </section>
-    </div>
+
 
 
 @endsection
