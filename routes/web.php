@@ -92,5 +92,11 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfo/{id}', 'LessonController@getInfoAjax');
         Route::post('/saveInfo', 'LessonController@saveInfoAjax');
     });
+
+    Route::prefix('/student')->group(function (){
+        Route::match(['get', 'post'],'/list','StudentController@list')->name('student.list');
+        Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
+        Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
+    });
 });
 
