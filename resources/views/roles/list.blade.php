@@ -6,6 +6,11 @@
     <script src="{{ asset('assets/js/role/list.js') }}" defer></script>
 @endsection
 
+@section('style')
+<link rel="stylesheet" href="{{ asset('assets/css/role/list.css') }}">
+
+@endsection
+
 @section("content")
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
