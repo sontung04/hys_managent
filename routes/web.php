@@ -69,9 +69,9 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/course')->group(function () {
         Route::get('/list', 'CourseController@list')->name('course.list');
-        Route::get('/getInfo/{id}', 'CourseController@getInfoAjax');
-        Route::get('/getListCourse','CourseController@getListCourseAjax');
-        Route::post('/saveInfo', 'CourseController@saveInfoAjax');
+        Route::get('/getInfoAjax/{id}', 'CourseController@getInfoAjax');
+        Route::get('/getListCourseAjax','CourseController@getListCourseAjax');
+        Route::post('/saveInfoAjax', 'CourseController@saveInfoAjax');
 
         Route::prefix('/teacher')->group(function () {
             Route::get('/', 'TeacherController@list')->name('course.teacherList');
@@ -82,8 +82,8 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/lesson')->group(function () {
         Route::get('/list', 'LessonController@list')->name('lesson.list');
-        Route::get('/getInfo/{id}', 'LessonController@getInfoAjax');
-        Route::post('/saveInfo', 'LessonController@saveInfoAjax');
+        Route::get('/getInfoAjax/{id}', 'LessonController@getInfoAjax');
+        Route::post('/saveInfoAjax', 'LessonController@saveInfoAjax');
     });
 
     Route::prefix('/student')->group(function (){
