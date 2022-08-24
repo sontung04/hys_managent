@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ClassController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -98,5 +99,10 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
     });
-});
 
+    Route::prefix('/class')->group(function(){
+        Route::match(['get', 'post'], '/list', [ClassController::class, 'list'])->name('class.list');
+        Route::get('/getInfoAjax/{id}', [ClassController::class, 'getInfoAjax']);
+        Route::post('/saveInfoAjax', [ClassController::class, 'saveInfoAjax']);
+    });
+});
