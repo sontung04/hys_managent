@@ -25,6 +25,8 @@ class CourseController extends Controller
 
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
+        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
+
 
         $course = Course::findOrFail($id);
         BaseHelper::ajaxResponse('Success!', true, $course);
@@ -32,6 +34,9 @@ class CourseController extends Controller
 
     public function saveInfoAjax(Request $request ){
         $this->checkRequestAjax($request);
+        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
+
+
 
 //        $validateData = $request->validate([
 //            'name' => 'bail|required|max:255',

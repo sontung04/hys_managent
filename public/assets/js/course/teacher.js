@@ -6,13 +6,13 @@ $(function () {
 
     let modalAddTeacher = $('#modalAddTeacher');
 
-    //* Add new Role
+    //* Add new Teacher
     $('#btnAddTeacher').click(function () {
         document.getElementById('modalAddTeacherTitle').innerText = 'Thêm Giảng viên mới';
         modalAddTeacher.modal('show');
     });
 
-    //* Edit Info 1 Role
+    //* Edit Info 1 Teacher
     $('#tableTeacherList').on('click', '.btnEdit', function () {
         document.getElementById('modalAddTeacherTitle').innerText = 'Chỉnh sửa thông tin Giảng viên';
 

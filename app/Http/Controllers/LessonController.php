@@ -19,14 +19,18 @@ class LessonController extends Controller
 
     public function list(Request $request)
     {
-        $this->checkRequestAjax($request);
+        // $this->checkRequestAjax($request);
 
-        $lesson = DB::table('lessons')->where('course_id',$request->input())->get();
-        return view('lessons.list',compact('lesson'));
+        // $lesson = DB::table('lessons')->where('course_id',$request->input())->get();
+        $lessons = Lesson::all();
+        return view('lessons.list', compact("lessons"));
     }
 
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
+
+        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
+
 
         $lesson = Lesson::findOrFail($id);
         BaseHelper::ajaxResponse('Success!', true, $lesson);
@@ -35,6 +39,7 @@ class LessonController extends Controller
 
     public function saveInfoAjax(Request $request){
         $this->checkRequestAjax($request);
+        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
 
         $requestData = $request->all();
 
