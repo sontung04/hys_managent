@@ -127,7 +127,7 @@
                         <i class="fas fa-user-edit mr-2"></i> Thông tin cá nhân
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
+                    <a href="{{route('password.edit')}}" class="dropdown-item">
                         <i class="fas fa-key mr-2"></i> Đổi mật khẩu
                     </a>
                     <a href="{{route('logout')}}" class="dropdown-item" onclick="event.preventDefault();
