@@ -36,8 +36,12 @@ class CreateStudentsTable extends Migration
             $table->string('guardian_phone', 15);
             $table->string('father', 255)->nullable();
             $table->string('father_job', 255)->nullable();
+            $table->timestamp('father_birthday')->nullable();
             $table->string('mother', 255)->nullable();
             $table->string('mother_job', 255)->nullable();
+            $table->timestamp('mother_birthday')->nullable();
+            $table->string('course_where')->nullable();
+            $table->text('desire')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);

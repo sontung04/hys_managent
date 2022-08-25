@@ -76,10 +76,10 @@ $(function() {
             citizen_identify: {
                 required: true,
             },
-            date_of_issue: {
+            birthday: {
                 required: true,
             },
-            place_of_issue: {
+            address: {
                 required: true,
             },
             phone: {
@@ -87,6 +87,12 @@ $(function() {
             },
             email: {
                 required: true,
+            },
+            guardian: {
+                required: true,
+            },
+            guardian_phone: {
+                required: true
             },
         },
         messages: {
@@ -98,11 +104,11 @@ $(function() {
             citizen_identify: {
                 required: "Số CCCD không được để trống",
             },
-            date_of_issue: {
-                required: "Số ngày cấp CCCD không được để trống",
+            birthday: {
+                required: "Ngày sinh không được để trống",
             },
-            place_of_issue: {
-                required: "Số nơi cấp CCCD không được để trống",
+            address: {
+                required: "Nơi ở hiện tại không được để trống"
             },
             phone: {
                 required: "Số điện thoại không được để trống",
@@ -110,6 +116,12 @@ $(function() {
             email: {
                 required: "Email không được để trống",
                 email: "Định dạng email không đúng!"
+            },
+            guardian: {
+                required: "Họ và tên người giám hộ không được để trống"
+            },
+            guardian_phone: {
+                required: "Số điện thoại người giám hộ không được để trống"
             },
         },
         errorElement: 'span',
