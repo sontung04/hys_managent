@@ -1,18 +1,35 @@
 @extends('layouts.sidebar')
 
 @section('style')
-    {{--    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">--}}
-    <link rel="stylesheet" href="https://fullcalendar.io/js/fullcalendar-3.9.0/fullcalendar.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="{{ asset('assets/css/calendar/weekHys.css') }}">
+    {{-- <link rel="stylesheet" href="https://fullcalendar.io/js/fullcalendar-3.9.0/fullcalendar.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/calender/weekHys.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
 @endsection
 
 @section('script')
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>--}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-{{--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
-    <script src="{{ asset('assets/js/calender/weekHys.js') }}" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {{-- <script src="{{ asset('assets/js/calender/weekHys.js') }}" ></script> --}}
+    <script>
+        $(document).ready(function(){
+            var calendar = @json($events);
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev, next, today',
+                    center: 'title',
+                    right: 'month, agendaWeek, agendaDay',
+                },
+                // events: booking,
+                events: calendar,
+                selectable: true,
+                selectHelper: true,
+            });
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -51,7 +68,7 @@
 {{--                        Thêm mới sự kiện--}}
 {{--                    </button>--}}
                     <div class="card-body">
-                        <div id='calendar'>
+                        <div id="calendar">
                         </div>
 
                     </div>
@@ -157,5 +174,6 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('assets/js/calender/weekHys.js') }}" ></script>
+    {{-- <script src="{{ asset('assets/js/calender/weekHys.js') }}" ></script> --}}
+
 @endsection

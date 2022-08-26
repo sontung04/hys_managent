@@ -1,12 +1,16 @@
 $(document).ready(function() {
+
+    // var calendar = JSON.stringify(events);
+    // var calendar = @json($events);
+    // console.log(calendar);
     $("#calendar").fullCalendar({
         header: {
             left: "prev,next today",
             center: "title",
-            right: "agendaWeek"
+            right: "agendaWeek",
         },
-
-        defaultView: "basicWeek",
+        // events: calendar,
+        // defaultView: "basicWeek",
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectHelper: true,
