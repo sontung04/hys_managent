@@ -55,7 +55,7 @@
                                 </a>
                             </div>
                     <div class="card-body">
-                        <table id="usersTable" class="table table-bordered table-striped table-hover">
+                        <table id="listStdTable" class="table table-bordered table-striped table-hover">
                             <thead>
                             <tr style="text-align: center">
                                 <th style="width: 3%;">STT</th>
@@ -64,7 +64,7 @@
                                 <th>Coach</th>
                                 <th>Start time</th>
                                 <th style="width: 5%">Trạng thái</th>
-                                <th>Hành động</th>
+                                <th style="width: 5%">Hành động</th>
                             </tr>
                             </thead>
                             <tbody id="tableClassList">

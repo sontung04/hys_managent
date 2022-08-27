@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
-use Illuminate\Http\Request;
 use App\Http\Plugins\BaseHelper;
+use App\Models\ClassHc;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-class ClassController extends Controller
+class ClassHcController extends Controller
 {
-    //
     public function __construct()
     {
-        
+
     }
 
     public function list(){
-        $classes = Classes::all();
+        $classes = ClassHc::all();
         return view('classes.list',compact('classes'));
     }
 
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
-        $class = Classes::findOrFail($id);
+        $class = ClassHc::findOrFail($id);
         BaseHelper::ajaxResponse('success', true, $class);
     }
 
@@ -35,12 +34,12 @@ class ClassController extends Controller
         $requestData = $request->all();
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # Create new class
-            $class = new Classes();
+            $class = new ClassHc();
             $class->created_by = Auth::id();
             $class->created_at = Carbon::now();
         }else{
             #update infomation class
-            $class = Classes::findOrFail($requestData['id']);
+            $class = ClassHc::findOrFail($requestData['id']);
             $class->updated_by = Auth::id();
             $class->updated_at = Carbon::now();
         }
@@ -61,4 +60,13 @@ class ClassController extends Controller
 
     }
 
+    public function listStdClass($id){
+        $classes = ClassHc::findOrFail($id);
+        $students = DB::table('students')
+            ->join('classes_students', 'students.id', '=', 'classes_students.student_id')
+            ->where('classes_students.class_id', '=', $id)
+            ->select('students.*','classes_students.status')
+            ->get();
+        return view('classes.listStd',compact('students','classes'));
+    }
 }
