@@ -9,6 +9,16 @@
 @endsection
 
 @section('content')
+    <style>
+        .table thead th {
+            vertical-align: middle;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
 <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -43,7 +53,7 @@
                   <thead>
                     <tr style="text-align: center">
                       <th style="width: 10px">STT</th>
-                      
+
                       <th >Tên Bài giảng</th>
                       <th style="width: 10px">Khóa học</th>
                       <th>Giáo viên</th>
@@ -57,26 +67,26 @@
                   <tbody id="tableLessonList">
                   @forelse($lessons as $key => $lesson)
                     <tr id="lesson-{{$lesson->id}}">
-                      <th style="text-align:center;">{{++$key}}</th>
-                      <th style="text-align:center;">{{$lesson->name}}</th>
-                      <th style="text-align:center;">{{$lesson->course_id}}</th>
-                      <th style="text-align:center;">{{$lesson->teacher_id}}</th>
-                      <th style="text-align:center;">{{$lesson->description}}</th>
-                      <th style="text-align:center;">{{$lesson->question}}</th>
-                      <th style="text-align:center;">{{$lesson->document}}</th>
-                      <th style="text-align:center;">{{$lesson->homework}}</th>
-                      <th>
+                      <td style="text-align:center">{{++$key}}</td>
+                      <td style="text-align:center">{{$lesson->name}}</td>
+                      <td style="text-align:center">{{$lesson->courses_id}}</td>
+                      <td style="text-align:center">{{$lesson->teacher_id}}</td>
+                      <td style="text-align:center">{{$lesson->description}}</td>
+                      <td style="text-align:center">{{$lesson->question}}</td>
+                      <td style="text-align:center">{{$lesson->document}}</td>
+                      <td style="text-align:center">{{$lesson->homework}}</td>
+                      <td>
                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$lesson->id}}"
                          data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                           <i class="fas fa-edit"></i>
                         </button>
-                      </th>
+                      </td>
                     </tr>
                   @empty
                     <tr>
                       <th colspan="8" style="text-align: center">Không có dữ hiệu hiển thị! Vui lòng thử lại</th>
                     </tr>
-                  @forelse
+                  @endforelse
                   </tbody>
                 </table>
               </div>
@@ -149,9 +159,9 @@
                 <textarea type="text" name="description" id="homework" class="form-control"></textarea>
               </div>
             </div>
-            
+
             <!-- Modal footer -->
-            
+
           </div>
           <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>

@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-class Classes extends Model
+class ClassHc extends Model
 {
-    //
+    use Notifiable;
+    protected $table = 'classes_hc';
+
     protected $fillable = [
         'id',
         'course_id',
@@ -16,5 +19,9 @@ class Classes extends Model
         'starttime',
         'finishtime',
         'status',
+        'created_by',
+        'updated_by',
+        'created_at',
+        'updated_at'
     ];
 }

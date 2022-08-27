@@ -23,7 +23,7 @@ class LessonController extends Controller
 
         // $lesson = DB::table('lessons')->where('course_id',$request->input())->get();
         $lessons = Lesson::all();
-        return view('lessons.list', compact("lessons"));
+        return view('lessons.list', compact('lessons'));
     }
 
     public function getInfoAjax(Request $request, $id){
