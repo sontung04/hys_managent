@@ -91,5 +91,11 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
     });
+
+    Route::prefix('/class')->group(function (){
+        Route::get('/attendance', function () {
+            return view('classes.attendance');
+        });
+    });
 });
 
