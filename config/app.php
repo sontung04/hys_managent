@@ -230,7 +230,7 @@ return [
     ],
 
     'textSaveSuccess' => 'Lưu dữ liệu thành công!',
-    'textSaveError' => 'Có lỗi trong quá trình xử lý dữ liệu!',
+    'textSaveError' => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
 
     'areaName' => [
         0 => 'Chưa xác định',
@@ -253,7 +253,7 @@ return [
         5 => 'red',
         6 => 'pink',
         7 => 'lime',
-        8 => 'blue',
+//        8 => 'blue',
     ],
 
     'groupType' => [
@@ -265,5 +265,6 @@ return [
     ],
 
     'avatarDefault' => 'themes/dist/img/user2-160x160.jpg',
-
+    'dateBirthdayHys' => '17/11/2013',
+    'datetimepicketFormat' => 'DD/MM/YYYY',
 ];

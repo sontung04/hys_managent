@@ -1,21 +1,22 @@
 @extends('layouts.sidebar')
 
 @section('style')
-    {{--    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">--}}
     <link rel="stylesheet" href="https://fullcalendar.io/js/fullcalendar-3.9.0/fullcalendar.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="{{ asset('assets/css/calendar/weekHys.css') }}">
 @endsection
 
 @section('script')
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-{{--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
     <script src="{{ asset('assets/js/calendar/weekHys.js') }}" ></script>
 @endsection
 
 @section('content')
+    <style>
+        .fc-content {
+            font-size: 1.5em;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -45,34 +46,23 @@
                             <i class="fas fa-cog"></i>
                             Thêm hoạt động mới
                         </a>
+                        <a class="btn btn-primary text-white float-right" id="testPopover">
+                            <i class="fas fa-cog"></i>
+                        </a>
+
                     </div>
-                    <!-- <button id="add" class="addBtn" style="margin-left: 98.75em">Them moi</button> -->
-{{--                    <button type="button" class="btn btn-primary" id="addBtn" data-toggle="modal" data-target="#exampleModal" style="margin-left: 68.35em; height:auto;width: 156px;">--}}
-{{--                        Thêm mới sự kiện--}}
-{{--                    </button>--}}
                     <div class="card-body">
-                        <div id='calendar'>
-                        </div>
-
-                    </div>
-
-                    <div class="dropdown">
-
-                        <div class="dropdown-content">
+                        <div id='calendarWeekHys'>
 
                         </div>
-
                     </div>
-
-                    <div id='datepicker'></div>
-
                 </div>
             </div>
         </section>
     </div>
 
     <!-- modal Add New Role -->
-    <div class="modal fade" id="modalAddCalWeekHys" tabindex="-1" aria-labelledby="modalAddCalWeekHysLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCalWeekHys" tabindex="-1" aria-labelledby="modalCalWeekHysLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -90,7 +80,7 @@
                             <label class="col-lg-3 col-form-label" for="area" id="">Khu vực: <span style="color: red">*</span></label>
                             <div class="form-group col-lg-9">
                                 <select class="form-control custom-select" name="area" id="area">
-                                    <option value="0" selected>--- Chọn Khu vực ---</option>
+                                    <option value="" selected>--- Chọn Khu vực ---</option>
                                     @foreach($areaName as $key => $value)
                                         @if($key != 0)
                                             <option value="{{$key}}" data-name="{{$key.$value}}">{{'HYS ' . $value}}</option>
@@ -100,6 +90,17 @@
                             </div>
                         </div>
 
+                        <div class="row" id="selectGroup" hidden="hidden">
+                            <label class="col-lg-3 col-form-label" for="group_id" id="">Đơn vị: <span style="color: red">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <select class="form-control custom-select" name="group_id" id="group_id">
+                                    <option value="0" selected>--- Chọn đơn vị phụ trách ---</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="group_name" id="group_name">
+
                         <div class="row">
                             <label class="col-lg-3 col-form-label" for="" id="">Tên hoạt động: <span style="color: red">*</span></label>
                             <div class="form-group col-lg-9">
@@ -107,50 +108,73 @@
                             </div>
                         </div>
 
+                        <div class="form-group row" id="">
+                            <label class="col-lg-3 col-form-label" for="starttime">Thời gian bắt đầu: <span style="color: red">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <div class="input-group date" id="inputStarttime" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#inputStarttime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="starttime" name="starttime"
+                                           data-target="#inputStarttime" data-toggle="datetimepicker" data-format="DD/MM/YYYY HH:mm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" id="">
+                            <label class="col-lg-3 col-form-label" for="finishtime">Thời gian kết thúc: </label>
+                            <div class="form-group col-lg-9">
+                                <div class="input-group date" id="inputFinishtime" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#inputFinishtime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="finishtime" name="finishtime"
+                                           data-target="#inputFinishtime" data-toggle="datetimepicker" >
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="" id="">Mô tả: </label>
+                            <label class="col-lg-3 col-form-label" for="status">Hình thức: </label>
+                            <div class="form-group col-lg-9">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="formality1" name="formality" value="1" checked>
+                                    <label for="formality1" style="margin-right: 10px">
+                                        Offline
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="formality2" name="formality" value="0">
+                                    <label for="formality2">
+                                        Online
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="" id="">Địa điểm tổ chức:</label>
+                            <div class="form-group col-lg-9">
+                                <input type="text" name="address" id="address" class="form-control" value="">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="" id="">Nội dung: </label>
                             <div class="form-group col-lg-9">
                                 <textarea type="text" name="description" id="description" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
 
-                        <div class="form-group row" id="">
-                            <label class="col-lg-3 col-form-label" for="">Thời gian bắt đầu: <span style="color: red">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <div class="input-group date" id="starts-at1" data-target-input="nearest">
-                                    <div class="input-group-append" data-target="#starts-at1" data-toggle="datetimepicker">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                    </div>
-                                    <input type="text" class="form-control datetimepicker-input" id="starts-at" name="starts_at"
-                                           data-target="#starts-at1" data-toggle="datetimepicker"
-                                           data-format="DD/MM/YYYY" data-min="17/11/2013" data-max="16/08/2022">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row" id="">
-                            <label class="col-lg-3 col-form-label" for="birthday">Thời gian kết thúc: <span style="color: red">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <div class="input-group date" id="ends-at1" data-target-input="nearest">
-                                    <div class="input-group-append" data-target="#ends-at1" data-toggle="datetimepicker">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                    </div>
-                                    <input type="text" class="form-control datetimepicker-input" id="ends-at" name="ends_at"
-                                           data-target="#ends-at1" data-toggle="datetimepicker"
-                                           data-format="DD/MM/YYYY" data-min="17/11/2013" data-max="16/08/2022">
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="save-event" >Save </button>
-                        <button type="button" class="btn btn-warning editBtn" id="edit" >Edit </button>
+                        <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Đóng</button>
+{{--                        <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>--}}
+                        <button type="submit" class="btn btn-primary">Lưu</button>
                     </div>
                 </form>
 
