@@ -24,8 +24,14 @@ class Controller extends BaseController
     protected function changeFormatDateInput($date)
     {
         if(!empty($date)) {
-            $date = explode('/', $date);
-            return implode('-', [$date[2], $date[1], $date[0]]);
+            $arrTime = explode(" ", $date);
+            $strDate = $arrTime[0];
+            $strDate = explode('/', $strDate);
+            $strDate = implode('-', [$strDate[2], $strDate[1], $strDate[0]]);
+            if(count($arrTime) > 1) {
+                return $strDate . ' ' . $arrTime[1];
+            }
+            return $strDate;
         }
         return NULL;
     }

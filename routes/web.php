@@ -40,8 +40,8 @@ Route::middleware('auth')->group(function (){
         Route::get('/detail/{id}', 'GroupController@detail')->where('id', '[0-9]+')->name('group.detail');
         Route::post('/saveInfoAjax', 'GroupController@saveInfoAjax');
         Route::get('/getInfoGroupAjax/{id}', 'GroupController@getInfoGroupAjax')->where('id', '[0-9]+');
+        Route::get('/getListGroupOptionAjax', 'GroupController@getListGroupOptionAjax');
         Route::get('/getListGroupChild', 'GroupController@getListGroupChild');
-        Route::get('/getListGroupOption', 'GroupController@getListGroupOption');
     });
 
     Route::prefix('/event')->group(function () {
@@ -67,6 +67,14 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('/calendar')->group(function () {
         Route::get('/weekHys', 'CalendarController@weekHys')->name('calendar.weekHys');
+        Route::prefix('/weekHys')->group(function () {
+            Route::get('/', function () {
+                return view('calendars.weekHys');
+            })->name('calendar.weekHys');
+            Route::get('/getListAjax', 'CalendarController@weekHysGetListAjax');
+            Route::get('/getInfoAjax/{id}', 'CalendarController@weekHysGetInfoAjax');
+            Route::post('/saveInfoAjax', 'CalendarController@weekHysSaveInfoAjax');
+        });
     });
 
     Route::prefix('/course')->group(function () {
