@@ -23,6 +23,8 @@ Route::middleware('auth')->group(function (){
     })->name('index');
 
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('password/change','Auth\ChangePasswordController@showChangeForm')->name('password.edit');
+    Route::post('password/change','Auth\ChangePasswordController@changePassword')->name('password.change');
 
     Route::prefix('/user')->group(function () {
         Route::match(['get', 'post'],'/list', 'UserController@list')->name('user.list');
@@ -98,6 +100,12 @@ Route::middleware('auth')->group(function (){
         Route::match(['get', 'post'],'/list','StudentController@list')->name('student.list');
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
+    });
+
+    Route::prefix('/class')->group(function (){
+        Route::get('/attendance', function () {
+            return view('classes.attendance');
+        });
     });
 });
 

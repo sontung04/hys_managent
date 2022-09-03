@@ -211,6 +211,26 @@
 {{--                        </ul>--}}
                     </li>
                 </ul>
+                <!-- Student Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user-graduate"></i>
+                            <p>
+                                Học Viên
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('student.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/students/list') !== false) active @endif">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách Học viên</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
                 <!-- Contact Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -224,6 +244,7 @@
                         </a>
                     </li>
                 </ul>
+                
 
                 <!-- Role Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

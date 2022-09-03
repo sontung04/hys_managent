@@ -6,11 +6,8 @@
  @endsection
 
 @section('style')
-<style>
-        .table th {
-            vertical-align: middle;
-        }
-</style>   
+<link rel="stylesheet" href="{{ asset('assets/css/course/list.css') }}">
+  
 @endsection
 
 

@@ -32,6 +32,8 @@ class StudentController extends Controller
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
+        print_r($requestData);
+        die();
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # create a new student
             $student = new Student();
