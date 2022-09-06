@@ -51,32 +51,33 @@
                                     <tr style="text-align: center" >
                                         <th style="width: 3%">STT</th>
                                         <th>Tên</th>
-                                        <th>Giới tính</th>
-                                        <th>Ngày sinh</th>
+                                        <th style="width: 7%">Giới tính</th>
+                                        <th style="width: 7%">Ngày sinh</th>
                                         <th>Quê quán</th>
                                         <th>Nghề nghệp</th>
                                         <th>Trình độ</th>
-                                        <th style="width: 5%">Hành động</th>
+                                        <th style="width: 8%">Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody id="tableTeacherList">
-                                    @forelse($teachers as $key => $teacher)
-                                        <tr id="teacher-{{$teacher->id}}">
-                                            <th style="text-align: center">{{++$key}}</th>
-                                            <th style="text-align: center">{{$teacher->name}}</th>
+                                    <?php $index = 0; ?>
+                                    @forelse($teachers as $teacher)
+                                        <tr>
+                                            <th style="text-align: center">{{++$index}}</th>
+                                            <th>{{$teacher->subname . " " . $teacher->name}}</th>
                                             <th style="text-align: center">{{$teacher->gender ? "Nam" : "Nữ"}}</th>
                                             <th style="text-align: center">{{date('d/m/Y',strtotime($teacher->birthday))}}</th>
-                                            <th style="text-align: center">{{$teacher->address}}</th>
-                                            <th style="text-align: center" >{{$teacher->job}}</th>
-                                            <th style="text-align: center">{{$teacher->level}}</th>
-                                            <th>
-                                                <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$teacher->id}}"
-                                                        data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
+                                            <td>{{$teacher->address}}</td>
+                                            <td>{{$teacher->job}}</td>
+                                            <td>{{$teacher->level}}</td>
+                                            <th style="text-align: center">
                                                 <button type="button" class="btn btn-outline-primary btnView" data-id="{{$teacher->id}}"
                                                         data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
                                                     <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$teacher->id}}"
+                                                        data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
+                                                    <i class="fas fa-edit"></i>
                                                 </button>
                                             </th>
                                         </tr>
@@ -119,9 +120,24 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-2 col-form-label" for="birthday"> Ngày sinh:  <span class="text-danger">*</span></label>
+                            <label class="col-lg-2 col-form-label" for="birthday">Ngày sinh: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-10">
-                                <input type="date" name="birthday" id="birthday" class="form-control">
+                                <div class="input-group date" id="birthdayDate" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
+                                           data-toggle="datetimepicker" data-min="01/01/1960" data-max="{{date("d/m/Y")}}"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-2 col-form-label" for="subname" id="">Chức danh: </label>
+                            <div class="form-group col-lg-10">
+                                <input type="text" name="subname" id="subname" class="form-control" >
                             </div>
                         </div>
 
@@ -174,7 +190,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer justify-content-between">
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>
                         <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
                     </div>
