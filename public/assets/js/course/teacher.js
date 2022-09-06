@@ -6,6 +6,16 @@ $(function () {
 
     let modalAddTeacher = $('#modalAddTeacher');
 
+    /* set datepicker */
+    modalAddTeacher.find('#birthdayDate').datetimepicker({
+        format : datetimepicketFormat,
+        locale : 'vi',
+        // date   : settings.monthAgo,
+        minDate: moment(modalAddTeacher.find('#birthday').data('min'), datetimepicketFormat),
+        maxDate: moment(modalAddTeacher.find('#birthday').data('max'), datetimepicketFormat),
+        ignoreReadonly: true,
+    });
+
     //* Add new Teacher
     $('#btnAddTeacher').click(function () {
         document.getElementById('modalAddTeacherTitle').innerText = 'Thêm Giảng viên mới';
@@ -25,7 +35,7 @@ $(function () {
             let teacherInfo = res.data;
 
             /* set field value */
-            ['id','name', 'birthday', 'address', 'level', 'job', 'position'].forEach(field => {
+            ['id', 'name', 'subname', 'birthday', 'address', 'level', 'job', 'position'].forEach(field => {
                 modalAddTeacher.find('#' + field).val(teacherInfo[field]);
             });
 
@@ -48,6 +58,7 @@ $(function () {
 
     //Sự kiện Ẩn Modal
     modalAddTeacher.on('hidden.bs.modal', function(){
+        CKEDITOR.instances['description'].setData('');
         eventCloseHiddenModal(modalAddTeacher);
     });
 
@@ -71,10 +82,16 @@ $(function () {
             name: {
                 required: true,
             },
+            birthday: {
+                required: true,
+            },
         },
         messages: {
             name: {
-                required: "Tên Giảng viên không được để trống",
+                required: "Tên Giảng viên không được để trống!",
+            },
+            birthday: {
+                required: "Ngày sinh Giảng viên không được để trống!",
             },
         },
         errorElement: 'span',

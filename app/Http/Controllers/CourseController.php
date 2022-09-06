@@ -25,28 +25,12 @@ class CourseController extends Controller
 
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
-        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
-
-
         $course = Course::findOrFail($id);
-        BaseHelper::ajaxResponse('Success!', true, $course);
+        BaseHelper::ajaxResponse(config('app.textGetSuccess'), true, $course);
     }
 
     public function saveInfoAjax(Request $request ){
         $this->checkRequestAjax($request);
-        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
-
-
-
-//        $validateData = $request->validate([
-//            'name' => 'bail|required|max:255',
-//            'fees' => 'bail|required',
-//            'description' => 'bail|required',
-//            'status' => 'bail|required'
-//        ]);
-//        if ($validateData == null){
-//           BaseHelper::ajaxResponse('Lỗi dữ liệu',false);
-//        }
 
         $requestData = $request->all();
 
@@ -69,23 +53,23 @@ class CourseController extends Controller
 
         try {
             $course->save();
-            BaseHelper::ajaxResponse('Success!', true, $course);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true, $course);
         }catch (\Exception $exception){
-            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 
     public function getListCourseAjax(Request $request){
-        //$this->checkRequestAjax($request);
+        $this->checkRequestAjax($request);
 
-        $requestData = $request->all();
-        $arrCondition = [];
-        foreach ($requestData as $key => $value) {
-            $arrCondition[] = [$key, '=', $value];
-        }
+//        $requestData = $request->all();
+//        $arrCondition = [];
+//        foreach ($requestData as $key => $value) {
+//            $arrCondition[] = [$key, '=', $value];
+//        }
 
         $results = DB::table('courses')
-            ->where($arrCondition)
+//            ->where($arrCondition)
             ->select('id', 'name')->get();
 
         $datas = [];
@@ -96,6 +80,6 @@ class CourseController extends Controller
                 'name' => $val->name,
             ];
         }
-        BaseHelper::ajaxResponse('Success!', true, $datas);
+        BaseHelper::ajaxResponse(config('app.textGetSuccess'), true, $datas);
     }
 }

@@ -2,7 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="https://fullcalendar.io/js/fullcalendar-3.9.0/fullcalendar.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/calendar/weekHys.css') }}">
+
 @endsection
 
 @section('script')
@@ -45,9 +45,6 @@
                         <a class="btn btn-primary text-white float-right" id="btnAddCalendarWeekHys">
                             <i class="fas fa-cog"></i>
                             Thêm hoạt động mới
-                        </a>
-                        <a class="btn btn-primary text-white float-right" id="testPopover">
-                            <i class="fas fa-cog"></i>
                         </a>
 
                     </div>
@@ -173,7 +170,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Đóng</button>
-{{--                        <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>--}}
                         <button type="submit" class="btn btn-primary">Lưu</button>
                     </div>
                 </form>

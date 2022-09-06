@@ -86,12 +86,16 @@ Route::middleware('auth')->group(function (){
         Route::prefix('/teacher')->group(function () {
             Route::get('/', 'TeacherController@list')->name('course.teacherList');
             Route::get('/getInfoAjax/{id}', 'TeacherController@getInfoAjax');
+            Route::get('/getListAjax','TeacherController@getListAjax');
             Route::post('/saveInfoAjax', 'TeacherController@saveInfoAjax');
         });
     });
 
     Route::prefix('/lesson')->group(function () {
-        Route::get('/list', 'LessonController@list')->name('lesson.list');
+        Route::get('/list', function () {
+            return view('lessons.list');
+        })->name('lesson.list');
+        Route::get('/getListByCourseAjax', 'LessonController@getListByCourseAjax');
         Route::get('/getInfoAjax/{id}', 'LessonController@getInfoAjax');
         Route::post('/saveInfoAjax', 'LessonController@saveInfoAjax');
     });

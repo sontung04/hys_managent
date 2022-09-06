@@ -17,29 +17,35 @@ class LessonController extends Controller
 
     }
 
-    public function list(Request $request)
+    public function getListByCourseAjax(Request $request)
     {
-        // $this->checkRequestAjax($request);
+        $this->checkRequestAjax($request);
+        $requestData = $request->all();
 
-        // $lesson = DB::table('lessons')->where('course_id',$request->input())->get();
-        $lessons = Lesson::all();
-        return view('lessons.list', compact("lessons"));
+        $courseIds = [];
+        foreach ($requestData['courseIds'] as $val) {
+            $courseIds[] = $val;
+        }
+        $results = DB::table('lessons')
+            ->select('id', 'name', 'teacher_id', 'course_id', 'description', 'question', 'document', 'homework', 'status')
+            ->whereIn('course_id', $courseIds)
+            ->orderBy('course_id')
+            ->get();
+
+        $this->checkEmptyDataAjax($results);
+
+        BaseHelper::ajaxResponse('Success!',true, $results);
     }
 
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
-        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
-
-
         $lesson = Lesson::findOrFail($id);
         BaseHelper::ajaxResponse('Success!', true, $lesson);
-
     }
 
     public function saveInfoAjax(Request $request){
         $this->checkRequestAjax($request);
-        BaseHelper::ajaxResponse('Gửi dữ liệu thành công!', true, $request->all());
 
         $requestData = $request->all();
 
@@ -55,17 +61,17 @@ class LessonController extends Controller
             $lesson->updated_at = Carbon::now();
         }
 
-        $lesson->name       = $requestData['name'];
-        $lesson->teacher    = $requestData['teacher'];
-        $lesson->description= $requestData['description'];
-        $lesson->question   = $requestData['question'];
-        $lesson->document   = $requestData['document'];
-        $lesson->homework   = $requestData['homework'];
-        $lesson->course_id = $requestData['course_id'];
+        $lesson->name        = $requestData['name'];
+        $lesson->course_id   = $requestData['course_id'];
+        $lesson->teacher_id  = $requestData['teacher_id'];
+        $lesson->description = $requestData['description'];
+        $lesson->question    = $requestData['question'];
+        $lesson->document    = $requestData['document'];
+        $lesson->homework    = $requestData['homework'];
 
         try {
             $lesson->save();
-            BaseHelper::ajaxResponse('Success!',true,$lesson);
+            BaseHelper::ajaxResponse('Success!',true, $lesson);
         }catch (\Exception $exception){
             BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu',false);
         }

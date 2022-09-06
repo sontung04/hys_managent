@@ -7,6 +7,7 @@ use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -24,6 +25,7 @@ class TeacherController extends Controller
         $this->checkRequestAjax($request);
 
         $teacher = Teacher::findOrFail($id);
+        $teacher->birthday = $this->changeFormatDateOutput($teacher->birthday);
         BaseHelper::ajaxResponse('success', true, $teacher);
     }
 
@@ -43,8 +45,9 @@ class TeacherController extends Controller
             $teacher->updated_at = Carbon::now();
         }
         $teacher->name          = $requestData['name'];
+        $teacher->subname       = $requestData['subname'];
         $teacher->gender        = $requestData['gender'];
-        $teacher->birthday      = $requestData['birthday'];
+        $teacher->birthday      = $this->changeFormatDateInput($requestData['birthday']);
         $teacher->img           = config('app.avatarDefault');
         $teacher->address       = $requestData['address'];
         $teacher->level         = $requestData['level'];
@@ -54,10 +57,32 @@ class TeacherController extends Controller
 
         try {
             $teacher->save();
-            BaseHelper::ajaxResponse('success', true);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         }catch (\Exception $exception){
-            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
 
+    }
+
+    public function getListAjax(Request $request)
+    {
+        $this->checkRequestAjax($request);
+
+        $results = Teacher::select('id', 'name', 'subname')->get();
+
+        $datas = [];
+
+        foreach ($results as $val) {
+            $datas[$val->id] = [
+                'id' => $val->id,
+            ];
+
+            if(empty($val->subname)) {
+                $datas[$val->id]['name'] = $val->name;
+            } else {
+                $datas[$val->id]['name'] = $val->subname . ' ' .$val->name;
+            }
+        }
+        BaseHelper::ajaxResponse(config('app.textGetSuccess'), true, $datas);
     }
 }
