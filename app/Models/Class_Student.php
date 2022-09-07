@@ -15,7 +15,7 @@ class Class_Student extends Model
         'class_id',
         'student_id',
         'starttime',
-        'endtime',
+        'finishtime',
         'status',
         'fees',
         'note',

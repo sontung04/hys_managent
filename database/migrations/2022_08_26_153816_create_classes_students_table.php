@@ -18,7 +18,7 @@ class CreateClassesStudentsTable extends Migration
             $table->integer('class_id');
             $table->integer('student_id');
             $table->timestamp('starttime');
-            $table->timestamp('endtime')->nullable();
+            $table->timestamp('finishtime')->nullable();
             $table->text('note')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->integer('fees');

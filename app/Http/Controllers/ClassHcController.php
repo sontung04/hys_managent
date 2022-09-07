@@ -65,8 +65,50 @@ class ClassHcController extends Controller
         $students = DB::table('students')
             ->join('classes_students', 'students.id', '=', 'classes_students.student_id')
             ->where('classes_students.class_id', '=', $id)
-            ->select('students.*','classes_students.status')
+            ->select('students.*','classes_students.status', 'classes_students.starttime', 'classes_students.finishtime')
             ->get();
         return view('classes.listStd',compact('students','classes'));
     }
+
+
+    
+    public function getStdInfoAjax(Request $request, $id){
+        $this->checkRequestAjax($request);
+
+        $student = ClassHc::findOrFail($id);
+        BaseHelper::ajaxResponse('success', true, $student);
+    }
+
+    public function saveStdInfoAjax(Request $request){
+        $this->checkRequestAjax($request);
+
+        $requestData = $request->all();
+        if (!isset($requestData['id']) || empty($requestData['id'])){
+            # Create new class
+            $class = new ClassHc();
+            $class->created_by = Auth::id();
+            $class->created_at = Carbon::now();
+        }else{
+            #update infomation class
+            $class = ClassHc::findOrFail($requestData['id']);
+            $class->updated_by = Auth::id();
+            $class->updated_at = Carbon::now();
+        }
+        $class->name          = $requestData['name'];
+        $class->course_id        = $requestData['course_id'];
+        $class->carer_staff      = $requestData['carer_staff'];
+        $class->coach           = $requestData['coach'];
+        $class->status       = $requestData['status'];
+        $class->starttime       = $requestData['starttime'];
+        $class->finishtime       = $requestData['finishtime'];
+
+        try {
+            $class->save();
+            BaseHelper::ajaxResponse('success', true);
+        }catch (\Exception $exception){
+            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
+        }
+
+    }
+
 }
