@@ -110,7 +110,7 @@ $(function() {
 
     $("#tableClassList").on('click', '.btnView', function () {
         let id = $(this).attr('data-id');
-        window.open(BASE_URL + '/class/listStd/' + id, "_self");
+        window.open(BASE_URL + '/class/listStudent/' + id, "_self");
     });
 
 })

@@ -4,7 +4,7 @@
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
     <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
     {{-- <script src="{{ asset('assets/js/class/list.js') }}" defer></script> --}}
-    <script src="{{ asset('assets/js/class/listStd.js') }}" defer></script>
+    <script src="{{ asset('assets/js/class/listStudent.js') }}" defer></script>
 @endsection
 
 @section('content')

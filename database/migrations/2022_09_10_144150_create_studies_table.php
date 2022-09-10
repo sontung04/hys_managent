@@ -18,8 +18,9 @@ class CreateStudiesTable extends Migration
             $table->integer('class_id');
             $table->integer('lesson_id');
             $table->integer('teacher');
+            $table->integer('carer_staff');
             $table->integer('coach');
-            $table->timestamp('starttime');
+            $table->timestamp('daylearn');
             $table->string('location')->nullable();
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);
@@ -27,7 +28,7 @@ class CreateStudiesTable extends Migration
         });
     }
 
-    
+
     /**
      * Reverse the migrations.
      *

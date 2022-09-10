@@ -109,9 +109,4 @@ $(function() {
         }
     });
 
-    // $("#listStdClassTable").on('click', '.btnView', function () {
-    //     let id = $(this).attr('data-id');
-    //     window.open(BASE_URL + '/class/listStd/' + id, "_self");
-    // });
-
 })

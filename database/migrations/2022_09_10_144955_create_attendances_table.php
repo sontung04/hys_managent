@@ -17,7 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->integer('study_id');
             $table->integer('student_id');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->string('note', 255)->nullable();
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);
@@ -25,7 +25,7 @@ class CreateAttendancesTable extends Migration
         });
     }
 
-    
+
     /**
      * Reverse the migrations.
      *
