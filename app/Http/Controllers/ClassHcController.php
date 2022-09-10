@@ -57,7 +57,6 @@ class ClassHcController extends Controller
         }catch (\Exception $exception){
             BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
         }
-
     }
 
     public function listStdClass($id){
@@ -65,8 +64,13 @@ class ClassHcController extends Controller
         $students = DB::table('students')
             ->join('classes_students', 'students.id', '=', 'classes_students.student_id')
             ->where('classes_students.class_id', '=', $id)
+            ->orderBy('name', 'desc')
             ->select('students.*','classes_students.status')
             ->get();
         return view('classes.listStd',compact('students','classes'));
+    }
+
+    public function viewFees(){
+        return view('classes.fees');
     }
 }

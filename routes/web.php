@@ -107,5 +107,6 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfoAjax/{id}', [ClassHcController::class, 'getInfoAjax']);
         Route::post('/saveInfoAjax', [ClassHcController::class, 'saveInfoAjax']);
         Route::get('/listStd/{id}',[ClassHcController::class,'listStdClass'])->name('listStdClass');
+        Route::get('/fees',[ClassHcController::class, 'viewFees'])->name('viewFees');
     });
 });
