@@ -27,6 +27,7 @@ class CreateStudiesTable extends Migration
         });
     }
 
+    
     /**
      * Reverse the migrations.
      *

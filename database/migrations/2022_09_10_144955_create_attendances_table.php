@@ -25,6 +25,7 @@ class CreateAttendancesTable extends Migration
         });
     }
 
+    
     /**
      * Reverse the migrations.
      *
