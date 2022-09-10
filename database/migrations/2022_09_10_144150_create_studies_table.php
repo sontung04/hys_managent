@@ -17,8 +17,8 @@ class CreateStudiesTable extends Migration
             $table->id();
             $table->integer('class_id');
             $table->integer('lesson_id');
-            $table->string('teacher', 255);
-            $table->string('coach', 255);
+            $table->integer('teacher');
+            $table->integer('coach');
             $table->timestamp('starttime');
             $table->string('location')->nullable();
             $table->integer('created_by')->default(0);
