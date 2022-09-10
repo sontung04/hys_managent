@@ -11,6 +11,6 @@ class Course extends Model
     protected $table = 'courses';
 
     protected $fillable = [
-        'name', 'fees', 'length', 'description', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'
+        'name', 'fees', 'length', 'course_of', 'level', 'description', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'
     ];
 }

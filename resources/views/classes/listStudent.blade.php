@@ -3,7 +3,8 @@
 @section('script')
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
     <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
-    <script src="{{ asset('assets/js/class/list.js') }}" defer></script>
+    {{-- <script src="{{ asset('assets/js/class/list.js') }}" defer></script> --}}
+    <script src="{{ asset('assets/js/class/listStudent.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -88,7 +89,7 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa trạng thái học">
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa thông tin">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button type="button" class="btn btn-outline-primary btnView" data-id="{{$student->id}}"
@@ -124,30 +125,51 @@
                             <div class="modal-body">
                                 <input type="hidden" id="id" class="form-control" name="id">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="gender">Trạng thái: <span class="text-danger">*</span></label>
-                                            <div class="form-group col-lg-9" style="height: 38px;">
-                                                <div class="icheck-primary d-inline">
-                                                    <input type="radio" id="status1" name="status" value="1" checked>
-                                                    <label for="gender1" style="margin-right: 10px">
-                                                        Học
-                                                    </label>
-                                                </div>
-                                                <div class="icheck-primary d-inline">
-                                                    <input type="radio" id="status2" name="gender" value="0">
-                                                    <label for="gender2">
-                                                        Nghỉ
-                                                    </label>
-                                                </div>
-                                            </div>
+                                    <label class="col-lg-3 col-form-label" for="starttime"> Start time:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="date" name="starttime" id="starttime" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="finishtime"> Finish time:  <span class="text-danger"></span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="date" name="finishtime" id="finishtime" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row" >
+                                    <label class="col-lg-3 col-form-label" for="status">Trạng thái: <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status0" name="status" value="0">
+                                            <label for="status0" style="margin-right: 10px">
+                                                Đã hoàn thành
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status1" name="status" value="1" checked>
+                                            <label for="status1" style="margin-right: 10px">
+                                                Đang học
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status2" name="status" value="2">
+                                            <label for="status2">
+                                                Bảo lưu
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status3" name="status" value="3">
+                                            <label for="status3">
+                                                Nghỉ giữa chừng
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer " >
-                                    <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
-                                    <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
-                                </div>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
+                                <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
+                            </div>
                         </form>
                     </div>
                     <!-- /.modal-content -->

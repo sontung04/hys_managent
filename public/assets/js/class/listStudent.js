@@ -4,65 +4,66 @@ $(function() {
     /* set ckeditor */
     // CKEDITOR.replace('description');
 
-    let modalAddClass = $('#modalAddClass');
+    let modalAddStudent = $('#modalAddStudent');
 
     //* Add new Student
-    $('#btnAddClass').click(function() {
-        document.getElementById('modalAddClassTitle').innerText = 'Thêm Lớp học mới';
-        modalAddClass.modal('show');
+    $('#btnAddStudent').click(function() {
+        document.getElementById('modalAddStudentTitle').innerText = 'Thêm học viên mới';
+        modalAddStudent.modal('show');
     });
 
     //* Edit Info 1 Student
-    $('#tableClassList').on('click', '.btnEdit', function() {
-        document.getElementById('modalAddClassTitle').innerText = 'Chỉnh sửa thông tin';
+    $('#listStdClassTable').on('click', '.btnEdit', function() {
+        document.getElementById('modalAddStudentTitle').innerText = 'Chỉnh sửa thông tin';
 
         let id = $(this).attr('data-id');
-        callAjaxGet(BASE_URL + '/class/getInfoAjax/' + id).done(function(res) {
+        callAjaxGet(BASE_URL + '/student/getInfoAjax/' + id).done(function(res) {
             if (!res.status) {
                 notifyMessage('Lỗi!', res.msg, 'error', 3000);
                 return;
             }
-            let classInfo = res.data;
+            let studentInfo = res.data;
 
             /* set field value */
-            ['id', 'course_id', 'name', 'carer_staff', 'coach', 'starttime', 'finishtime', 'status'].forEach(field => {
-                modalAddClass.find('#' + field).val(classInfo[field]);
+            ['id', 'name', 'gender', 'native_place', 'phone', 'email', 'starttime', 'finishtime', 'status'].forEach(field => {
+                modalAddStudent.find('#' + field).val(studentInfo[field]);
             });
 
 
-            if (classInfo['status']) {
-                modalAddClass.find('#status1').prop('checked', true);
-            } else {
-                modalAddClass.find('#status2').prop('checked', true);
+            switch (studentInfo['status']){
+                case 0: modalAddStudent.find('#status0').prop('checked', true); break;
+                case 1: modalAddStudent.find('#status1').prop('checked', true); break;
+                case 2: modalAddStudent.find('#status2').prop('checked', true); break;
+                case 3: modalAddStudent.find('#status3').prop('checked', true); break;
             }
 
-            modalAddClass.modal('show');
+            modalAddStudent.modal('show');
         });
     });
 
     //Sự kiện Đóng modal
     $('.closeModal').on('click', function() {
         CKEDITOR.instances['description'].setData('');
-        eventCloseHiddenModal(modalAddClass);
+        eventCloseHiddenModal(modalAddStudent);
     });
 
     //Sự kiện Ẩn Modal
-    modalAddClass.on('hidden.bs.modal', function() {
-        eventCloseHiddenModal(modalAddClass);
+    modalAddStudent.on('hidden.bs.modal', function() {
+        eventCloseHiddenModal(modalAddStudent);
     });
 
-    modalAddClass.find('form').validate({
+    modalAddStudent.find('form').validate({
         submitHandler: function() {
-            // modalAddClass.find('#description').val(CKEDITOR.instances['description'].getData());
-            let data = modalAddClass.find('form').serialize();
+            // modalAddStudent.find('#description').val(CKEDITOR.instances['description'].getData());
+            let data = modalAddStudent.find('form').serialize();
 
-            callAjaxPost(BASE_URL + '/class/saveInfoAjax', data).done(function(res) {
+            callAjaxPost(BASE_URL + '/student/saveInfoAjax', data).done(function(res) {
                 if (!res.status) {
                     notifyMessage('Lỗi!', res.msg, 'error', 5000);
                     return;
                 }
                 notifyMessage('Thông báo!', res.msg, 'success');
-                modalAddClass.modal('hide');
+                modalAddStudent.modal('hide');
                 setTimeout(function() { window.location.reload(); }, 10);
             });
         },
@@ -106,11 +107,6 @@ $(function() {
         unhighlight: function(element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         }
-    });
-
-    $("#tableClassList").on('click', '.btnView', function () {
-        let id = $(this).attr('data-id');
-        window.open(BASE_URL + '/class/listStudent/' + id, "_self");
     });
 
 })

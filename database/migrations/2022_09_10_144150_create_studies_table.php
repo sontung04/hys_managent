@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassesHcTable extends Migration
+class CreateStudiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,21 @@ class CreateClassesHcTable extends Migration
      */
     public function up()
     {
-        Schema::create('classes_hc', function (Blueprint $table) {
+        Schema::create('studies', function (Blueprint $table) {
             $table->id();
-            $table->integer('course_id');
-            $table->string('name', 255);
-            $table->integer('carer_staff')->default(0);
-            $table->integer('coach')->default(0);
-            $table->timestamp('starttime');
-            $table->timestamp('finishtime')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->integer('class_id');
+            $table->integer('lesson_id');
+            $table->integer('teacher');
+            $table->integer('carer_staff');
+            $table->integer('coach');
+            $table->timestamp('daylearn');
+            $table->string('location')->nullable();
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -35,6 +36,6 @@ class CreateClassesHcTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classes_hc');
+        Schema::dropIfExists('studies');
     }
 }
