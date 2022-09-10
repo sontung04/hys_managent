@@ -33,6 +33,7 @@ class CalendarController extends Controller
         BaseHelper::ajaxResponse('success', true, $cals);
     }
 
+
     /**
      * Function lưu thông tin các hoạt động khi thêm mới hoặc cập nhật lịch tuần
      * @param Request $request
@@ -65,7 +66,7 @@ class CalendarController extends Controller
         try {
             $calWeek->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true, $calWeek);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception){
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
 

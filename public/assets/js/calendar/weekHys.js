@@ -22,6 +22,7 @@ $(document).ready(function() {
         },
 
         defaultView: "agendaWeek",
+
         navLinks: true, // can click day/week names to navigate views
         selectable: false,
         selectHelper: true,
