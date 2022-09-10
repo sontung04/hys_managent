@@ -18,6 +18,8 @@ class CreateCoursesTable extends Migration
             $table->string('name',255);
             $table->integer('fees')->default(0);
             $table->integer('length')->default(0);
+            $table->tinyInteger('level')->default(0);
+            $table->string('course_of', 25)->nullable()->comment('CiT or HYS');
             $table->text('description')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->integer('created_by')->default(0);
