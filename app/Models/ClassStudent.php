@@ -5,7 +5,7 @@ use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Class_Student extends Model
+class ClassStudent extends Model
 {
     //
     use Notifiable;
