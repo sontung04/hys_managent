@@ -47,13 +47,13 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                                <h3 class="card-title"></h3>
+                        <h3 class="card-title"></h3>
 
-                                <a class="btn btn-success text-white float-right" id="btnAddClass">
-                                    <i class="fas fa-cog"></i>
-                                    Thêm Lớp học mới
-                                </a>
-                            </div>
+                        <a class="btn btn-success text-white float-right" id="btnAddClass">
+                            <i class="fas fa-cog"></i>
+                            Thêm Lớp học mới
+                        </a>
+                    </div>
                     <div class="card-body">
                         <table id="listStdTable" class="table table-bordered table-striped table-hover">
                             <thead>
@@ -83,19 +83,25 @@
                                         <?php echo $class->status ? '<span style="color:green;">Đang học</span>' : '<span style="color:red">Đã hoàn thành</span>' ?>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$class->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
+                                        <button type="button" class="btn btn-outline-success btnEdit"
+                                                data-id="{{$class->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom"
+                                                data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btnView" data-id="{{$class->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem học sinh của lớp">
+                                        <button type="button" class="btn btn-outline-primary btnView"
+                                                data-id="{{$class->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom"
+                                                data-content="Xem học sinh của lớp">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <th colspan="9" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
+                                    <th colspan="9" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử
+                                        lại!
+                                    </th>
                                 </tr>
                             @endforelse
                             </tbody>
@@ -105,88 +111,101 @@
                 </div>
             </div>
             <!-- modal Add New Class -->
-    <div class="modal fade" id="modalAddClass">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalAddClassTitle">Modal default</h4>
-                    <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            <div class="modal fade" id="modalAddClass">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modalAddClassTitle">Modal default</h4>
+                            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" id="" class="form-horizontal" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <input type="hidden" id="id" class="form-control" name="id">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="name" id="">Tên lớp: <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="name" id="name" class="form-control">
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="course_id">Tên khoá học: <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="number" name="course_id" id="course_id"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="carer_staff">Carer
+                                                Staff: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="number" name="carer_staff" id="carer_staff"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="coach">Coach: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="number" name="coach" id="coach" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="starttime"> Start time: <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="date" name="starttime" id="starttime" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="finishtime"> Finish time: <span
+                                                    class="text-danger"></span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="date" name="finishtime" id="finishtime"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="status">Trạng thái: <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="radio" id="status1" name="status" value="1" checked>
+                                                    <label for="status1" style="margin-right: 10px">
+                                                        Đang học
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="radio" id="status2" name="status" value="2">
+                                                    <label for="status2">
+                                                        Hoãn khai giảng
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer ">
+                                        <button type="button" class="btn btn-default closeModal" data-dismiss="modal">
+                                            Đóng
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="btnSave"><i
+                                                class="fas fa-save"></i> Lưu thông tin
+                                        </button>
+                                    </div>
+                        </form>
+
+                    </div>
+                    <!-- /.modal-content -->
                 </div>
-                <form action="" id="" class="form-horizontal" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" id="id" class="form-control" name="id">
-                        <div class="row">
-                            <div class="col-md-6">
-                            <div class="row">
-                            <label class="col-lg-3 col-form-label" for="name" id="">Tên lớp: <span class="text-danger">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <input type="text" name="name" id="name" class="form-control" >
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="course_id">Tên khoá học: <span class="text-danger">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <input type="text" name="course_id" id="course_id" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="carer_staff">Carer Staff: </label>
-                            <div class="form-group col-lg-9">
-                                <input type="text" name="carer_staff" id="carer_staff" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="coach">Coach: </label>
-                            <div class="form-group col-lg-9">
-                                <input type="text" name="coach" id="coach" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="starttime"> Start time:  <span class="text-danger">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <input type="date" name="starttime" id="starttime" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-lg-3 col-form-label" for="finishtime"> Finish time:  <span class="text-danger"></span></label>
-                            <div class="form-group col-lg-9">
-                                <input type="date" name="finishtime" id="finishtime" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row" >
-                            <label class="col-lg-3 col-form-label" for="status">Trạng thái: <span class="text-danger">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status1" name="status" value="1" checked>
-                                    <label for="status1" style="margin-right: 10px">
-                                        Đang học
-                                    </label>
-                                </div>
-                                <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status2" name="status" value="2">
-                                    <label for="status">
-                                        Hoãn khai giảng
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
-                        <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
-                    </div>
-                </form>
-
+                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+            <!-- /.modal -->
         </section>
 
     </div>

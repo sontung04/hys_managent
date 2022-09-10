@@ -17,8 +17,8 @@ class CreateClassesHcTable extends Migration
             $table->id();
             $table->integer('course_id');
             $table->string('name', 255);
-            $table->integer('carer_staff');
-            $table->integer('coach');
+            $table->integer('carer_staff')->default(0);
+            $table->integer('coach')->default(0);
             $table->timestamp('starttime');
             $table->timestamp('finishtime')->nullable();
             $table->tinyInteger('status')->default(1);
