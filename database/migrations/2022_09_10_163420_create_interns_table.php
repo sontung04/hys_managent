@@ -14,8 +14,7 @@ class CreateInternsTable extends Migration
     public function up()
     {
         Schema::create('interns', function (Blueprint $table) {
-            $table->id();
-            $table->integer('student_id');
+            $table->integer('student_id')->primary();
             $table->string('name', 255);
             $table->string('phone', 15);
             $table->tinyInteger('status')->default(1);
