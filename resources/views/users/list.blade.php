@@ -151,7 +151,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="usersTable" class="table table-bordered table-striped table-hover" style="display: block; overflow-x: auto; white-space: nowrap;">
+                        <table id="usersTable" class="table table-bordered table-striped table-hover" style="overflow-x: auto; white-space: nowrap;">
                             <thead>
                             <tr style="text-align: center; position: sticky; top: 0;" >
                                 <th>Mã thành viên</th>
