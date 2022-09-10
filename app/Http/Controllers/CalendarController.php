@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Calendar;
+use App\Http\Plugins\BaseHelper;
+use App\Models\CalendarWeek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Plugins\BaseHelper;
+use Illuminate\Support\Facades\DB;
+
 class CalendarController extends Controller
 {
     public function __construct()
@@ -13,74 +15,60 @@ class CalendarController extends Controller
 
     }
 
-    public function weekHys()
+    /**
+     * Function lấy ra dữ liệu hoạt động theo thời gian đầu vào
+     * @param Request $request
+     */
+    public function weekHysGetListAjax(Request $request)
     {
-        $events = array();
-        $calendars = Calendar::all();
-        // dd($calendars);
-        foreach($calendars as $calendar){
-            $events[] = [
-                'id' => $calendar->id,
-                'title' => $calendar->title,
-                'start' => $calendar->starttime,
-                'end' => $calendar->endtime,
-            ];
-        }
-        // dd($events);
-        return view('calendars.index', ['events' => $events]);
+        $this->checkRequestAjax($request);
+        $requestData = $request->all();
+        $cals = DB::table('calendars_week')
+            ->where([
+                ['starttime', '>=', $requestData['starttime']],
+                ['starttime', '<=', $requestData['finishtime']],
+            ])
+            ->get();
+
+        BaseHelper::ajaxResponse('success', true, $cals);
     }
 
-    public function create(){
-        return view('calendars.create');
-    }
-    public function store1(Request $request){
-        $data = $request->all();
-        Calendar::create($data);
-        return redirect('/calendars/weekHys');
-    }
-    public function store2(Request $request){
+
+    /**
+     * Function lưu thông tin các hoạt động khi thêm mới hoặc cập nhật lịch tuần
+     * @param Request $request
+     */
+    public function weekHysSaveInfoAjax(Request $request){
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
-        #create new record
-        if (!isset($requestData['id']) || empty($requestData['id'])) {
-
-            $calendar = new Calendar();
-            $calendar->created_at = time();
-            $calendar->updated_at = time();
-            $calendar->created_by = Auth::id();
-
-        } else {
-
-            #update data 
-            $calendar = Calendar::find($requestData['id']);
-            $calendar->updated_by = Auth::id();
-            $calendar->updated_at = strtotime('now');
+        if (!isset($requestData['id']) || empty($requestData['id'])){
+            # Create new calendar week
+            $calWeek = new CalendarWeek();
+            $calWeek->created_by = Auth::id();
+            $calWeek->created_at = time();
+        }else{
+            #update info calendar week
+            $calWeek = CalendarWeek::findOrFail($requestData['id']);
+            $calWeek->updated_by = Auth::id();
+            $calWeek->updated_at = time();
         }
-
-        $calendar->title = $requestData['title'];
-        $calendar->description = $requestData['description'];
-        $calendar->starttime = $requestData['startime'];
-        $calendar->endtime = $requestData['endtime'];
-        $calendar->address = $requestData['address'];
-        $calendar->area = $requestData['area'];
-        $calendar->formality = $requestData['formality'];
-        $calendar->group_id = $requestData['group_id'];
+        $calWeek->title       = $requestData['title'];
+        $calWeek->description = $requestData['description'];
+        $calWeek->address     = $requestData['address'];
+        $calWeek->area        = $requestData['area'];
+        $calWeek->group_id    = $requestData['group_id'];
+        $calWeek->group_name  = $requestData['group_name'];
+        $calWeek->formality   = $requestData['formality'];
+        $calWeek->starttime   = $this->changeFormatDateInput($requestData['starttime']);
+        $calWeek->finishtime  = $this->changeFormatDateInput($requestData['finishtime']);
 
         try {
-            $calendar->save();
-            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
-        } catch (\Exception $exception) {
-            BaseHelper::ajaxResponse('Có lỗi trong quá trình xử lý dữ liệu!', false);
+            $calWeek->save();
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true, $calWeek);
+        } catch (\Exception $exception){
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
-    }
 
-    public function getInfoCalendar($id, Request $request)
-    {
-        $this->checkRequestAjax($request);
-
-        $role = Calendar::find($id);
-
-        BaseHelper::ajaxResponse('Success!', true, $role);
     }
 }

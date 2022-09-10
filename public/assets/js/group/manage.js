@@ -334,7 +334,7 @@ $(document).ready(function() {
                     parent: parent
                 };
 
-                callAjaxGet(BASE_URL + '/group/getListGroupOption', requestData)
+                callAjaxGet(BASE_URL + '/group/getListGroupOptionAjax', requestData)
                     .done(function(res) {
                         if (!res.status) {
                             notifyMessage('Lỗi!', res.msg, 'error', 2000);
@@ -369,7 +369,7 @@ $(document).ready(function() {
 
             html += `</option>`;
             if(typeof datas[x].child !== 'undefined' && Object.keys(datas[x].child).length > 0) {
-                html = setHtmlSelectOption(datas[x].child, html);
+                html = setHtmlSelectOption(datas[x].child, html, valSel);
             }
         }
 

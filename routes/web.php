@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function (){
         Route::get('/detail/{id}', 'GroupController@detail')->where('id', '[0-9]+')->name('group.detail');
         Route::post('/saveInfoAjax', 'GroupController@saveInfoAjax');
         Route::get('/getInfoGroupAjax/{id}', 'GroupController@getInfoGroupAjax')->where('id', '[0-9]+');
+        Route::get('/getListGroupOptionAjax', 'GroupController@getListGroupOptionAjax');
         Route::get('/getListGroupChild', 'GroupController@getListGroupChild');
-        Route::get('/getListGroupOption', 'GroupController@getListGroupOption');
     });
 
     Route::prefix('/event')->group(function () {
@@ -69,12 +69,15 @@ Route::middleware('auth')->group(function (){
     });
 
     Route::prefix('/calendar')->group(function () {
-        Route::get('/', [CalendarController::class, 'weekHys'])->name('calendar.weekHys');
-        Route::get('/weekHys', [CalendarController::class, 'weekHys'])->name('calendar.weekHys');
-        Route::get('/getInfoCalendar/{id}', [CalendarController::class, 'getInfoCalendar'])->name('calendar.getInfo');
-        Route::get('/create', [CalendarController::class, 'create'])->name('calendar.create');
-        Route::post('/create', [CalendarController::class, 'store1'])->name('calendar.store1');
-        Route::post('/saveCalendar', [CalendarController::class, 'store2'])->name('calendar.store2');
+        Route::get('/weekHys', 'CalendarController@weekHys')->name('calendar.weekHys');
+        Route::prefix('/weekHys')->group(function () {
+            Route::get('/', function () {
+                return view('calendars.weekHys');
+            })->name('calendar.weekHys');
+            Route::get('/getListAjax', 'CalendarController@weekHysGetListAjax');
+            Route::get('/getInfoAjax/{id}', 'CalendarController@weekHysGetInfoAjax');
+            Route::post('/saveInfoAjax', 'CalendarController@weekHysSaveInfoAjax');
+        });
     });
 
     Route::prefix('/course')->group(function () {
@@ -86,12 +89,16 @@ Route::middleware('auth')->group(function (){
         Route::prefix('/teacher')->group(function () {
             Route::get('/', 'TeacherController@list')->name('course.teacherList');
             Route::get('/getInfoAjax/{id}', 'TeacherController@getInfoAjax');
+            Route::get('/getListAjax','TeacherController@getListAjax');
             Route::post('/saveInfoAjax', 'TeacherController@saveInfoAjax');
         });
     });
 
     Route::prefix('/lesson')->group(function () {
-        Route::get('/list', 'LessonController@list')->name('lesson.list');
+        Route::get('/list', function () {
+            return view('lessons.list');
+        })->name('lesson.list');
+        Route::get('/getListByCourseAjax', 'LessonController@getListByCourseAjax');
         Route::get('/getInfoAjax/{id}', 'LessonController@getInfoAjax');
         Route::post('/saveInfoAjax', 'LessonController@saveInfoAjax');
     });
@@ -101,8 +108,11 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
     });
+    Route::prefix('/class')->group(function (){
+        Route::get('/attendance', function () {
+            return view('classes.attendance');
+        });
 
-    Route::prefix('/class')->group(function(){
         Route::match(['get', 'post'], '/list', [ClassHcController::class, 'list'])->name('class.list');
         Route::get('/getInfoAjax/{id}', [ClassHcController::class, 'getInfoAjax']);
         Route::post('/saveInfoAjax', [ClassHcController::class, 'saveInfoAjax']);
@@ -110,3 +120,4 @@ Route::middleware('auth')->group(function (){
         Route::get('/fees',[ClassHcController::class, 'viewFees'])->name('viewFees');
     });
 });
+

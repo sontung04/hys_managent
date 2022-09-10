@@ -121,6 +121,9 @@
 <script src="{{ asset('assets/js/base.js') }}" defer></script>
 <script type="text/javascript">
     const BASE_URL = '{{url('')}}';
+    const dateBirthdayHys = '{{config('app.dateBirthdayHys')}}';
+    const datetimepicketFormat = '{{config('app.datetimepicketFormat')}}';
+    let areaName  = <?php echo isset($areaName) ? json_encode($areaName) : '{}'; ?>;
     let groupType = <?php echo isset($groupType) ? json_encode($groupType) : '{}'; ?>;
 </script>
 @yield('script')

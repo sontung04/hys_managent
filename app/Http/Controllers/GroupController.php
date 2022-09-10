@@ -122,9 +122,9 @@ class GroupController extends Controller
 
         try {
             $group->save();
-            BaseHelper::ajaxResponse('Lưu dữ liệu thành công!', true);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception) {
-            BaseHelper::ajaxResponse('Có lỗi trong quá trình xử lý dữ liệu!', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 
@@ -148,13 +148,26 @@ class GroupController extends Controller
      * Hàm đang được dùng dể trả dữ liệu cho View: Group/Manage
      * @param Request $request
      */
-    public function getListGroupOption(Request $request)
+    public function getListGroupOptionAjax(Request $request)
     {
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
 
-        if($requestData['field'] == 'parent') {
+        if($requestData['type'] == 'all') {
+            $results = DB::table('groups', 'c')
+                ->join('groups as p', 'c.parent', '=', 'p.id')
+                ->select('c.id', 'c.parent as parent', 'c.parent as parentArea', 'c.name', 'c.area', 'c.type',
+                    'c.depart', 'p.name as parentName', 'p.type as parentType' )
+                ->where([
+                    ['c.status', '=', 1],
+                    ['c.area', '=', $requestData['area']],
+                ])
+                ->orderBy('c.parent','ASC')
+                ->orderBy('c.type')
+                ->get();
+
+        } else if($requestData['field'] == 'parent') {
             $results = DB::table('groups')
                 ->select('id', 'name', 'area', 'type')
                 ->where([
@@ -164,7 +177,12 @@ class GroupController extends Controller
                 ])
                 ->get();
 
-        } else {
+            if(!count($results)) {
+                BaseHelper::ajaxResponse('Dữ liệu Khu vực trống! Vui lòng thử lại sau!', false);
+                return;
+            }
+
+        } else if($requestData['field'] == 'depart') {
             $groupParent = Group::find($requestData['parent']);
             if($groupParent->type == 1 && $requestData['type'] == 2) {
                 $requestData['area'] = 1;
@@ -184,24 +202,82 @@ class GroupController extends Controller
                     ['type',   '=', 2],
                 ])
                 ->get();
-        }
 
-        if(!count($results)) {
-            BaseHelper::ajaxResponse('Dữ liệu Khu vực trống! Vui lòng thử lại sau!', false);
-            return;
+            if(!count($results)) {
+                BaseHelper::ajaxResponse('Dữ liệu Khu vực trống! Vui lòng thử lại sau!', false);
+                return;
+            }
         }
 
         $datas = [];
-        foreach ($results as $val) {
-            $datas[$val->id] = [
-                'id' => $val->id,
-                'name' => $val->name,
-                'type' => $val->type,
-                'step' => 1,
-            ];
+
+        if($requestData['type'] == 'all') {
+
+            foreach ($results as $val) {
+                if($val->parent == $requestData['area']) {
+                    if(!isset($datas[$val->parent . '-'])) {
+                        $datas[$val->parent . '-'] = [
+                            'id'    => $val->parent,
+                            'name'  => $val->parentName,
+                            'type'  => $val->parentType,
+                            'step'  => 0,
+                            'child' => []
+                        ];
+                    }
+                    if($val->type != 5) {
+                        $datas[$val->parent . '-']['child'][$val->id . '-'] = [
+                            'id'    => $val->id,
+                            'name'  => $val->name,
+                            'type'  => $val->type,
+                            'step'  => 1,
+                            'child' => []
+                        ];
+                    } else {
+                        $datas[$val->parent . '-']['child'][$val->depart . '-']['child'][$val->id . '-'] = [
+                            'id'    => $val->id,
+                            'name'  => $val->name,
+                            'type'  => $val->type,
+                            'step'  => 2,
+                        ];
+                    }
+
+                } else {
+                    if($val->type != 5) {
+                        $datas[$requestData['area'] . '-']['child'][$val->parent . '-']['child'][$val->id . '-'] = [
+                            'id'    => $val->id,
+                            'name'  => $val->name,
+                            'type'  => $val->type,
+                            'step'  => 2,
+                            'child' => [],
+                        ];
+                    } else {
+                        $datas[$requestData['area'] . '-']['child'][$val->parent . '-']
+                        ['child'][$val->depart . '-']['child'][$val->id . '-'] = [
+                            'id'    => $val->id,
+                            'name'  => $val->name,
+                            'type'  => $val->type,
+                            'step'  => 3,
+                        ];
+                    }
+
+                }
+            }
+
+        } else {
+            foreach ($results as $val) {
+                $datas[$val->id] = [
+                    'id'   => $val->id,
+                    'name' => $val->name,
+                    'type' => $val->type,
+                    'step' => 1,
+                ];
+            }
+
         }
 
-        if(($requestData['type'] == 2 || $requestData['type'] == 5) && $requestData['field'] == 'parent') {
+        if(($requestData['type'] == 'all' && empty($datas)) ||
+            (($requestData['type'] == 2 || $requestData['type'] == 5) && $requestData['field'] == 'parent')
+        ) {
             $area = Group::find($requestData['area']);
             $datas = [
                 $area->id => [
