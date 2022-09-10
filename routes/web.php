@@ -113,11 +113,11 @@ Route::middleware('auth')->group(function (){
             return view('classes.attendance');
         });
 
-        Route::match(['get', 'post'], '/list', [ClassHcController::class, 'list'])->name('class.list');
-        Route::get('/getInfoAjax/{id}', [ClassHcController::class, 'getInfoAjax']);
-        Route::post('/saveInfoAjax', [ClassHcController::class, 'saveInfoAjax']);
-        Route::get('/listStd/{id}',[ClassHcController::class,'listStdClass'])->name('listStdClass');
-        Route::get('/fees',[ClassHcController::class, 'viewFees'])->name('viewFees');
+        Route::match(['get', 'post'], '/list', 'ClassHcController@list')->name('class.list');
+        Route::get('/getInfoAjax/{id}', 'ClassHcController@getInfoAjax');
+        Route::post('/saveInfoAjax', 'ClassHcController@saveInfoAjax');
+        Route::get('/listStudent/{id}','ClassHcController@listStudentClass')->name('listStudentClass');
+        Route::get('/fees','ClassHcController@viewFees')->name('viewFees');
     });
 });
 

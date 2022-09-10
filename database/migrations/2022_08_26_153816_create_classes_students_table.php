@@ -22,6 +22,7 @@ class CreateClassesStudentsTable extends Migration
             $table->string('note', 255)->nullable();
             $table->integer('fees')->default('0');
             $table->tinyInteger('status')->default('1');
+            $table->integer('fees')->default(0);
             $table->integer('created_by')->default('0')->nullable();
             $table->integer('updated_by')->default('0')->nullable();
             $table->timestamps();

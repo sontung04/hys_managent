@@ -59,7 +59,7 @@ class ClassHcController extends Controller
         }
     }
 
-    public function listStdClass($id){
+    public function listStudentClass($id){
         $classes = ClassHc::findOrFail($id);
         $students = DB::table('students')
             ->join('classes_students', 'students.id', '=', 'classes_students.student_id')
@@ -67,7 +67,7 @@ class ClassHcController extends Controller
             ->orderBy('name', 'desc')
             ->select('students.*','classes_students.status')
             ->get();
-        return view('classes.listStd',compact('students','classes'));
+        return view('classes.listStudent',compact('students','classes'));
     }
 
     public function viewFees(){
