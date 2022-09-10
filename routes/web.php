@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ClassHcController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,11 +108,16 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
     });
-
     Route::prefix('/class')->group(function (){
         Route::get('/attendance', function () {
             return view('classes.attendance');
         });
+
+        Route::match(['get', 'post'], '/list', [ClassHcController::class, 'list'])->name('class.list');
+        Route::get('/getInfoAjax/{id}', [ClassHcController::class, 'getInfoAjax']);
+        Route::post('/saveInfoAjax', [ClassHcController::class, 'saveInfoAjax']);
+        Route::get('/listStd/{id}',[ClassHcController::class,'listStdClass'])->name('listStdClass');
+        Route::get('/fees',[ClassHcController::class, 'viewFees'])->name('viewFees');
     });
 });
 

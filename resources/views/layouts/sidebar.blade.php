@@ -201,6 +201,14 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('class.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/class/list') !== false) active @endif">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách lớp học</p>
+                                </a>
+                            </li>
+                        </ul>
 {{--                        <ul class="nav nav-treeview">--}}
 {{--                            <li class="nav-item">--}}
 {{--                                <a href="" class="nav-link">--}}
