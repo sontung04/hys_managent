@@ -136,5 +136,4 @@ $(function() {
             $(element).removeClass('is-invalid');
         }
     });
-
 })
