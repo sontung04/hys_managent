@@ -200,8 +200,8 @@
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
-                                                   data-toggle="datetimepicker" data-format="DD/MM/YYYY" data-min="17/11/2013" data-max="{{date("d/m/Y")}}"/>
+                                            <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday"
+                                                   data-target="#birthdayDate" data-toggle="datetimepicker" data-max="{{date("d/m/Y")}}"/>
                                         </div>
                                     </div>
                                 </div>

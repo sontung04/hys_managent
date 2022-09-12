@@ -53,10 +53,10 @@ $(document).ready(function() {
 
     /* set datepicker */
     modalAddGroup.find('#birthdayDate').datetimepicker({
-        format : inputBirthday.data('format'),
+        format : datetimepicketFormat,
         locale : 'vi',
-        minDate: moment(inputBirthday.data('min'), inputBirthday.data('format')),
-        maxDate: moment(inputBirthday.data('max'), inputBirthday.data('format')),
+        minDate: moment(dateBirthdayHys, datetimepicketFormat),
+        maxDate: moment(inputBirthday.data('max'), datetimepicketFormat),
         ignoreReadonly: true,
     });
 

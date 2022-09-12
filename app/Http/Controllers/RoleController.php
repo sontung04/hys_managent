@@ -362,7 +362,7 @@ class RoleController extends Controller
             $role->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception) {
-            BaseHelper::ajaxResponse('Có lỗi trong quá trình xử lý dữ liệu!', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 

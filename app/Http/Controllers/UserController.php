@@ -148,9 +148,9 @@ class UserController extends Controller
 
         try {
             $user->save();
-            BaseHelper::ajaxResponse('Lưu dữ liệu thành công!', true);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception) {
-            BaseHelper::ajaxResponse('Có lỗi trong quá trình xử lý dữ liệu!', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 }
