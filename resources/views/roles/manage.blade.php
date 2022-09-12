@@ -163,13 +163,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="{{ !empty($userInfo->img) ? asset($userInfo->img) : asset(config('app.avatarDefault')) }}" alt="user image">
+                                    <img class="img-circle img-bordered-sm" src="{{asset('themes/dist/img/user1-128x128.jpg')}}" alt="user image">
                                     <span class="username">
-                                            <a href="#">{{$userInfo->lastname . ' ' . $userInfo->firstname }}</a>
+                                            <a href="#">Username</a>
                                         </span>
-                                    <span class="description" style="font-size: 16px">
-                                        Trạng thái:<strong> {{$userInfo->status ? 'Đang hoạt động' : 'Dừng hoạt động'}} </strong>
-                                    </span>
+                                    <span class="description" style="font-size: 16px">Trạng thái:<strong> Đang Hoạt động</strong></span>
                                 </div>
 
                                 <a class="btn btn-success text-white float-right" id="btnAddRoleUser">
@@ -183,320 +181,171 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="timeline">
-                                            <div class="time-label">
-                                                <span class="bg-blue">HYS Tổng</span>
-                                            </div>
-                                            <!-- /.timeline-label -->
 
-                                            <!-- timeline-area -->
-{{--                                            <div>--}}
-{{--                                                <i class="fas fa-clock bg-indigo"></i>--}}
-{{--                                                <div class="timeline-item">--}}
-{{--                                                    <h3 class="timeline-header"><b class="labelTimelineItem">--}}
-{{--                                                            05/06/2020--}}
-{{--                                                        </b></h3>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-                                            <div>
-                                                <i class="fas fa-check-circle bg-teal"></i>
-                                                <div class="timeline-item">
-                                                    <h3 class="timeline-header"><b class="labelTimelineItem">
-                                                            Trạng thái: Đang hoạt động | Thời gian: 05/06/2020 - 25/11/2020
-                                                        </b>
-                                                        <a href="" class="btnEditUserGroup" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                           data-content="Thay đổi trạng thái hoạt động" data-id="6">
-                                                            <i class="fas fa-edit ml-2"></i>
-                                                        </a>
-                                                    </h3>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <i class="fas fa-location-arrow bg-blue"></i>
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="fas fa-clock"></i> <b>05/06/2020</b></span>
-                                                    <h3 class="timeline-header no-border">
-                                                        <b class="labelTimelineItem">Ban Đào tạo tương tác</b>
-                                                    </h3>
-                                                    <div class="timeline-body">
-                                                        <div class="timeline">
-                                                            <div>
-                                                                <i class="fas fa-user-check bg-green"></i>
-                                                                <div class="timeline-item">
-{{--                                                                    <span class="time"><i class="fas fa-clock"></i> <b>25/11/2020 - 24/08/2021</b></span>--}}
-                                                                    <h3 class="timeline-header no-border">
-                                                                        <b class="labelTimelineItem">Trưởng Ban: 25/11/2020</b>
-                                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="9"><i class="fas fa-edit ml-2"></i></a>
-                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Xóa chức vụ" data-id="9">
-                                                                            <i class="fas fa-trash ml-2" style="color: red"></i></a>
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <i class="fas fa-user-times bg-red" style="margin-top: 8px"></i>
-                                                                <div class="timeline-item">
-{{--                                                                    <span class="time"><i class="fas fa-clock"></i> <b>05/06/2020 - 25/11/2020</b></span>--}}
-                                                                    <h3 class="timeline-header no-border">
-                                                                        <b class="labelTimelineItem">Phó Ban: 05/06/2020 - 25/11/2020</b>
-                                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="8">
-                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                        </a>
-                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Xóa chức vụ" data-id="8">
-                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                        </a>
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>                                            <!-- END timeline-area -->
+                                        @foreach($items as $key => $itemArea)
                                             <!-- timeline time label -->
-                                            <div class="time-label">
-                                                <span class="bg-orange">HYS Kim Liên</span>
-                                            </div>
-                                            <!-- /.timeline-label -->
+                                                <div class="time-label">
+                                                    <span class="bg-{{$areaColor[$key]}}">HYS {{$itemArea['name']}}</span>
+                                                </div>
+                                                <!-- /.End timeline time label -->
 
-                                            <!-- timeline-area -->
-                                            <div>
-                                                <i class="fas fa-clock bg-indigo"></i>
-                                                <div class="timeline-item">
-                                                    <h3 class="timeline-header"><b class="labelTimelineItem">
-                                                            10/03/2019 - 24/08/2021
-                                                        </b></h3>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <i class="fas fa-times-circle bg-maroon"></i>
-                                                <div class="timeline-item">
-                                                    <h3 class="timeline-header">
-                                                        <b class="labelTimelineItem">
-                                                            Dừng hoạt động
-                                                        </b>
-                                                        <a href="" class="btnEditUserGroup" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                           data-content="Thay đổi trạng thái hoạt động" data-id="1"><i class="fas fa-edit ml-2"></i></a>                                                        </h3>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <i class="fas fa-times-circle bg-maroon"></i>
-                                                <div class="timeline-item">
-                                                    <h3 class="timeline-header">
-                                                        <b class="labelTimelineItem">
-                                                            Trạng thái: Dừng hoạt động | Thời gian: 10/03/2019 - 24/08/2021
-                                                        </b>
-                                                        <a href="" class="btnEditUserGroup" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                           data-content="Thay đổi trạng thái hoạt động" data-id="1"><i class="fas fa-edit ml-2"></i></a>                                                        </h3>
-                                                </div>
-                                            </div>
-                                            <!-- timeline item role area -->
-                                            <div>
-                                                <i class="fas fa-user-check bg-green"></i>
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="fas fa-clock"></i> <b>30/12/2020 - 30/12/2020</b></span>
-                                                    <h3 class="timeline-header no-border">
-                                                        <b class="labelTimelineItem">Phó Chủ Nhiệm</b>
-                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                           data-content="Thay đổi trạng thái chức vụ" data-id="1">
-                                                            <i class="fas fa-edit ml-2"></i>
-                                                        </a>
-                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Xóa chức vụ" data-id="1">
-                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                        </a>
-                                                    </h3>
-                                                </div>
-                                            </div>                                                <!-- END timeline item role area -->
-
-                                            <div>
-                                                <i class="fas fa-location-arrow bg-blue"></i>
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="fas fa-clock"></i> <b>01/04/2019 - 24/08/2021</b></span>
-                                                    <h3 class="timeline-header no-border">
-                                                        <b class="labelTimelineItem">Ban  ĐTTT Kim Liên</b>
-                                                    </h3>
-                                                    <div class="timeline-body">
-                                                        <div class="timeline">
-                                                            <div>
-                                                                <i class="fas fa-user-times bg-red"></i>
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="fas fa-clock"></i> <b>25/11/2020 - 24/08/2021</b></span>
-                                                                    <h3 class="timeline-header no-border">
-                                                                        <b class="labelTimelineItem">Trưởng Ban</b>
-                                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="3">
-                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                        </a>
-                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
-                                                                           data-content="Xóa chức vụ" data-id="3">
-                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                        </a>
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <i class="fas fa-user-times bg-red" style="margin-top: 8px"></i>
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="fas fa-clock"></i> <b>05/06/2020 - 05/06/2020</b></span>
-                                                                    <h3 class="timeline-header no-border">
-                                                                        <b class="labelTimelineItem">Phó Ban</b>
-                                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="2">
-                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                        </a>
-                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
-                                                                           data-content="Xóa chức vụ" data-id="2">
-                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                        </a>
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
+                                                <!-- timeline status log group -->
+                                            <?php echo htmlStatusLogGroup($itemArea, $iconList); ?>
+                                            <!-- /. End timeline status log group -->
+                                                @if(empty($itemArea['roles']) && empty($itemArea['list']))
+                                                    <div>
+                                                        <?php echo $itemArea['status'] ? $iconList['itemLastNow'] : $iconList['itemLastStop']; ?>
+                                                        <div class="timeline-item">
+                                                            <h3 class="timeline-header no-border">
+                                                                <b class="labelTimelineItem">
+                                                                    <?php
+                                                                    echo 'Thành viên: ' . date('d/m/Y', strtotime($itemArea['startTime']));
+                                                                    echo !empty($itemArea['endTime']) ? ' - ' . date('d/m/Y', strtotime($itemArea['endTime'])) : '';
+                                                                    ?>
+                                                                </b>
+                                                            </h3>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                @endif
+
+                                                @foreach($itemArea['roles'] as $areaRole)
+                                                <!-- timeline item role area -->
+                                                    <?php htmlTimelineItem($areaRole, $iconList, $roles); ?>
+                                                <!-- END timeline item role area -->
+                                                @endforeach
+
+                                                <?php
+                                                if(count($itemArea['list'])) {
+                                                    showChildGroupRole($itemArea['list'], $iconList, $roles, $groupType);
+                                                } ?>
+                                            <!-- END timeline-area -->
+                                            @endforeach
                                             <div>
-                                                <i class="fas fa-location-arrow bg-blue"></i>
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="fas fa-clock"></i> <b>10/03/2019 - 05/06/2020</b></span>
-                                                    <h3 class="timeline-header no-border">
-                                                        <a href="" class="btnEditUserGroup">Cơ sở Nhân văn Tự nhiên UTT</a>
-                                                    </h3>
-
-
-                                                    <div class="timeline-body">
-                                                        <div class="timeline">
-                                                            <div>
-                                                                <i class="fas fa-clock bg-indigo"></i>
-                                                                <div class="timeline-item">
-                                                                    <h3 class="timeline-header"><b class="labelTimelineItem">
-                                                                            10/03/2019 - 24/08/2021
-                                                                        </b></h3>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <i class="fas fa-times-circle bg-maroon"></i>
-                                                                <div class="timeline-item">
-                                                                    <h3 class="timeline-header">
-                                                                        <b class="labelTimelineItem">
-                                                                            Dừng hoạt động
-                                                                        </b>
-                                                                        <a href="" class="btnEditUserGroup" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                           data-content="Thay đổi trạng thái hoạt động" data-id="1"><i class="fas fa-edit ml-2"></i></a>                                                        </h3>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <i class="fas fa-location-arrow bg-blue"></i>
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="fas fa-clock"></i> <b>01/04/2019 - 05/06/2020</b></span>
-                                                                    <h3 class="timeline-header no-border">
-                                                                        <b class="labelTimelineItem">Ban ĐTTT CS UTT</b>
-                                                                    </h3>
-                                                                    <div class="timeline-body">
-                                                                        <div class="timeline">
-                                                                            <div>
-                                                                                <i class="fas fa-user-times bg-red"></i>
-                                                                                <div class="timeline-item">
-                                                                                    <span class="time"><i class="fas fa-clock"></i> <b>13/12/2019 - 05/06/2020</b></span>
-                                                                                    <h3 class="timeline-header no-border">
-                                                                                        <b class="labelTimelineItem">Trưởng Ban</b>
-                                                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="7">
-                                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                                        </a>
-                                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
-                                                                                           data-content="Xóa chức vụ" data-id="7">
-                                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                                        </a>
-                                                                                    </h3>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div>
-                                                                                <i class="fas fa-user-times bg-red" style="margin-top: 8px"></i>
-                                                                                <div class="timeline-item">
-                                                                                    <span class="time"><i class="fas fa-clock"></i> <b>01/04/2019 - 13/12/2019</b></span>
-                                                                                    <h3 class="timeline-header no-border">
-                                                                                        <b class="labelTimelineItem">Thành viên</b>
-                                                                                        <a href="" class="btnEditUgr" data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="6">
-                                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                                        </a>
-                                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
-                                                                                           data-content="Xóa chức vụ" data-id="6">
-                                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                                        </a>
-                                                                                    </h3>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <i class="fas fa-location-arrow bg-blue"></i>
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="fas fa-clock"></i> <b>10/03/2019 - 13/12/2019</b></span>
-                                                                    <h3 class="timeline-header no-border">
-                                                                        <b class="labelTimelineItem">Đội Nhân văn 3</b></h3>
-                                                                    <div class="timeline-body">
-                                                                        <div class="timeline">
-                                                                            <div>
-                                                                                <i class="fas fa-user-times bg-red"></i>
-                                                                                <div class="timeline-item">
-                                                                                    <span class="time"><i class="fas fa-clock"></i> <b>11/08/2019 - 13/12/2019</b></span>
-                                                                                    <h3 class="timeline-header no-border">
-                                                                                        <b class="labelTimelineItem">Đội trưởng</b>
-                                                                                        <a href="" class="btnEditUgr"data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="5">
-                                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                                        </a>
-                                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
-                                                                                           data-content="Xóa chức vụ" data-id="5">
-                                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                                        </a>
-                                                                                    </h3>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div>
-                                                                                <i class="fas fa-user-times bg-red" style="margin-top: 8px"></i>
-                                                                                <div class="timeline-item">
-                                                                                    <span class="time"><i class="fas fa-clock"></i> <b>10/03/2019 - 11/08/2019</b></span>
-                                                                                    <h3 class="timeline-header no-border">
-                                                                                        <b class="labelTimelineItem">Thành viên</b>
-                                                                                        <a href="" class="btnEditUgr"data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                                                           data-content="Thay đổi trạng thái chức vụ" data-id="4">
-                                                                                            <i class="fas fa-edit ml-2"></i>
-                                                                                        </a>
-                                                                                        <a href="" class="btnDeleteUgr" data-toggle="popover" data-trigger="hover" data-placement="right"
-                                                                                           data-content="Xóa chức vụ" data-id="4">
-                                                                                            <i class="fas fa-trash ml-2" style="color: red"></i>
-                                                                                        </a>
-                                                                                    </h3>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <i class="fas fa-circle bg-gray"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>                                            <!-- END timeline-area -->
-                                            <div>
-                                                <i class="fas fa-circle bg-gray"></i>
+                                                <?php echo $iconList['circleEnd']; ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.col -->
                                 </div>
                             </div>
-
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal addUserGroupRoleModal -->
+    <div class="modal fade" id="addUserGroupRoleModal" tabindex="-1" role="dialog" aria-labelledby="addUserGroupRoleLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserGroupRoleModalTitle">Thêm chức vụ thành viên</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" id="" method="post" class="form-horizontal">
+                    @csrf
+                    <input type="hidden" name="userid" value="{{$userid}}">
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="area" id="">Khu vực: <span style="color: red">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <select class="form-control custom-select" name="area" id="area">
+                                    <option value="" selected disabled>--- Chọn Khu vực ---</option>
+                                    @foreach($areaName as $key => $value)
+                                        @if($key != 0)
+                                            <option value="{{$key}}" data-name="{{$key.$value}}">{{'HYS ' . $value}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="group_type" id="">Cấp: <span style="color: red">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <select class="form-control custom-select" name="group_type" id="group_type">
+                                    <option value="" selected disabled>--- Chọn Cấp chức vụ ---</option>
+                                    @foreach($groupType as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" id="divGroup" hidden="hidden">
+                            <label class="col-lg-3 col-form-label" for="name" id="selectGroupLabel">
+
+                            </label>
+                            <div class="form-group col-lg-9">
+                                <select class="form-control custom-select" name="group_id" id="selectGroup">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="name" id="">Chức vụ: <span style="color: red">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <select class="form-control custom-select" name="role_id" id="selectRole">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="status" class="col-sm-3">Trạng thái: <span style="color: red">*</span></label>
+                            <div class="form-group col-sm-9">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status1" name="status" value="1" checked>
+                                    <label for="status1" style="margin-right: 10px">
+                                        Hoạt động
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status2" name="status" value="0">
+                                    <label for="status2">
+                                        Nghỉ chức vụ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label" style="text-align: right">Ngày bắt đầu:</label>
+                            <div class="form-group col-sm-9">
+                                <div class="input-group date" id="addStarttime" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#addStarttime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="inputAddStarttime"
+                                           name="starttime" data-target="#addStarttime" data-toggle="datetimepicker"
+                                           data-max="{{date("d/m/Y")}}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label" style="text-align: right">Ngày kết thúc:</label>
+                            <div class="form-group col-sm-9">
+                                <div class="input-group date" id="addFinishtime" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#addFinishtime" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="inputAddFinishtime"
+                                           name="finishtime" data-target="#addFinishtime" data-toggle="datetimepicker"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu thông tin</button>
                     </div>
                 </form>
             </div>

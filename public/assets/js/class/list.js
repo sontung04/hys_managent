@@ -6,15 +6,35 @@ $(function() {
 
     let modalAddClass = $('#modalAddClass');
 
+    /* Gọi Ajax lấy ra danh sách các khóa học */
+    callAjaxGet(BASE_URL + '/course/getListCourseAjax').done(function (res){
+        let courses = res.data;
+        let html = '';
+        for (let x in courses) {
+            html += `<option value="${courses[x].id}">${courses[x].name}</option>`;
+        }
+        $('#course_id').append(html);
+    });
+
+    /* set datetimepicker */
+    ['starttimeDate', 'finishtimeDate'].forEach(field => {
+        modalAddClass.find('#' +field).datetimepicker({
+            format : datetimepicketFormat,
+            locale : 'vi',
+            useCurrent: false,
+            minDate: moment(dateBirthdayHys, datetimepicketFormat),
+        });
+    });
+
     //* Add new Student
     $('#btnAddClass').click(function() {
-        document.getElementById('modalAddClassTitle').innerText = 'Thêm Lớp học mới';
+        document.getElementById('modalAddClassTitle').innerText = 'Thêm lớp học mới';
         modalAddClass.modal('show');
     });
 
     //* Edit Info 1 Student
-    $('#tableClassList').on('click', '.btnEdit', function() {
-        document.getElementById('modalAddClassTitle').innerText = 'Chỉnh sửa thông tin';
+    $('#tableListClassBody').on('click', '.btnEdit', function() {
+        document.getElementById('modalAddClassTitle').innerText = 'Chỉnh sửa thông tin lớp học';
 
         let id = $(this).attr('data-id');
         callAjaxGet(BASE_URL + '/class/getInfoAjax/' + id).done(function(res) {
@@ -25,10 +45,11 @@ $(function() {
             let classInfo = res.data;
 
             /* set field value */
-            ['id', 'course_id', 'name', 'carer_staff', 'coach', 'starttime', 'finishtime', 'status'].forEach(field => {
+            ['id', 'name', 'carer_staff', 'coach', 'starttime', 'finishtime'].forEach(field => {
                 modalAddClass.find('#' + field).val(classInfo[field]);
             });
 
+            modalAddClass.find('#course_id').find(`option[value="${classInfo['course_id']}"]`).prop('selected', true);
 
             if (classInfo['status']) {
                 modalAddClass.find('#status1').prop('checked', true);
@@ -42,7 +63,6 @@ $(function() {
 
     //Sự kiện Đóng modal
     $('.closeModal').on('click', function() {
-        CKEDITOR.instances['description'].setData('');
         eventCloseHiddenModal(modalAddClass);
     });
 
@@ -58,12 +78,12 @@ $(function() {
 
             callAjaxPost(BASE_URL + '/class/saveInfoAjax', data).done(function(res) {
                 if (!res.status) {
-                    notifyMessage('Lỗi!', res.msg, 'error', 5000);
+                    notifyMessage('Lỗi!', res.msg, 'error', 3000);
                     return;
                 }
                 notifyMessage('Thông báo!', res.msg, 'success');
                 modalAddClass.modal('hide');
-                setTimeout(function() { window.location.reload(); }, 10);
+                setTimeout(function() { window.location.reload(); }, 1000);
             });
         },
 
@@ -77,22 +97,17 @@ $(function() {
             starttime: {
                 required: true,
             },
-            status: {
-                required: true,
-            },
+
         },
         messages: {
             name: {
-                required: "Please fill in the blank",
+                required: "Tên lớp học không được để trống",
             },
             course_id: {
-                required: "Please fill in the blank",
+                required: "Khóa học không được để trống",
             },
             starttime: {
-                required: "Please fill in the blank",
-            },
-            status: {
-                required: "Please fill in the blank",
+                required: "Ngày khai giảng không được để trống",
             },
         },
         errorElement: 'span',
@@ -108,7 +123,7 @@ $(function() {
         }
     });
 
-    $("#tableClassList").on('click', '.btnView', function () {
+    $("#tableListClassBody").on('click', '.btnView', function () {
         let id = $(this).attr('data-id');
         window.open(BASE_URL + '/class/listStudent/' + id, "_self");
     });

@@ -123,6 +123,7 @@
     const BASE_URL = '{{url('')}}';
     const dateBirthdayHys = '{{config('app.dateBirthdayHys')}}';
     const datetimepicketFormat = '{{config('app.datetimepicketFormat')}}';
+    let currentMaxDate = '{{date("d/m/Y")}}';
     let areaName  = <?php echo isset($areaName) ? json_encode($areaName) : '{}'; ?>;
     let groupType = <?php echo isset($groupType) ? json_encode($groupType) : '{}'; ?>;
 </script>

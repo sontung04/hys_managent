@@ -230,7 +230,8 @@ return [
     ],
 
     'textSaveSuccess' => 'Lưu dữ liệu thành công!',
-    'textSaveError' => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
+    'textGetSuccess'  => 'Lấy dữ liệu thành công!',
+    'textSaveError'   => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
 
     'areaName' => [
         0 => 'Chưa xác định',

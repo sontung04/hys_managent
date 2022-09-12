@@ -24,16 +24,19 @@ class StudentController extends Controller
         $this->checkRequestAjax($request);
 
         $student = Student::findOrFail($id);
-
+        $student->birthday        = $this->changeFormatDateOutput($student->birthday);
+        $student->date_of_issue   = $this->changeFormatDateOutput($student->date_of_issue);
+        $student->father_birthday = $this->changeFormatDateOutput($student->father_birthday);
+        $student->mother_birthday = $this->changeFormatDateOutput($student->mother_birthday);
         BaseHelper::ajaxResponse('Success', true, $student);
     }
 
-    public function saveInfoAjax(Request $request){
+    public function saveInfoAjax(Request $request)
+    {
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
-        print_r($requestData);
-        die();
+
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # create a new student
             $student = new Student();
@@ -45,15 +48,16 @@ class StudentController extends Controller
             $student->updated_by = Auth::id();
             $student->updated_at = Carbon::now();
         }
+
         $student->name              = $requestData['name'];
         $student->gender            = $requestData['gender'];
-        $student->birthday          = $requestData['birthday'];
+        $student->birthday          = $this->changeFormatDateInput($requestData['birthday']);
         $student->img               = config('app.avatarDefault');
         $student->native_place      = $requestData['native_place'];
         $student->nation            = $requestData['nation'];
         $student->religion          = $requestData['religion'];
         $student->citizen_identify  = $requestData['citizen_identify'];
-        $student->date_of_issue     = $requestData['date_of_issue'];
+        $student->date_of_issue     = $this->changeFormatDateInput($requestData['date_of_issue']);
         $student->place_of_issue    = $requestData['place_of_issue'];
         $student->address           = $requestData['address'];
         $student->phone             = $requestData['phone'];
@@ -64,16 +68,18 @@ class StudentController extends Controller
         $student->guardian_name     = $requestData['guardian_name'];
         $student->guardian_phone    = $requestData['guardian_phone'];
         $student->father            = $requestData['father'];
-        $student->father_name       = $requestData['father_name'];
+        $student->father_birthday   = $this->changeFormatDateInput($requestData['father_birthday']);
+        $student->father_job        = $requestData['father_job'];
         $student->mother            = $requestData['mother'];
-        $student->mother_name       = $requestData['mother_name'];
-        $student->status            = $requestData['status'];
+        $student->mother_birthday   = $this->changeFormatDateInput($requestData['mother_birthday']);;
+        $student->mother_job        = $requestData['mother_job'];
+//        $student->status            = $requestData['status'];
 
         try {
             $student->save();
-            BaseHelper::ajaxResponse('Success',true);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'),true);
         }catch (\Exception $exception){
-            BaseHelper::ajaxResponse('Lỗi xử lí dữ liệu', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 
