@@ -71,9 +71,9 @@ class LessonController extends Controller
 
         try {
             $lesson->save();
-            BaseHelper::ajaxResponse('Success!',true, $lesson);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'),true, $lesson);
         }catch (\Exception $exception){
-            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu',false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'),false);
         }
     }
 }

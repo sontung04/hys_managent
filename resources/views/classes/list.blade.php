@@ -8,11 +8,18 @@
 
 @section("content")
     <style>
-        .cell-table-scroll {
-            max-height: 50px;
-            overflow: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
+        @media only screen and (max-width: 540px) {
+            #tableListClass {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media only screen and (max-width: 976px) {
+            #tableListClass {
+                display: block;
+                overflow-x: auto;
+            }
         }
 
         .table thead th {
@@ -55,53 +62,46 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <table id="listStdTable" class="table table-bordered table-striped table-hover">
+                        <table id="tableListClass" class="table table-bordered table-striped table-hover">
                             <thead>
                             <tr style="text-align: center">
                                 <th style="width: 3%;">STT</th>
                                 <th>Tên lớp</th>
-                                <th>Carer staff</th>
-                                <th>Coach</th>
-                                <th>Start time</th>
-                                <th style="width: 5%">Trạng thái</th>
-                                <th style="width: 5%">Hành động</th>
+                                <th>Tên Khóa học</th>
+                                <th>Trợ giảng</th>
+                                <th>Chủ nhiệm</th>
+                                <th>Ngày khai giảng</th>
+                                <th style="width: 10%">Trạng thái</th>
+                                <th style="width: 8%">Hành động</th>
                             </tr>
                             </thead>
-                            <tbody id="tableClassList">
-                            @forelse($classes as $key => $class)
-                                <tr id="role-{{$class->id}}">
-                                    <td>{{++$key}}</td>
+                            <tbody id="tableListClassBody">
+                            <?php $index = 0; ?>
+                            @forelse($classes as $class)
+                                <tr>
+                                    <td>{{++$index}}</td>
                                     <td>{{$class->name}}</td>
+                                    <td>{{$coursesName[$class->course_id]}}</td>
                                     <td>{{$class->carer_staff}}</td>
                                     <td>{{$class->coach}}</td>
-                                    <td>
-                                        @if(!empty($class->starttime))
-                                            {{date('d/m/Y', strtotime($class->starttime))}}
-                                        @endif
-                                    </td>
+                                    <td> {{date('d/m/Y', strtotime($class->starttime))}}</td>
                                     <td style="text-align: center">
                                         <?php echo $class->status ? '<span style="color:green;">Đang học</span>' : '<span style="color:red">Đã hoàn thành</span>' ?>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-success btnEdit"
-                                                data-id="{{$class->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                data-content="Chỉnh sửa">
+                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$class->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btnView"
-                                                data-id="{{$class->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom"
-                                                data-content="Xem học sinh của lớp">
+                                        <button type="button" class="btn btn-outline-primary btnView" data-id="{{$class->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem học sinh của lớp">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <th colspan="9" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử
-                                        lại!
-                                    </th>
+                                    <th colspan="8" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
                                 </tr>
                             @endforelse
                             </tbody>
@@ -110,105 +110,112 @@
                     <!-- /.card-body -->
                 </div>
             </div>
-            <!-- modal Add New Class -->
-            <div class="modal fade" id="modalAddClass">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modalAddClassTitle">Modal default</h4>
-                            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="" id="" class="form-horizontal" method="post">
-                            @csrf
-                            <div class="modal-body">
-                                <input type="hidden" id="id" class="form-control" name="id">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="name" id="">Tên lớp: <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="form-group col-lg-9">
-                                                <input type="text" name="name" id="name" class="form-control">
-
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="course_id">Tên khoá học: <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="form-group col-lg-9">
-                                                <input type="number" name="course_id" id="course_id"
-                                                       class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="carer_staff">Carer
-                                                Staff: </label>
-                                            <div class="form-group col-lg-9">
-                                                <input type="number" name="carer_staff" id="carer_staff"
-                                                       class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="coach">Coach: </label>
-                                            <div class="form-group col-lg-9">
-                                                <input type="number" name="coach" id="coach" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="starttime"> Start time: <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="form-group col-lg-9">
-                                                <input type="date" name="starttime" id="starttime" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="finishtime"> Finish time: <span
-                                                    class="text-danger"></span></label>
-                                            <div class="form-group col-lg-9">
-                                                <input type="date" name="finishtime" id="finishtime"
-                                                       class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-3 col-form-label" for="status">Trạng thái: <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="form-group col-lg-9">
-                                                <div class="icheck-primary d-inline">
-                                                    <input type="radio" id="status1" name="status" value="1" checked>
-                                                    <label for="status1" style="margin-right: 10px">
-                                                        Đang học
-                                                    </label>
-                                                </div>
-                                                <div class="icheck-primary d-inline">
-                                                    <input type="radio" id="status2" name="status" value="2">
-                                                    <label for="status2">
-                                                        Hoãn khai giảng
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer ">
-                                        <button type="button" class="btn btn-default closeModal" data-dismiss="modal">
-                                            Đóng
-                                        </button>
-                                        <button type="submit" class="btn btn-primary" id="btnSave"><i
-                                                class="fas fa-save"></i> Lưu thông tin
-                                        </button>
-                                    </div>
-                        </form>
-
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
         </section>
-
     </div>
 
+    <!-- modal Add New Class -->
+    <div class="modal fade" id="modalAddClass">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalAddClassTitle">Modal default</h4>
+                    <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" id="" class="form-horizontal" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" id="id" class="form-control" name="id">
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="course_id">Tên khoá học: <span
+                                    class="text-danger">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <select class="form-control custom-select" name="course_id" id="course_id">
+                                    <option value="" selected disabled="disabled">--- Chọn khóa học ---</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="name" id="">Tên lớp: <span class="text-danger">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <input type="text" name="name" id="name" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="coach">Trợ giảng: <span class="text-danger">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <input type="number" name="coach" id="coach" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="carer_staff">Chủ nhiệm lớp: <span class="text-danger">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <input type="number" name="carer_staff" id="carer_staff" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="starttime">Ngày khai giảng: <span class="text-danger">*</span></label>
+                            <div class="form-group col-lg-9">
+                                <div class="input-group date" id="starttimeDate" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#starttimeDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="starttime" name="starttime"
+                                           data-target="#starttimeDate" data-toggle="datetimepicker"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="finishtime">Ngày kết thúc: </label>
+                            <div class="form-group col-lg-9">
+                                <div class="input-group date" id="finishtimeDate" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#finishtimeDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="finishtime" name="finishtime"
+                                           data-target="#finishtimeDate" data-toggle="datetimepicker"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="status">Trạng thái: </label>
+                            <div class="form-group col-lg-9">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status1" name="status" value="1" checked>
+                                    <label for="status1" style="margin-right: 10px">
+                                        Đang học
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status2" name="status" value="2">
+                                    <label for="status2">
+                                        Hoãn khai giảng
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin</button>
+                    </div>
+                </form>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 @endsection
 

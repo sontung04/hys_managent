@@ -21,11 +21,11 @@ $(document).ready(function() {
 
     /* set datepicker */
     formCreateUser.find('#birthdayDate').datetimepicker({
-        format : birthdayDateCreate.data('format'),
+        format : datetimepicketFormat,
         locale : 'vi',
         // date   : settings.monthAgo,
-        minDate: moment(birthdayDateCreate.data('min'), birthdayDateCreate.data('format')),
-        maxDate: moment(birthdayDateCreate.data('max'), birthdayDateCreate.data('format')),
+        minDate: moment(birthdayDateCreate.data('min'), datetimepicketFormat),
+        maxDate: moment(currentMaxDate, datetimepicketFormat),
         ignoreReadonly: true,
     });
 

@@ -16,19 +16,29 @@ class ClassHcController extends Controller
 
     }
 
-    public function list(){
+    public function list()
+    {
         $classes = ClassHc::all();
-        return view('classes.list',compact('classes'));
+        $courses = DB::table('courses')->select('id', 'name')->get();
+        $coursesName = [];
+        foreach ($courses as $course) {
+            $coursesName[$course->id] = $course->name;
+        }
+        return view('classes.list',compact('classes', 'coursesName'));
     }
 
-    public function getInfoAjax(Request $request, $id){
+    public function getInfoAjax(Request $request, $id)
+    {
         $this->checkRequestAjax($request);
 
         $class = ClassHc::findOrFail($id);
+        $class->starttime = $this->changeFormatDateOutput($class->starttime);
+        $class->finishtime = $this->changeFormatDateOutput($class->finishtime);
         BaseHelper::ajaxResponse('success', true, $class);
     }
 
-    public function saveInfoAjax(Request $request){
+    public function saveInfoAjax(Request $request)
+    {
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
@@ -43,19 +53,19 @@ class ClassHcController extends Controller
             $class->updated_by = Auth::id();
             $class->updated_at = Carbon::now();
         }
-        $class->name          = $requestData['name'];
-        $class->course_id        = $requestData['course_id'];
-        $class->carer_staff      = $requestData['carer_staff'];
-        $class->coach           = $requestData['coach'];
-        $class->status       = $requestData['status'];
-        $class->starttime       = $requestData['starttime'];
-        $class->finishtime       = $requestData['finishtime'];
+        $class->name        = $requestData['name'];
+        $class->course_id   = $requestData['course_id'];
+        $class->carer_staff = $requestData['carer_staff'];
+        $class->coach       = $requestData['coach'];
+        $class->status      = $requestData['status'];
+        $class->starttime   = $this->changeFormatDateInput($requestData['starttime']);
+        $class->finishtime  = $this->changeFormatDateInput($requestData['finishtime']);
 
         try {
             $class->save();
-            BaseHelper::ajaxResponse('success', true);
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         }catch (\Exception $exception){
-            BaseHelper::ajaxResponse('Lỗi xử lý dữ liệu', false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 

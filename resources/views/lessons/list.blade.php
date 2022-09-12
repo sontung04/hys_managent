@@ -8,6 +8,21 @@
 @endsection
 
 @section('style')
+    <style>
+        @media only screen and (max-width: 540px) {
+            #tableListLesson {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media only screen and (max-width: 976px) {
+            #tableListLesson {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -66,7 +81,7 @@
                             </div>
 
                             <div class="card-body">
-                                <table class="table table-bordered table-hover">
+                                <table id="tableListLesson" class="table table-bordered table-hover">
                                     <thead>
                                     <tr style="text-align: center">
                                         <th style="width: 3%">STT</th>
@@ -95,7 +110,7 @@
         </section>
     </div>
     <!-- </section> -->
-    <!-- The Modal -->
+    <!-- The Modal Lesson -->
     <div class="modal fade" id="modalAddLesson">
         <div class="modal-dialog" style="width: 72%; max-width: 80%;">
             <div class="modal-content">
