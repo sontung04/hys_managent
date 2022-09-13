@@ -5,6 +5,7 @@
 @endsection
 
 @section("content")
+    <?php $years = range(strftime("%Y", time()), 1900); ?>
     <style>
         @media only screen and (max-width: 540px) {
             #tableStudentList {
@@ -50,117 +51,80 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card">
-{{--                    <div class="card-header">--}}
+                    <div class="card-header">
 
-{{--                        <form action="{{route('user.list')}}" method="post" id="formFilterUser">--}}
-{{--                            @csrf--}}
-{{--                            <input type="hidden" name="page" value="">--}}
+                        <form action="{{route('student.list')}}" method="post" id="formFilterStudent">
+                            @csrf
+                            <input type="hidden" name="page" value="">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Họ tên:</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" name="name" id="name"
+                                                   value="{{ isset($filters['name']) ? $filters['name'] : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Số điện thoại:</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" name="phone" id="phone"
+                                                   value="{{ isset($filters['phone']) ? $filters['phone'] : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Email:</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control" name="email" id="email"
+                                                   value="{{ isset($filters['email']) ? $filters['email'] : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Giới tính:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="gender" id="gender">
+                                                <option value="" {{ (isset($filters['gender']) && '' == $filters['gender']) ? 'selected' : ''}}>Chọn giới tính</option>
+                                                <option value="1" {{ (isset($filters['gender']) && 1 == $filters['gender']) ? 'selected' : ''}}>Nam</option>
+                                                <option value="0" {{ (isset($filters['gender']) && 0 == $filters['gender']) ? 'selected' : ''}}>Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Năm sinh:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="yearOfBirth" id="yearOfBirth">
+                                                <option value="" {{ (isset($filters['yearOfBirth']) && '' == $filters['yearOfBirth']) ? 'selected' : ''}}>Chọn năm sinh</option>
+                                                @foreach($years as $year)
+                                                    <option value="{{$year}}" {{(isset($filters['yearOfBirth']) && $year == $filters['yearOfBirth']) ? 'selected' : ''}}>{{$year}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5"></label>
+                                        <div class="col-sm-7">
+                                            <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>
+                                            <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
-{{--                            <div class="row">--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Khu vực:</label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <select class="form-control" name="area" id="area">--}}
-{{--                                                <option value="" >Chọn Khu vực</option>--}}
-{{--                                                @foreach($areaName as $key => $value)--}}
-{{--                                                    <option value="{{$key}}" {{ (isset($filters['area']) && $key == $filters['area']) ? 'selected' : ''}}>--}}
-{{--                                                        {{ $key ? 'HYS ' . $value : $value}}--}}
-{{--                                                    </option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Ban: </label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <select class="form-control" name="depart" id="depart">--}}
-{{--                                                <option value="" >Chọn Phòng ban</option>--}}
-{{--                                                @foreach($departs as $depart)--}}
-{{--                                                    <option value="{{$depart->id}}" {{ (isset($filters['depart']) && $depart->id == $filters['depart']) ? 'selected' : ''}}>--}}
-{{--                                                        {{ 'Ban ' . $depart->name }}--}}
-{{--                                                    </option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Cơ sở/Team:</label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <select class="form-control" name="type" id="select_cate_type">--}}
-{{--                                                <option name="type" value=""> Test 1</option>--}}
-{{--                                                <option name="type" value=""> Test 2</option>--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Trạng thái TV:</label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <select class="form-control" name="status" id="status">--}}
-{{--                                                <option value="" {{ (isset($filters['status']) && '' == $filters['status']) ? 'selected' : ''}}>Chọn trạng thái</option>--}}
-{{--                                                <option value="1" {{ (isset($filters['status']) && 1 == $filters['status']) ? 'selected' : ''}}>Đang hoạt động</option>--}}
-{{--                                                <option value="0" {{ (isset($filters['status']) && 0 == $filters['status']) ? 'selected' : ''}}>Dừng hoạt động</option>--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Mã thành viên:</label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <input class="form-control" name="code" id="code"--}}
-{{--                                                   value="{{ isset($filters['code']) ? $filters['code'] : '' }}">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Họ tên:</label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <input class="form-control" name="name" id="name"--}}
-{{--                                                   value="{{ isset($filters['name']) ? $filters['name'] : '' }}">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5 col-form-label" style="text-align: right">Ngày tham gia:</label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <div class="input-group date" id="filterJointime" data-target-input="nearest">--}}
-{{--                                                <div class="input-group-append" data-target="#filterJointime" data-toggle="datetimepicker">--}}
-{{--                                                    <div class="input-group-text">--}}
-{{--                                                        <i class="fa fa-calendar"></i>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <input type="text" class="form-control datetimepicker-input" id="jointime" name="jointime"--}}
-{{--                                                       data-target="#filterJointime" data-toggle="datetimepicker" data-format="DD/MM/YYYY"--}}
-{{--                                                       data-min="17/11/2013" data-max="{{date("d/m/Y")}}"--}}
-{{--                                                       data-value="{{ isset($filters['jointime']) ? $filters['jointime'] : '' }}"/>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-lg-3">--}}
-{{--                                    <div class="form-group row">--}}
-{{--                                        <label class="col-sm-5"></label>--}}
-{{--                                        <div class="col-sm-7">--}}
-{{--                                            <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>--}}
-{{--                                            <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
+                    </div>
 
-{{--                    </div>--}}
                     <!-- /.card-header -->
                     <div class="card-header">
                         <a class="btn btn-success text-white float-right" id="btnAddStudent">
@@ -168,6 +132,8 @@
                             Thêm Học viên mới
                         </a>
                     </div>
+
+                    <!-- /.card-body -->
                     <div class="card-body">
                         <table id="tableStudentList" class="table table-bordered table-striped table-hover">
                             <thead>
@@ -215,7 +181,38 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.card-body -->
+                    @if ($students->hasPages())
+                        <div class="card-footer clearfix">
+                            <ul class="pagination m-0 float-right">
+                                @if (!$students->onFirstPage())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$students->currentPage() - 1}}" href="">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @for($i = 1; $i <= $students->lastPage(); $i++)
+                                    @if($i == 1 || $i == $students->lastPage() || ($i <= ($students->currentPage() + 1) && $i >= ($students->currentPage() - 1)))
+
+                                        <li class="btn page-item {{$i == $students->currentPage() ? 'active' : ''}}">
+                                            <a class="page-link" data-page="{{$i}}" href="">{{$i}}</a>
+                                        </li>
+                                    @elseif($i == $students->currentPage() - 2 || $i == $students->currentPage() + 2)
+                                        <li class="btn page-item disabled"><a class="page-link" >...</a></li>
+                                    @endif
+                                @endfor
+
+                                @if($students->hasMorePages())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$students->currentPage() + 1}}" href="">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
             <!-- modal Add New Role -->
