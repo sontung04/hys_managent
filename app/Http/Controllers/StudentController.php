@@ -7,6 +7,7 @@ use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -15,9 +16,44 @@ class StudentController extends Controller
 
     }
 
-    public function list(){
-        $students = Student::all();
-        return view('students.list',compact('students'));
+    public function list(Request $request){
+        $filters = $request->all();
+
+        $query = DB::table('students', 's');
+
+        if ($request->isMethod('POST')){
+            $paged = $filters['page'];
+            unset($filters['page']);
+            unset($filters['_token']);
+
+            foreach ($filters as $key => $value){
+                if ($value != '' && $value != NULL){
+                    switch ($key){
+                        case 'name':
+                            $query->where('s.name', 'LIKE', '%' . $value . '%');
+                            break;
+                        case 'phone':
+                            $query->where('s.phone', 'LIKE', '%' . $value . '%');
+                            break;
+                        case 'email':
+                            $query->where('s.email', 'LIKE', '%' . $value . '%');
+                            break;
+                        case 'gender':
+                            $query->where('s.gender', '=', $value);
+                            break;
+                        case 'yearOfBirth':
+                            $query->where('s.birthday', 'LIKE', $value . '%');
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            $students = $query->paginate(25, ['*'], 'page', $paged);
+        }else
+            $students = $query->paginate(25);
+
+        return view('students.list',compact('students', 'filters'));
     }
 
     public function getInfoAjax(Request $request, $id){

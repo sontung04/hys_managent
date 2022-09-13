@@ -6,6 +6,8 @@ $(function() {
 
     let modalAddStudent = $('#modalAddStudent');
 
+    let formFilterStudent = $('#formFilterStudent')
+
     let inputBirthday = modalAddStudent.find('#birthday');
 
     /* set datetimepicker */
@@ -157,5 +159,18 @@ $(function() {
         unhighlight: function(element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         }
+    });
+
+    // Xử lý phân trang
+    $('.pagination').on('click', '.page-item a', function (){
+       $('#formFilterStudent input[name = "page"]').val(parseInt($(this).attr('data-page')));
+       $('#formFilterStudent #btnSubmit').trigger('click');
+       return false;
+    });
+
+    //Đặt các trường dữ liệu về empty khi khi bấm reset form filter
+    formFilterStudent.on('click', '#btnReset', function (){
+       formFilterStudent.find('.form-control').val('');
+       formFilterStudent.find('option[value=""]').prop('selected');
     });
 })

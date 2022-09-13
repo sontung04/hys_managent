@@ -84,6 +84,20 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Giới tính:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="gender" id="gender">
+                                                <option value="" {{ (isset($filters['gender']) && '' == $filters['gender']) ? 'selected' : ''}}>Chọn giới tính</option>
+                                                <option value="1" {{ (isset($filters['gender']) && 1 == $filters['gender']) ? 'selected' : ''}}>Nam</option>
+                                                <option value="0" {{ (isset($filters['gender']) && 0 == $filters['gender']) ? 'selected' : ''}}>Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-3">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Năm sinh:</label>
@@ -91,7 +105,7 @@
                                             <select class="form-control" name="yearOfBirth" id="yearOfBirth">
                                                 <option value="" {{ (isset($filters['yearOfBirth']) && '' == $filters['yearOfBirth']) ? 'selected' : ''}}>Chọn năm sinh</option>
                                                 @foreach($years as $year)
-                                                    <option value="{{$year}} {{(isset($filters['yearOfBirth']) && $year == $filters['yearOfBirth']) ? 'selected' : ''}}">{{$year}}</option>
+                                                    <option value="{{$year}}" {{(isset($filters['yearOfBirth']) && $year == $filters['yearOfBirth']) ? 'selected' : ''}}>{{$year}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -118,6 +132,8 @@
                             Thêm Học viên mới
                         </a>
                     </div>
+
+                    <!-- /.card-body -->
                     <div class="card-body">
                         <table id="tableStudentList" class="table table-bordered table-striped table-hover">
                             <thead>
@@ -165,7 +181,38 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.card-body -->
+                    @if ($students->hasPages())
+                        <div class="card-footer clearfix">
+                            <ul class="pagination m-0 float-right">
+                                @if (!$students->onFirstPage())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$students->currentPage() - 1}}" href="">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @for($i = 1; $i <= $students->lastPage(); $i++)
+                                    @if($i == 1 || $i == $students->lastPage() || ($i <= ($students->currentPage() + 1) && $i >= ($students->currentPage() - 1)))
+
+                                        <li class="btn page-item {{$i == $students->currentPage() ? 'active' : ''}}">
+                                            <a class="page-link" data-page="{{$i}}" href="">{{$i}}</a>
+                                        </li>
+                                    @elseif($i == $students->currentPage() - 2 || $i == $students->currentPage() + 2)
+                                        <li class="btn page-item disabled"><a class="page-link" >...</a></li>
+                                    @endif
+                                @endfor
+
+                                @if($students->hasMorePages())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$students->currentPage() + 1}}" href="">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
             <!-- modal Add New Role -->
