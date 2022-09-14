@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Plugins\BaseHelper;
 use App\Models\ClassHc;
+use App\Models\Study;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,4 +84,60 @@ class ClassHcController extends Controller
     public function viewFees(){
         return view('classes.fees');
     }
+
+    // phần này của Study
+    public function listStudy($id){
+        $classes = ClassHc::findOrFail($id);
+        $studies = DB::table('studies')
+            ->join('lessons', 'studies.lesson_id', '=', 'lessons.id')
+            ->join('teachers', 'studies.teacher', '=', 'teachers.id')
+            ->where('studies.class_id', '=', $id)
+            ->select('studies.id','lessons.name as lsname', 'teachers.name as tchname', 'studies.daylearn')
+            ->get();
+        return view('classes.listStudy', compact('classes', 'studies'));
+    }
+
+    public function getInfoStudyAjax(Request $request, $id){
+        $this->checkRequestAjax($request);
+        $study = Study::findOrFail($id);
+        $study->daylearn = $this->changeFormatDateOutput($study->daylearn);
+        BaseHelper::ajaxResponse('success', true, $study);
+    }
+
+    public function saveInfoStudyAjax(Request $request){
+        
+        $this->checkRequestAjax($request);
+
+        $requestData = $request->all();
+       
+        if (!isset($requestData['id']) || empty($requestData['id'])){
+            # Create new study
+            $study = new Study();
+            $study->created_by = Auth::id();
+            $study->created_at = Carbon::now();
+        }else{
+            #update infomation study
+            $study = Study::findOrFail($requestData['id']);
+            $study->updated_by = Auth::id();
+            $study->updated_at = Carbon::now();
+        }
+        $study->class_id    = $requestData['class_id'];
+        $study->lesson_id   = $requestData['lesson_id'];
+        $study->teacher     = $requestData['teacher'];
+        $study->carer_staff = $requestData['carer_staff'];
+        $study->coach       = $requestData['coach'];
+        $study->daylearn    = $this->changeFormatDateInput($requestData['daylearn']);
+        $study->location    = $requestData['location'];
+    
+
+        try {
+            $study->save();
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
+        }catch (\Exception $exception){
+            print_r($exception);
+            die();
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+        }
+    }
+    //kết thúc phần của Study
 }
