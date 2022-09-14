@@ -2,7 +2,7 @@ $(function() {
     'use strict'
 
     /* set ckeditor */
-    // CKEDITOR.replace('description');
+    CKEDITOR.replace('description');
 
     let modalAddStudent = $('#modalAddStudent');
 
@@ -51,29 +51,31 @@ $(function() {
     modalAddStudent.on('hidden.bs.modal', function() {
         eventCloseHiddenModal(modalAddStudent);
     });
-
+    /* Submit form modal add student to class */
     modalAddStudent.find('form').validate({
-        submitHandler: function() {
-            // modalAddStudent.find('#description').val(CKEDITOR.instances['description'].getData());
+        submitHandler: function () {
+            modalAddStudent.find('#description').val(CKEDITOR.instances['description'].getData());
             let data = modalAddStudent.find('form').serialize();
-
-            callAjaxPost(BASE_URL + '/student/saveInfoAjax', data).done(function(res) {
+            callAjaxPost(BASE_URL + '/class/student/saveInfoAjax', data).done(function(res){
                 if (!res.status) {
                     notifyMessage('Lỗi!', res.msg, 'error', 5000);
                     return;
                 }
-                notifyMessage('Thông báo!', res.msg, 'success');
+                notifyMessage('Thông báo!', res.msg,'success');
                 modalAddStudent.modal('hide');
-                setTimeout(function() { window.location.reload(); }, 10);
+                setTimeout(function(){ window.location.reload(); }, 1000);
             });
         },
-
         rules: {
             name: {
                 required: true,
             },
-            course_id: {
+            birthday: {
                 required: true,
+            },
+            phone: {
+                required: true,
+                validatePhone: true
             },
             starttime: {
                 required: true,
@@ -84,16 +86,19 @@ $(function() {
         },
         messages: {
             name: {
-                required: "Please fill in the blank",
+                required: "Tên không được để trống",
             },
-            course_id: {
-                required: "Please fill in the blank",
+            birthday: {
+                required: "Ngày sinh không được để trống",
+            },
+            phone: {
+                required: "Số điện thoại không được để trống",
             },
             starttime: {
-                required: "Please fill in the blank",
+                required: "Ngày bắt đầu không được để trống",
             },
             status: {
-                required: "Please fill in the blank",
+                required: "Trạng thái không được để trống",
             },
         },
         errorElement: 'span',

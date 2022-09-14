@@ -31,12 +31,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách học viên {{$classes->name}}</h1>
+                        <h1>Danh sách học viên {{$class->name}}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('index')}}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Danh sách học viên lớp {{$classes->name}}</li>
+                            <li class="breadcrumb-item active">Danh sách học viên lớp {{$class->name}}</li>
                         </ol>
                     </div>
                 </div>
@@ -119,21 +119,46 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="" id="" class="form-horizontal" method="post">
+                        <form action="" id="formAddStudent" class="form-horizontal" method="post">
                             @csrf
                             <!-- Change students status in class -->
                             <div class="modal-body">
                                 <input type="hidden" id="id" class="form-control" name="id">
+                                <input type="hidden" class="form-control" name="class_id"  value="{{$class->id}}" >
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="starttime"> Start time:  <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="name"> Họ và Tên:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="name" id="name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="birthday"> Ngày sinh:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="date" name="birthday" id="birthday" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="phone"> Số điện thoại:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="phone" id="phone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="starttime"> Ngày bắt đầu học:  <span class="text-danger">*</span></label>
                                     <div class="form-group col-lg-9">
                                         <input type="date" name="starttime" id="starttime" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="finishtime"> Finish time:  <span class="text-danger"></span></label>
+                                    <label class="col-lg-3 col-form-label" for="finishtime"> Ngày kết thúc :  <span class="text-danger"></span></label>
                                     <div class="form-group col-lg-9">
                                         <input type="date" name="finishtime" id="finishtime" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="notr"> Lưu ý:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="note" id="note" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row" >
@@ -167,8 +192,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer ">
-                                <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
-                                <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
+                                <button type="button" class="btn btn-default closeModal " data-dismiss="modal" >Đóng</button>
+                                <button type="submit" class="btn btn-primary" id="btnSave" ><i class="fas fa-save"></i> Lưu thông tin </button>
                             </div>
                         </form>
                     </div>
