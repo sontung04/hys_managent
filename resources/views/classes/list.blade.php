@@ -97,6 +97,10 @@
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem học sinh của lớp">
                                             <i class="fas fa-eye"></i>
                                         </button>
+                                        <button type="button" class="btn btn-outline-warning btnViewStudy" data-id="{{$class->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem buổi học của lớp">
+                                            <i class="fa-solid fa-book"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty

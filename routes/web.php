@@ -119,6 +119,9 @@ Route::middleware('auth')->group(function (){
         Route::get('/listStudent/{id}','ClassHcController@listStudentClass')->name('listStudentClass');
         Route::post('/student/saveInfoAjax','ClassHcController@saveStudentClassAjax');
         Route::get('/fees','ClassHcController@viewFees')->name('viewFees');
+        Route::get('/listStudy/{id}','ClassHcController@listStudy')->name('listStudy');
+        Route::get('/getInfoStudyAjax/{id}', 'ClassHcController@getInfoStudyAjax');
+        Route::post('/saveInfoStudyAjax', 'ClassHcController@saveInfoStudyAjax');
     });
 });
 

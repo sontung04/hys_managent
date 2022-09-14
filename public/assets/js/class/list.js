@@ -127,5 +127,9 @@ $(function() {
         let id = $(this).attr('data-id');
         window.open(BASE_URL + '/class/listStudent/' + id, "_self");
     });
+    $("#tableListClassBody").on('click', '.btnViewStudy', function () {
+        let id = $(this).attr('data-id');
+        window.open(BASE_URL + '/class/listStudy/' + id, "_self");
+    });
 
 })
