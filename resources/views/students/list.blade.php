@@ -154,8 +154,7 @@
                             @forelse($students as $key => $student)
                                 <tr id="role-{{$student->id}}">
                                     <td>
-                                        {{(($students->currentPage() - 1) * 25) + $index}}
-                                        <?php $index++ ?>
+                                        {{(($students->currentPage() - 1) * 25) + $index++}}
                                     </td>
                                     <td>{{$student->name}}</td>
                                     <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
