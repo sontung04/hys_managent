@@ -26,13 +26,13 @@ $(function() {
         });
     });
 
-    //* Add new Student
+    //* Add new Class
     $('#btnAddClass').click(function() {
         document.getElementById('modalAddClassTitle').innerText = 'Thêm lớp học mới';
         modalAddClass.modal('show');
     });
 
-    //* Edit Info 1 Student
+    //* Edit Info a Class
     $('#tableListClassBody').on('click', '.btnEdit', function() {
         document.getElementById('modalAddClassTitle').innerText = 'Chỉnh sửa thông tin lớp học';
 

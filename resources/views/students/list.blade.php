@@ -150,9 +150,13 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <?php $index = 1 ?>
                             @forelse($students as $key => $student)
                                 <tr id="role-{{$student->id}}">
-                                    <td>{{++$key}}</td>
+                                    <td>
+                                        {{(($students->currentPage() - 1) * 25) + $index}}
+                                        <?php $index++ ?>
+                                    </td>
                                     <td>{{$student->name}}</td>
                                     <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
                                     <td>{{date('d/m/Y', strtotime($student->birthday))}}</td>
