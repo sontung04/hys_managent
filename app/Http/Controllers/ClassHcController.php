@@ -71,14 +71,79 @@ class ClassHcController extends Controller
     }
 
     public function listStudentClass($id){
-        $classes = ClassHc::findOrFail($id);
+        $class = ClassHc::findOrFail($id);
         $students = DB::table('students')
             ->join('classes_students', 'students.id', '=', 'classes_students.student_id')
             ->where('classes_students.class_id', '=', $id)
             ->orderBy('name', 'desc')
             ->select('students.*','classes_students.status')
             ->get();
-        return view('classes.listStudent',compact('students','classes'));
+        return view('classes.listStudent',compact('students','class'));
+    }
+
+    public function saveStudentClassAjax(Request $request){
+
+        $this->checkRequestAjax($request);
+
+        $requestData = $request->all();
+        if (isset($requestData['name']) && isset($requestData['phone']) && isset($requestData['birthday'])) {
+            $student = DB::table('students')
+                ->where([
+                    ['name', 'LIKE', '%' . $requestData['name'] . '%'],
+                    ['birthday', 'LIKE', $requestData['birthday'] . '%'],
+                    ['phone', '=', $requestData['phone']]
+                ])
+                ->get(['id', 'name', 'birthday', 'phone']);
+
+            if (empty($student[0]->id)) {
+                BaseHelper::ajaxResponse('Dữ liệu học viên không chính xác');
+            }
+
+            $course = DB::table('courses')
+                ->join('classes_hc', 'classes_hc.course_id', '=', 'courses.id')
+                ->where('classes_hc.id', '=', $requestData['class_id'])
+                ->get('courses.*');
+
+
+            $checkLearned = DB::table('courses')
+                ->join('classes_hc', 'courses.id', '=', 'classes_hc.course_id')
+                ->join('classes_students', 'classes_hc.id', '=', 'classes_students.class_id')
+                ->where([
+                    ['courses.id', '=', $course[0]->id],
+                    ['classes_students.student_id', '=', $student[0]->id]
+                ])
+                ->get('classes_students.status');
+
+            if (count($checkLearned) != 0){
+                for($i = 0; $i < count($checkLearned); $i++){
+                    if ($checkLearned[$i]->status == 0 ) {
+                        BaseHelper::ajaxResponse('Học viên đã hoàn thành khóa học', false);
+                    }elseif ($checkLearned[$i]->status == 1 ){
+                        BaseHelper::ajaxResponse('Học viên đã có trong danh sách lớp học hoặc đang học lớp khác cùng khóa học', false);
+                    }
+                }
+            }
+
+            if ($course[0]->length >= 10){
+                $fees = 500000;
+            }else $fees = 480000;
+
+            $test = DB::table('classes_students')
+                ->insert([
+                    'class_id'      => $requestData['class_id'],
+                    'student_id'    => $student[0]->id,
+                    'starttime'     => $requestData['starttime'],
+                    'finishtime'    => $requestData['finishtime'],
+                    'note'          => $requestData['note'],
+                    'fees'          => $fees,
+                    'status'        => $requestData['status'],
+                    'created_by'    => Auth::id(),
+                    'created_at'    => Carbon::now()
+                ]);
+
+            BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
+        }else
+            BaseHelper::ajaxResponse('Tên, ngày sinh hoặc số điện thoại trống', false);
     }
 
     public function viewFees(){
@@ -105,11 +170,11 @@ class ClassHcController extends Controller
     }
 
     public function saveInfoStudyAjax(Request $request){
-        
+
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
-       
+
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # Create new study
             $study = new Study();
@@ -128,7 +193,7 @@ class ClassHcController extends Controller
         $study->coach       = $requestData['coach'];
         $study->daylearn    = $this->changeFormatDateInput($requestData['daylearn']);
         $study->location    = $requestData['location'];
-    
+
 
         try {
             $study->save();

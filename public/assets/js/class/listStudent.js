@@ -4,17 +4,17 @@ $(function() {
     /* set ckeditor */
     // CKEDITOR.replace('description');
 
-    let modalAddStudent = $('#modalAddStudent');
+    let modalAddStudentClass = $('#modalAddStudentClass');
 
     //* Add new Student
-    $('#btnAddStudent').click(function() {
-        document.getElementById('modalAddStudentTitle').innerText = 'Thêm học viên mới';
-        modalAddStudent.modal('show');
+    $('#btnAddStudentClass').click(function() {
+        document.getElementById('modalAddStudentClassTitle').innerText = 'Thêm học viên mới';
+        modalAddStudentClass.modal('show');
     });
 
     //* Edit Info 1 Student
     $('#listStdClassTable').on('click', '.btnEdit', function() {
-        document.getElementById('modalAddStudentTitle').innerText = 'Chỉnh sửa thông tin';
+        document.getElementById('modalAddStudentClassTitle').innerText = 'Chỉnh sửa thông tin';
 
         let id = $(this).attr('data-id');
         callAjaxGet(BASE_URL + '/student/getInfoAjax/' + id).done(function(res) {
@@ -26,87 +26,96 @@ $(function() {
 
             /* set field value */
             ['id', 'name', 'gender', 'native_place', 'phone', 'email', 'starttime', 'finishtime', 'status'].forEach(field => {
-                modalAddStudent.find('#' + field).val(studentInfo[field]);
+                modalAddStudentClass.find('#' + field).val(studentInfo[field]);
             });
 
 
             switch (studentInfo['status']){
-                case 0: modalAddStudent.find('#status0').prop('checked', true); break;
-                case 1: modalAddStudent.find('#status1').prop('checked', true); break;
-                case 2: modalAddStudent.find('#status2').prop('checked', true); break;
-                case 3: modalAddStudent.find('#status3').prop('checked', true); break;
+                case 0: modalAddStudentClass.find('#status0').prop('checked', true); break;
+                case 1: modalAddStudentClass.find('#status1').prop('checked', true); break;
+                case 2: modalAddStudentClass.find('#status2').prop('checked', true); break;
+                case 3: modalAddStudentClass.find('#status3').prop('checked', true); break;
             }
 
-            modalAddStudent.modal('show');
+            modalAddStudentClass.modal('show');
         });
     });
 
     //Sự kiện Đóng modal
     $('.closeModal').on('click', function() {
         CKEDITOR.instances['description'].setData('');
-        eventCloseHiddenModal(modalAddStudent);
+        eventCloseHiddenModal(modalAddStudentClass);
     });
 
     //Sự kiện Ẩn Modal
-    modalAddStudent.on('hidden.bs.modal', function() {
-        eventCloseHiddenModal(modalAddStudent);
+    modalAddStudentClass.on('hidden.bs.modal', function() {
+        eventCloseHiddenModal(modalAddStudentClass);
     });
 
-    modalAddStudent.find('form').validate({
-        submitHandler: function() {
-            // modalAddStudent.find('#description').val(CKEDITOR.instances['description'].getData());
-            let data = modalAddStudent.find('form').serialize();
+    /* Validate form Add students to class */
+    modalAddStudentClass.ready(function (){
+        $("#formAddStudentClass").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                birthday: {
+                    required: true,
+                },
+                phone: {
+                    required: true,
+                },
+                starttime: {
+                    required: true,
+                },
 
-            callAjaxPost(BASE_URL + '/student/saveInfoAjax', data).done(function(res) {
-                if (!res.status) {
-                    notifyMessage('Lỗi!', res.msg, 'error', 5000);
-                    return;
-                }
-                notifyMessage('Thông báo!', res.msg, 'success');
-                modalAddStudent.modal('hide');
-                setTimeout(function() { window.location.reload(); }, 10);
-            });
-        },
+            },
+            messages: {
+                name: {
+                    required: "Tên không được để trống",
+                },
+                birthday: {
+                    required: "Ngày sinh không được để trống",
+                },
+                phone: {
+                    required: "Số điện thoại không được để trống",
+                },
+                starttime: {
+                    required: "Ngày bắt đầu không được để trống",
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function(error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
 
-        rules: {
-            name: {
-                required: true,
-            },
-            course_id: {
-                required: true,
-            },
-            starttime: {
-                required: true,
-            },
-            status: {
-                required: true,
-            },
-        },
-        messages: {
-            name: {
-                required: "Please fill in the blank",
-            },
-            course_id: {
-                required: "Please fill in the blank",
-            },
-            starttime: {
-                required: "Please fill in the blank",
-            },
-            status: {
-                required: "Please fill in the blank",
-            },
-        },
-        errorElement: 'span',
-        errorPlacement: function(error, element) {
-            error.addClass('invalid-feedback');
-            element.closest('.form-group').append(error);
-        },
-        highlight: function(element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function(element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        }
+        $('#btnSave').click(function (){
+            $("#formAddStudentClass").valid();
+        });
+    });
+
+    /* Submit form modal add student to class */
+
+    modalAddStudentClass.find('form').on('click', '#btnSave', function () {
+        let data = modalAddStudentClass.find('form').serialize();
+
+        callAjaxPost(BASE_URL + '/class/student/saveInfoAjax', data).done(function(res){
+            if (!res.status) {
+                notifyMessage('Lỗi!', res.msg, 'error', 5000);
+                return;
+            }
+            notifyMessage('Thông báo!', res.msg,'success');
+            modalAddStudentClass.modal('hide');
+            setTimeout(function(){ window.location.reload(); }, 1000);
+        });
     });
 
 })
