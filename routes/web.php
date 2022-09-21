@@ -111,6 +111,8 @@ Route::middleware('auth')->group(function (){
         Route::get('/detail', function () {
             return view('students.detail');
         });
+
+        Route::post('/saveInternAjax', 'InternController@saveInternAjax');
     });
     Route::prefix('/class')->group(function (){
         Route::get('/attendance', function () {
