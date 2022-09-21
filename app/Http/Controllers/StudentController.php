@@ -118,5 +118,4 @@ class StudentController extends Controller
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
-
 }
