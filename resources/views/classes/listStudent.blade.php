@@ -65,7 +65,7 @@
                                 <th>Quê quán</th>
                                 <th>Điện thoại</th>
                                 <th>Email</th>
-                                <th style="width: 5%">Trạng thái học</th>
+                                <th style="width: 5%">Trạng thái</th>
                                 <th style="width: 10%">Hành động</th>
                             </tr>
                             </thead>
@@ -84,7 +84,7 @@
                                     <td>{{$student->phone}}</td>
                                     <td>{{$student->email}}</td>
                                     <td style="text-align: center">
-                                        <?php echo $student->status ? '<span style="color:green;">Học</span>' : '<span style="color:red">Nghỉ</span>' ?>
+                                        <?php echo $student->status ? '<span style="color:green;">Đang học</span>' : '<span style="color:red">Nghỉ</span>' ?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->id}}"
@@ -122,8 +122,14 @@
                             @csrf
                             <!-- Change students status in class -->
                             <div class="modal-body">
-                                <input type="hidden" id="id" class="form-control" name="id">
-                                <input type="hidden" class="form-control" name="class_id"  value="{{$class->id}}" >
+                                <input type="hidden" id="id" name="id">
+                                <input type="hidden" name="class_id"  value="{{$class->id}}" >
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="phone"> Số điện thoại:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="phone" id="phone" class="form-control">
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <label class="col-lg-3 col-form-label" for="name"> Họ và Tên:  <span class="text-danger">*</span></label>
                                     <div class="form-group col-lg-9">
@@ -134,12 +140,6 @@
                                     <label class="col-lg-3 col-form-label" for="birthday"> Ngày sinh:  <span class="text-danger">*</span></label>
                                     <div class="form-group col-lg-9">
                                         <input type="date" name="birthday" id="birthday" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="phone"> Số điện thoại:  <span class="text-danger">*</span></label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="phone" id="phone" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">

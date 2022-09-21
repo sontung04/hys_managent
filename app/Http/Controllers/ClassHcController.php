@@ -86,6 +86,15 @@ class ClassHcController extends Controller
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
+
+        $class = DB::table('classes_hc')
+            ->where('id', '=', $requestData['class_id'])
+            ->get('status');
+
+        if ($class[0]->status == 3){
+            BaseHelper::ajaxResponse('Lớp học đã hoàn thành', false);
+        }
+
         if (isset($requestData['name']) && isset($requestData['phone']) && isset($requestData['birthday'])) {
             $student = DB::table('students')
                 ->where([
