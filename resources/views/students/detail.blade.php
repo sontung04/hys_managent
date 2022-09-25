@@ -39,23 +39,23 @@
                                          src="{{ asset(env('AVATAR_DEFAULT')) }}" alt="User profile picture">
                                 </div>
 
-                                <h3 class="profile-username text-center">Họ và tên</h3>
+                                <h3 class="profile-username text-center">{{ $student->name }}</h3>
 
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
-                                        <b>Ngày sinh</b> <a class="float-right">17/11/2013</a>
+                                        <b>Ngày sinh</b> <a class="float-right">{{date('d/m/Y', strtotime($student->birthday))}}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Giới tính</b> <a class="float-right">Nam</a>
+                                        <b>Giới tính</b> <a class="float-right">{{ $student->gender ? 'Nam' : 'Nữ'}}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Số điện thoại</b> <a class="float-right">0916123456</a>
+                                        <b>Số điện thoại</b> <a class="float-right">{{ $student->phone }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Email</b> <a class="float-right">adminemail@gmail.com</a>
+                                        <b>Email</b> <a class="float-right">{{ $student->email }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Facebook</b> <a href="" class="float-right">Link</a>
+                                        <b>Facebook</b> <a href="" class="float-right">{{ $student->facebook }}</a>
                                     </li>
                                 </ul>
 
@@ -83,138 +83,108 @@
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Trường học <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-10"></div>
+                                                    <div class="col-sm-10">{{ $student->school }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Ngành học <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-10"></div>
+                                                    <div class="col-sm-10">{{ $student->major }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Quê quán <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-10"></div>
+                                                    <div class="col-sm-10">{{ $student->native_place }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Nơi ở hiện tại <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-10"></div>
+                                                    <div class="col-sm-10">{{ $student->address }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Số CCCD <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4">035099000606</div>
+                                                    <div class="col-sm-4">{{ $student->citizen_identify }}</div>
                                                     <div class="col-sm-2"><b> Ngày cấp CCCD <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4">16/06/2017</div>
+                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->date_of_issuue))}}</div>
                                                 </div>
                                             </li>
-
-{{--                                            <li class="list-group-item">--}}
-{{--                                                <div class="row">--}}
-{{--                                                    --}}
-{{--                                                </div>--}}
-{{--                                            </li>--}}
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Địa chỉ cấp CCCD <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-10"></div>
+                                                    <div class="col-sm-10">{{ $student->place_of_issue }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Dân tộc <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4">{{ $student->nation }}</div>
                                                     <div class="col-sm-2"><b> Tôn giáo <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4">{{ $student->religion }}</div>
                                                 </div>
                                             </li>
-
-{{--                                            <li class="list-group-item">--}}
-{{--                                                <div class="row">--}}
-{{--                                                    --}}
-{{--                                                </div>--}}
-{{--                                            </li>--}}
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Tên người giám hộ <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4">{{ $student->guardian_name }}</div>
                                                     <div class="col-sm-2"><b> SĐT người giám hộ <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4">{{ $student->guardian_phone }}</div>
                                                 </div>
                                             </li>
-
-{{--                                            <li class="list-group-item">--}}
-{{--                                                <div class="row">--}}
-
-{{--                                                </div>--}}
-{{--                                            </li>--}}
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Tên bố <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4">{{ $student->father }}</div>
                                                     <div class="col-sm-2"><b> Ngày sinh của bố <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->father_birthday))}}</div>
                                                 </div>
                                             </li>
-
-{{--                                            <li class="list-group-item">--}}
-{{--                                                <div class="row">--}}
-{{--                                                    --}}
-{{--                                                </div>--}}
-{{--                                            </li>--}}
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-3"><b> Công việc của bố: </b></div>
-                                                    <div class="col-sm-9"></div>
+                                                    <div class="col-sm-9">{{ $student->father_job }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b><b> Tên mẹ <span style="float: right">:</span> </b></b></div>
-                                                    <div class="col-sm-4">Nguyễn Thị Hương Quỳnh</div>
+                                                    <div class="col-sm-4">{{ $student->mother }}</div>
                                                     <div class="col-sm-2"><b> Ngày sinh của mẹ <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4">14/04/1999</div>
+                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->mother_birthday))}}</div>
                                                 </div>
                                             </li>
-
-{{--                                            <li class="list-group-item">--}}
-{{--                                                <div class="row">--}}
-{{--                                                    --}}
-{{--                                                </div>--}}
-{{--                                            </li>--}}
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><b> Công việc của mẹ <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-10"></div>
+                                                    <div class="col-sm-10">{{ $student->mother_job }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-3"><b> Biết tới khóa học từ đâu <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-9"></div>
+                                                    <div class="col-sm-9">{{ $student->course_where }}</div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-3"><b> Mong muốn khi tham gia học <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-9"></div>
+                                                    <div class="col-sm-9">{{ $student->desire }}</div>
                                                 </div>
                                             </li>
 

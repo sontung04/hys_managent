@@ -256,4 +256,9 @@ $(function() {
             $(element).removeClass('is-invalid');
         }
     });
+
+    $("#tableStudentList").on('click', '.btnView', function () {
+        let id = $(this).attr('data-id');
+        window.open(BASE_URL + '/student/detail/' + id);
+    });
 })
