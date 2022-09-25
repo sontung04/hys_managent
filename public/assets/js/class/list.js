@@ -129,7 +129,7 @@ $(function() {
     });
     $("#tableListClassBody").on('click', '.btnViewStudy', function () {
         let id = $(this).attr('data-id');
-        window.open(BASE_URL + '/class/listStudy/' + id, "_self");
+        window.open(BASE_URL + '/class/listStudy/' + id);
     });
 
 })
