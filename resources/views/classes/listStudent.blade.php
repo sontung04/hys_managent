@@ -2,7 +2,6 @@
 
 @section('script')
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-    <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
     {{-- <script src="{{ asset('assets/js/class/list.js') }}" defer></script> --}}
     <script src="{{ asset('assets/js/class/listStudent.js') }}" defer></script>
 @endsection
@@ -31,12 +30,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách học viên {{$classes->name}}</h1>
+                        <h1>Danh sách học viên {{$class->name}}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('index')}}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Danh sách học viên lớp {{$classes->name}}</li>
+                            <li class="breadcrumb-item active">Danh sách học viên lớp {{$class->name}}</li>
                         </ol>
                     </div>
                 </div>
@@ -50,7 +49,7 @@
                     <div class="card-header">
                         <h3 class="card-title"></h3>
 
-                        <a class="btn btn-success text-white float-right" id="btnAddStudent">
+                        <a class="btn btn-success text-white float-right" id="btnAddStudentClass">
                             <i class="fas fa-cog"></i>
                             Thêm học viên lớp
                         </a>
@@ -66,7 +65,7 @@
                                 <th>Quê quán</th>
                                 <th>Điện thoại</th>
                                 <th>Email</th>
-                                <th style="width: 5%">Trạng thái học</th>
+                                <th style="width: 5%">Trạng thái</th>
                                 <th style="width: 10%">Hành động</th>
                             </tr>
                             </thead>
@@ -85,7 +84,7 @@
                                     <td>{{$student->phone}}</td>
                                     <td>{{$student->email}}</td>
                                     <td style="text-align: center">
-                                        <?php echo $student->status ? '<span style="color:green;">Học</span>' : '<span style="color:red">Nghỉ</span>' ?>
+                                        <?php echo $student->status ? '<span style="color:green;">Đang học</span>' : '<span style="color:red">Nghỉ</span>' ?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->id}}"
@@ -110,34 +109,59 @@
                 </div>
             </div>
             <!-- modal Add New Student -->
-            <div class="modal fade" id="modalAddStudent">
-                <div class="modal-dialog modal-lg" style="width: 85%; max-width: 90%;">
+            <div class="modal fade" id="modalAddStudentClass">
+                <div class="modal-dialog modal-lg" style="width: 50%; max-width: 90%;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="modalAddStudentTitle">Modal default</h4>
+                            <h4 class="modal-title" id="modalAddStudentClassTitle">Modal default</h4>
                             <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="" id="" class="form-horizontal" method="post">
+                        <form action="" id="formAddStudentClass" class="form-horizontal" method="post">
                             @csrf
                             <!-- Change students status in class -->
                             <div class="modal-body">
-                                <input type="hidden" id="id" class="form-control" name="id">
+                                <input type="hidden" id="id" name="id">
+                                <input type="hidden" name="class_id"  value="{{$class->id}}" >
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="starttime"> Start time:  <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="phone"> Số điện thoại:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="phone" id="phone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="name"> Họ và Tên:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="name" id="name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="birthday"> Ngày sinh:  <span class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="date" name="birthday" id="birthday" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="starttime"> Ngày bắt đầu học:  <span class="text-danger">*</span></label>
                                     <div class="form-group col-lg-9">
                                         <input type="date" name="starttime" id="starttime" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="finishtime"> Finish time:  <span class="text-danger"></span></label>
+                                    <label class="col-lg-3 col-form-label" for="finishtime"> Ngày kết thúc :  <span class="text-danger"></span></label>
                                     <div class="form-group col-lg-9">
                                         <input type="date" name="finishtime" id="finishtime" class="form-control">
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="notr"> Lưu ý: </label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="note" id="note" class="form-control">
+                                    </div>
+                                </div>
                                 <div class="row" >
-                                    <label class="col-lg-3 col-form-label" for="status">Trạng thái: <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="status">Trạng thái: </label>
                                     <div class="form-group col-lg-9">
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="status0" name="status" value="0">
@@ -167,8 +191,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer ">
-                                <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
-                                <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
+                                <button type="button" class="btn btn-default closeModal " data-dismiss="modal" >Đóng</button>
+                                <button type="button" class="btn btn-primary" id="btnSave" ><i class="fas fa-save"></i> Lưu thông tin </button>
                             </div>
                         </form>
                     </div>

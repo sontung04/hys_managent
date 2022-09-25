@@ -107,16 +107,27 @@ Route::middleware('auth')->group(function (){
         Route::match(['get', 'post'],'/list','StudentController@list')->name('student.list');
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
+
+        Route::get('/detail', function () {
+            return view('students.detail');
+        });
+
+        Route::post('/saveInternAjax', 'InternController@saveInternAjax');
     });
     Route::prefix('/class')->group(function (){
         Route::get('/attendance', function () {
             return view('classes.attendance');
+        });
+        Route::get('/attendance/test', function () {
+            return view('classes.attendanceTest');
         });
 
         Route::match(['get', 'post'], '/list', 'ClassHcController@list')->name('class.list');
         Route::get('/getInfoAjax/{id}', 'ClassHcController@getInfoAjax');
         Route::post('/saveInfoAjax', 'ClassHcController@saveInfoAjax');
         Route::get('/listStudent/{id}','ClassHcController@listStudentClass')->name('listStudentClass');
+        Route::post('/student/saveInfoAjax','ClassHcController@saveStudentClassAjax');
+
         Route::get('/fees','ClassHcController@viewFees')->name('viewFees');
         Route::get('/listStudy/{id}','ClassHcController@listStudy')->name('listStudy');
         Route::get('/getInfoStudyAjax/{id}', 'ClassHcController@getInfoStudyAjax');

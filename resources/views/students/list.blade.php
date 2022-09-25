@@ -5,7 +5,7 @@
 @endsection
 
 @section("content")
-    <?php $years = range(strftime("%Y", time()), 1900); ?>
+    <?php $years = range(strftime("%Y", time()), 1950); ?>
     <style>
         @media only screen and (max-width: 540px) {
             #tableStudentList {
@@ -150,9 +150,12 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <?php $index = 1 ?>
                             @forelse($students as $key => $student)
                                 <tr id="role-{{$student->id}}">
-                                    <td>{{++$key}}</td>
+                                    <td>
+                                        {{(($students->currentPage() - 1) * 25) + $index++}}
+                                    </td>
                                     <td>{{$student->name}}</td>
                                     <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
                                     <td>{{date('d/m/Y', strtotime($student->birthday))}}</td>
@@ -170,6 +173,11 @@
                                         <button type="button" class="btn btn-outline-primary btnView" data-id="{{$student->id}}"
                                                 data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-success btnAddIntern" data-id="{{$student->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Thêm vào thực tập sinh">
+                                            <i class="fas fa-plus-circle"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -215,50 +223,298 @@
                     @endif
                 </div>
             </div>
-            <!-- modal Add New Role -->
-    <div class="modal fade" id="modalAddStudent">
-        <div class="modal-dialog modal-lg" style="width: 85%; max-width: 90%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalAddStudentTitle">Modal default</h4>
-                    <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="" id="" class="form-horizontal" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" id="id" class="form-control" name="id">
-                        <div class="row">
-                            <div class="col-md-6">
 
+            <!-- modal Add New Student -->
+            <div class="modal fade" id="modalAddStudent">
+                <div class="modal-dialog modal-lg" style="width: 85%; max-width: 90%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modalAddStudentTitle">Modal default</h4>
+                            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" id="" class="form-horizontal" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <input type="hidden" id="id" class="form-control" name="id">
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="name" id="">Họ và Tên: <span class="text-danger">*</span></label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="name" id="name" class="form-control" >
+                                    <div class="col-md-6">
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="name" id="">Họ và Tên: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="name" id="name" class="form-control" >
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="gender">Giới tính: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9" style="height: 38px;">
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="radio" id="gender1" name="gender" value="1" checked>
+                                                    <label for="gender1" style="margin-right: 10px">
+                                                        Nam
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="radio" id="gender2" name="gender" value="0">
+                                                    <label for="gender2">
+                                                        Nữ
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="birthday" class="col-sm-3">Ngày sinh: <span style="color: red">*</span></label>
+                                            <div class="form-group col-sm-9">
+                                                <div class="input-group date" id="birthdayDate" data-target-input="nearest">
+                                                    <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
+                                                           data-toggle="datetimepicker" data-min="01/01/1950"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="phone">Số điện thoại: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="number" name="phone" id="phone" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="email">Email: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="email" name="email" id="email" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="address" class="col-sm-3">Nơi ở hiện tại: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-sm-9">
+                                                <textarea id="address" name="address" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class=" row">
+                                            <label class="col-lg-3 col-form-label" for="guardian">Người giám hộ: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="guardian_name" id="guardian_name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class=" row">
+                                            <label class="col-lg-3 col-form-label" for="guardian_phone">SĐT Giám hộ: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="number" name="guardian_phone" id="guardian_phone" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="citizen_identify">CCCD: <span class="text-danger">*</span></label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="number" name="citizen_identify" id="citizen_identify" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="date_of_issue">Ngày cấp CCCD: </label>
+                                            <div class="form-group col-lg-9">
+                                                <div class="input-group date" id="issueDate" data-target-input="nearest">
+                                                    <div class="input-group-append" data-target="#issueDate" data-toggle="datetimepicker">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control datetimepicker-input" id="date_of_issue" name="date_of_issue"
+                                                           data-target="#issueDate" data-toggle="datetimepicker"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="place_of_issue">Nơi cấp CCCD: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="place_of_issue" id="place_of_issue" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="school">Trường học: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="school" id="school" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class=" row">
+                                            <label class="col-lg-3 col-form-label" for="major">Chuyên ngành: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="major" id="major" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="facebook">Facebook cá nhân: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="facebook" id="facebook" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="native_place">Quê quán: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="native_place" id="native_place" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="nation">Dân tộc : </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="nation" id="nation" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="religion">Tôn Giáo: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="religion" id="religion" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="father">Họ và Tên Bố: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="father" id="father" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class=" row">
+                                            <label class="col-lg-3 col-form-label" for="father_birthday">Ngày sinh bố: </label>
+                                            <div class="form-group col-sm-9">
+                                                <div class="input-group date" id="birthdayFather" data-target-input="nearest">
+                                                    <div class="input-group-append" data-target="#birthdayFather" data-toggle="datetimepicker">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control datetimepicker-input" id="father_birthday" name="father_birthday"
+                                                           data-target="#birthdayFather" data-toggle="datetimepicker"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="father_job">Nghề nghiệp bố: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="father_job" id="father_job" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-lg-3 col-form-label" for="mother">Họ và Tên mẹ: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="mother" id="mother" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class=" row">
+                                            <label class="col-lg-3 col-form-label" for="mother_birthday">Ngày sinh mẹ: </label>
+                                            <div class="form-group col-sm-9">
+                                                <div class="input-group date" id="birthdayMother" data-target-input="nearest">
+                                                    <div class="input-group-append" data-target="#birthdayMother" data-toggle="datetimepicker">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control datetimepicker-input" id="mother_birthday" name="mother_birthday"
+                                                           data-target="#birthdayMother" data-toggle="datetimepicker"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class=" row">
+                                            <label class="col-lg-3 col-form-label" for="mother_job">Nghề nghiệp mẹ: </label>
+                                            <div class="form-group col-lg-9">
+                                                <input type="text" name="mother_job" id="mother_job" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="course_where" class="col-sm-3">Bạn biết khóa học từ đâu: </label>
+                                            <div class="form-group col-sm-9">
+                                                <textarea id="course_where" name="course_where" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="desire" class="col-sm-3">Bạn mong muốn điều gì từ khóa học: </label>
+                                            <div class="form-group col-sm-9">
+                                                <textarea id="desire" name="desire" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="modal-footer" >
+                                <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
+                                <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
+                            </div>
+                        </form>
 
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+            <!-- Modal add student become intern -->
+            <div class="modal fade" id="modalAddIntern">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modalAddInternTitle">Modal default </h4>
+                            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" id="formAddIntern" class="form-horizontal" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <input type="hidden" id="student_id" name="student_id">
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="gender">Giới tính: <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="name">Họ và Tên: </label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="name" id="name" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="gender">Giới tính: </label>
                                     <div class="form-group col-lg-9" style="height: 38px;">
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="gender1" name="gender" value="1" checked>
+                                            <input type="radio" id="gender1" name="gender" value="1" checked readonly>
                                             <label for="gender1" style="margin-right: 10px">
                                                 Nam
                                             </label>
                                         </div>
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="gender2" name="gender" value="0">
+                                            <input type="radio" id="gender2" name="gender" value="0" readonly>
                                             <label for="gender2">
                                                 Nữ
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <label for="birthday" class="col-sm-3">Ngày sinh: <span style="color: red">*</span></label>
+                                    <label for="birthday" class="col-sm-3">Ngày sinh: </label>
                                     <div class="form-group col-sm-9">
                                         <div class="input-group date" id="birthdayDate" data-target-input="nearest">
                                             <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
@@ -267,205 +523,77 @@
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
-                                                   data-toggle="datetimepicker" data-min="01/01/1950"/>
+                                                   data-toggle="datetimepicker" data-min="01/01/1950" readonly >
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="phone">Số điện thoại: <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="phone">Số điện thoại: </label>
                                     <div class="form-group col-lg-9">
-                                        <input type="number" name="phone" id="phone" class="form-control">
+                                        <input type="text" name="phone" id="phone" class="form-control" readonly>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="email">Email: <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="phone">Email: </label>
                                     <div class="form-group col-lg-9">
-                                        <input type="email" name="email" id="email" class="form-control">
+                                        <input type="text" name="email" id="email" class="form-control" readonly>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <label for="address" class="col-sm-3">Nơi ở hiện tại: <span class="text-danger">*</span></label>
-                                    <div class="form-group col-sm-9">
-                                        <textarea id="address" name="address" class="form-control" rows="3"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class=" row">
-                                    <label class="col-lg-3 col-form-label" for="guardian">Người giám hộ: <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label" for="starttime">Ngày bắt đầu: <span class="text-danger">*</span></label>
                                     <div class="form-group col-lg-9">
-                                        <input type="text" name="guardian_name" id="guardian_name" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class=" row">
-                                    <label class="col-lg-3 col-form-label" for="guardian_phone">SĐT Giám hộ: <span class="text-danger">*</span></label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="number" name="guardian_phone" id="guardian_phone" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="citizen_identify">CCCD: <span class="text-danger">*</span></label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="number" name="citizen_identify" id="citizen_identify" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="date_of_issue">Ngày cấp CCCD: </label>
-                                    <div class="form-group col-lg-9">
-                                        <div class="input-group date" id="issueDate" data-target-input="nearest">
-                                            <div class="input-group-append" data-target="#issueDate" data-toggle="datetimepicker">
+                                        <div class="input-group date" id="starttimeDate" data-target-input="nearest">
+                                            <div class="input-group-append" data-target="#starttimeDate" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control datetimepicker-input" id="date_of_issue" name="date_of_issue"
-                                                   data-target="#issueDate" data-toggle="datetimepicker"/>
+                                            <input type="text" class="form-control datetimepicker-input" id="starttime" name="starttime"
+                                                   data-target="#starttimeDate" data-toggle="datetimepicker"/>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="place_of_issue">Nơi cấp CCCD: </label>
+                                    <label class="col-lg-3 col-form-label" for="finishtime">Ngày kết thúc: </label>
                                     <div class="form-group col-lg-9">
-                                        <input type="text" name="place_of_issue" id="place_of_issue" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="school">Trường học: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="school" id="school" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class=" row">
-                                    <label class="col-lg-3 col-form-label" for="major">Chuyên ngành: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="major" id="major" class="form-control">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="facebook">Facebook cá nhân: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="facebook" id="facebook" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="native_place">Quê quán: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="native_place" id="native_place" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="nation">Dân tộc : </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="nation" id="nation" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="religion">Tôn Giáo: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="religion" id="religion" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="father">Họ và Tên Bố: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="father" id="father" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class=" row">
-                                    <label class="col-lg-3 col-form-label" for="father_birthday">Ngày sinh bố: </label>
-                                    <div class="form-group col-sm-9">
-                                        <div class="input-group date" id="birthdayFather" data-target-input="nearest">
-                                            <div class="input-group-append" data-target="#birthdayFather" data-toggle="datetimepicker">
+                                        <div class="input-group date" id="finishtimeDate" data-target-input="nearest">
+                                            <div class="input-group-append" data-target="#finishtimeDate" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control datetimepicker-input" id="father_birthday" name="father_birthday"
-                                                   data-target="#birthdayFather" data-toggle="datetimepicker"/>
+                                            <input type="text" class="form-control datetimepicker-input" id="finishtime" name="finishtime"
+                                                   data-target="#finishtimeDate" data-toggle="datetimepicker"/>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="father_job">Nghề nghiệp bố: </label>
+                                    <label class="col-lg-3 col-form-label" for="status">Trạng thái: </label>
                                     <div class="form-group col-lg-9">
-                                        <input type="text" name="father_job" id="father_job" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="mother">Họ và Tên mẹ: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="mother" id="mother" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class=" row">
-                                    <label class="col-lg-3 col-form-label" for="mother_birthday">Ngày sinh mẹ: </label>
-                                    <div class="form-group col-sm-9">
-                                        <div class="input-group date" id="birthdayMother" data-target-input="nearest">
-                                            <div class="input-group-append" data-target="#birthdayMother" data-toggle="datetimepicker">
-                                                <div class="input-group-text">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                            </div>
-                                            <input type="text" class="form-control datetimepicker-input" id="mother_birthday" name="mother_birthday"
-                                                   data-target="#birthdayMother" data-toggle="datetimepicker"/>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status1" name="status" value="1" checked>
+                                            <label for="status1" style="margin-right: 10px">
+                                                Đang hoạt động
+                                            </label>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class=" row">
-                                    <label class="col-lg-3 col-form-label" for="mother_job">Nghề nghiệp mẹ: </label>
-                                    <div class="form-group col-lg-9">
-                                        <input type="text" name="mother_job" id="mother_job" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label for="course_where" class="col-sm-3">Bạn biết khóa học từ đâu: </label>
-                                    <div class="form-group col-sm-9">
-                                        <textarea id="course_where" name="course_where" class="form-control" rows="3"></textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label for="desire" class="col-sm-3">Bạn mong muốn điều gì từ khóa học: </label>
-                                    <div class="form-group col-sm-9">
-                                        <textarea id="desire" name="desire" class="form-control" rows="3"></textarea>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status2" name="status" value="0">
+                                            <label for="status2">
+                                                Dừng hoạt động
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer" >
-                        <button type="button" class="btn btn-default closeModal" data-dismiss="modal" >Đóng</button>
-                        <button type="submit" class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i> Lưu thông tin </button>
-                    </div>
-                </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary btnSaveIntern"><i class="fas fa-save"></i>Lưu thông tin</button>
+                            </div>
+                        </form>
 
+                    </div>
+                </div>
             </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
         </section>
 
     </div>

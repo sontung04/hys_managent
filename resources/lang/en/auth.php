@@ -14,7 +14,8 @@ return [
     */
 
 //    'failed' => 'These credentials do not match our records.',
-    'failed' => 'Email hoặc password không đúng',
+    'failed' => 'Email hoặc số điện thoại không đúng',
+    'failed_password' => 'Mật khẩu không đúng',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];
