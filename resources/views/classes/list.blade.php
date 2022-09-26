@@ -7,6 +7,7 @@
 @endsection
 
 @section("content")
+    <?php $years = range(strftime("%Y", time()), 2010); ?>
     <style>
         @media only screen and (max-width: 540px) {
             #tableListClass {
@@ -31,6 +32,7 @@
             text-align: center;
         }
     </style>
+<!--    --><?php //dd($filters) ?>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -54,6 +56,64 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
+
+                        <form action="{{route('class.list')}}" method="post" id="formFilterClass">
+                            @csrf
+                            <input type="hidden" name="page" value="">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" >Tên khoá học:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="course_id" id="course_id">
+                                                <option value="" {{ (isset($filters['course_id']) && '' == $filters['course_id']) ? 'selected' : ''}}>Chọn khóa học</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right">Năm khai giảng:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="yearOfStart" id="yearOfStart">
+                                                <option value="" {{ (isset($filters['yearOfStart']) && '' == $filters['yearOfStart']) ? 'selected' : ''}}>Chọn năm khai giảng</option>
+                                                @foreach($years as $year)
+                                                    <option value="{{$year}}" {{(isset($filters['yearOfStart']) && $year == $filters['yearOfStart']) ? 'selected' : ''}}>{{$year}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" style="text-align: right" >Trạng thái:</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control" name="status" id="status">
+                                                <option value="" {{ (isset($filters['status']) && '' == $filters['status']) ? 'selected' : ''}}>Chọn trạng thái</option>
+                                                <option value="0" {{ (isset($filters['status']) && 0 == $filters['status']) ? 'selected' : ''}}>Hủy</option>
+                                                <option value="1" {{ (isset($filters['status']) && 1 == $filters['status']) ? 'selected' : ''}}>Đang học</option>
+                                                <option value="2" {{ (isset($filters['status']) && 2 == $filters['status']) ? 'selected' : ''}}>Hoãn khai giảng</option>
+                                                <option value="3" {{ (isset($filters['status']) && 3 == $filters['status']) ? 'selected' : ''}}>Đã tổng kết</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="form-group row">
+                                        <div class="col-sm-7">
+                                            <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>
+                                            <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="card-header">
                         <h3 class="card-title"></h3>
 
                         <a class="btn btn-success text-white float-right" id="btnAddClass">
@@ -61,6 +121,7 @@
                             Thêm Lớp học mới
                         </a>
                     </div>
+
                     <div class="card-body">
                         <table id="tableListClass" class="table table-bordered table-striped table-hover">
                             <thead>
@@ -76,17 +137,33 @@
                             </tr>
                             </thead>
                             <tbody id="tableListClassBody">
-                            <?php $index = 0; ?>
+                            <?php $index = 1; ?>
                             @forelse($classes as $class)
                                 <tr>
-                                    <td>{{++$index}}</td>
+                                    <td>
+                                        {{(($classes->currentPage() - 1) * 25) + $index++}}
+                                    </td>
                                     <td>{{$class->name}}</td>
                                     <td>{{$coursesName[$class->course_id]}}</td>
                                     <td>{{$class->carer_staff}}</td>
                                     <td>{{$class->coach}}</td>
+
                                     <td> {{date('d/m/Y', strtotime($class->starttime))}}</td>
                                     <td style="text-align: center">
-                                        <?php echo $class->status ? '<span style="color:green;">Đang học</span>' : '<span style="color:red">Đã hoàn thành</span>' ?>
+                                        @switch($class->status)
+                                            @case(0)
+                                                <span style="color: red"> Hủy</span>
+                                                @break
+                                            @case(1)
+                                                <span style="color: green"> Đang học</span>
+                                                @break
+                                            @case(2)
+                                                <span style="color: yellow"> Hoãn khai giảng</span>
+                                                @break
+                                            @case(3)
+                                                <span style="color: blue"> Đã tổng kết</span>
+                                                @break
+                                        @endswitch
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$class->id}}"
@@ -111,7 +188,38 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.card-body -->
+                    @if ($classes->hasPages())
+                        <div class="card-footer clearfix">
+                            <ul class="pagination m-0 float-right">
+                                @if (!$classes->onFirstPage())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$classes->currentPage() - 1}}" href="">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @for($i = 1; $i <= $classes->lastPage(); $i++)
+                                    @if($i == 1 || $i == $classes->lastPage() || ($i <= ($classes->currentPage() + 1) && $i >= ($classes->currentPage() - 1)))
+
+                                        <li class="btn page-item {{$i == $classes->currentPage() ? 'active' : ''}}">
+                                            <a class="page-link" data-page="{{$i}}" href="">{{$i}}</a>
+                                        </li>
+                                    @elseif($i == $classes->currentPage() - 2 || $i == $classes->currentPage() + 2)
+                                        <li class="btn page-item disabled"><a class="page-link" >...</a></li>
+                                    @endif
+                                @endfor
+
+                                @if($classes->hasMorePages())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$classes->currentPage() + 1}}" href="">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
         </section>
