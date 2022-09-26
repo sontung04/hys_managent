@@ -107,10 +107,10 @@ Route::middleware('auth')->group(function (){
         Route::match(['get', 'post'],'/list','StudentController@list')->name('student.list');
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
-
-        Route::get('/detail', function () {
-            return view('students.detail');
-        });
+        Route::get('/detail/{id}', 'StudentController@getDetail');
+        // Route::get('/detail/{id}', function () {
+        //     return view('students.detail'); 
+        // });
 
         Route::post('/saveInternAjax', 'InternController@saveInternAjax');
     });

@@ -118,4 +118,15 @@ class StudentController extends Controller
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
+
+    // Detail của student
+    public function getDetail($id){
+        // $this->checkRequestAjax($request);
+        $student = Student::findOrFail($id);
+        // $detail = DB::table('students')
+        //         ->select('*')
+        //         ->where('students.id', '=', $id)
+        //         ->get();
+        return view('students.detail', compact('student'));
+    }
 }
