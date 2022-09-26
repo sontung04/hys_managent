@@ -133,5 +133,11 @@ Route::middleware('auth')->group(function (){
         Route::get('/getInfoStudyAjax/{id}', 'ClassHcController@getInfoStudyAjax');
         Route::post('/saveInfoStudyAjax', 'ClassHcController@saveInfoStudyAjax');
     });
+
+    Route::prefix('/intern')->group(function (){
+        Route::get('/list','InternController@list')->name('intern.list');
+        Route::get('/getInfoAjax/{id}', 'InternController@getInfoAjax');
+        Route::post('/updateInfoAjax', 'InternController@updateInfoAjax');
+    });
 });
 
