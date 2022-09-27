@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::middleware('auth')->group(function (){
+Route::middleware(['cors', 'auth'])->group(function (){
     Route::get('/', function () {
         return view('index');
     })->name('index');

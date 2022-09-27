@@ -105,7 +105,7 @@
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#infoUser" data-toggle="tab">Thông tin cá nhâ</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="#infoUser" data-toggle="tab">Thông tin cá nhân</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#timeline1" data-toggle="tab">Timeline</a></li>
                                     <li class="nav-item ml-auto"><a class="nav-link" href="#updateInfoUser" data-toggle="tab">Cập nhật thông tin cá nhân</a></li>
                                 </ul>

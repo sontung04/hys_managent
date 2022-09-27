@@ -262,8 +262,8 @@
 
                                 <div class="row">
                                     <label for="birthday" class="col-sm-3">Ngày sinh: <span style="color: red">*</span></label>
-                                    <div class="form-group col-sm-9">
-                                        <div class="input-group date" id="birthdayDate" data-target-input="nearest">
+                                    <div class="col-sm-9">
+                                        <div class="form-group input-group date" id="birthdayDate" data-target-input="nearest">
                                             <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
