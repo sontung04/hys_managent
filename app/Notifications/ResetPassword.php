@@ -69,6 +69,13 @@ class ResetPassword extends Notification implements ShouldQueue
         ];
     }
 
+    /**
+     * Create reset password with form "Name@" + 6 random numbers.
+     *
+     * @param $email
+     * @return string
+     * @throws \Exception
+     */
     private function createResetPassword($email){
         $name = DB::table('users')->where('email', '=', $email)->get('firstname');
         $name = ucfirst($name[0]->firstname);

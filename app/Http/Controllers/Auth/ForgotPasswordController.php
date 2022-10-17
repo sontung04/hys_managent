@@ -48,7 +48,6 @@ class ForgotPasswordController extends Controller
         $this->validateEmail($request);
 
         Session::put('emailResetPassword', $request->input('email'));
-        Session::put('_tokenResetPassword', $request->input('_token'));
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
@@ -128,19 +127,25 @@ class ForgotPasswordController extends Controller
         return Password::broker();
     }
 
+    /**
+     * Save the generated reset password and sent via email.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function resetPassword(Request $request)
     {
-        $password = Session::get('passwordReset');
-        $email = Session::get('emailResetPassword');
+        $password   = Session::get('passwordReset');
+        $email      = Session::get('emailResetPassword');
 
-        $userID  =  DB::table('users')
+        $userID = DB::table('users')
             ->where('email', '=', $email)
             ->get('id');
 
         $user = User::findOrFail($userID[0]->id);
-        $user->password = Hash::make($password);
-        $user->remember_token = null;
-        $user->updated_at = Carbon::now();
+        $user->password         = Hash::make($password);
+        $user->remember_token   = null;
+        $user->updated_at       = Carbon::now();
         $user->save();
     }
 }
