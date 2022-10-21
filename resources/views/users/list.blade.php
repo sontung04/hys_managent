@@ -8,14 +8,6 @@
 @endsection
 
 @section("content")
-    <style>
-        .cell-table-scroll {
-            max-height: 50px;
-            overflow: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-        }
-    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -153,7 +145,7 @@
                     <div class="card-body">
                         <table id="usersTable" class="table table-bordered table-striped table-hover" style="overflow-x: auto; white-space: nowrap;">
                             <thead>
-                            <tr style="text-align: center; position: sticky; top: 0;" >
+                            <tr style="text-align: center; position: sticky;" >
                                 <th>Mã thành viên</th>
                                 <th>Họ tên</th>
                                 <th>Email</th>

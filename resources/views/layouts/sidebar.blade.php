@@ -240,6 +240,27 @@
                     </li>
                 </ul>
 
+                <!-- Intern Menu -->
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link">
+                            <i class="fa fa-drivers-license"></i>
+                            <p>
+                                Thực tập sinh
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('intern.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/intern/list') !== false) active @endif">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Danh sách TTS</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
                 <!-- Contact Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item has-treeview ">
@@ -252,7 +273,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
 
                 <!-- Role Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Plugins\BaseHelper;
 use App\Models\Student;
+use App\Services\StudentServices;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +12,11 @@ use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
-    public function __construct()
-    {
+    private $studentService;
 
+    public function __construct(StudentServices $studentService)
+    {
+        $this->studentService = $studentService;
     }
 
     public function list(Request $request){
@@ -56,6 +59,11 @@ class StudentController extends Controller
         return view('students.list',compact('students', 'filters'));
     }
 
+    /**
+     * Lấy ra thông tin của 1 học viên theo id và trả ra Ajax
+     * @param Request $request
+     * @param $id
+     */
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
@@ -67,6 +75,10 @@ class StudentController extends Controller
         BaseHelper::ajaxResponse('Success', true, $student);
     }
 
+    /**
+     * Nhận Request Ajax lưu thông tin của học viên
+     * @param Request $request
+     */
     public function saveInfoAjax(Request $request)
     {
         $this->checkRequestAjax($request);
@@ -76,9 +88,10 @@ class StudentController extends Controller
         if (!isset($requestData['id']) || empty($requestData['id'])){
             # create a new student
             $student = new Student();
+            $student->code       = $this->studentService->createNewCodeStudent();
             $student->created_by = Auth::id();
             $student->created_at = Carbon::now();
-        }else{
+        } else {
             # update student
             $student = Student::findOrFail($requestData['id']);
             $student->updated_by = Auth::id();
@@ -109,14 +122,30 @@ class StudentController extends Controller
         $student->mother            = $requestData['mother'];
         $student->mother_birthday   = $this->changeFormatDateInput($requestData['mother_birthday']);;
         $student->mother_job        = $requestData['mother_job'];
-//        $student->status            = $requestData['status'];
 
         try {
             $student->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'),true);
         }catch (\Exception $exception){
+//            print_r($exception->getMessage());
+//            die();
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
+
+    /**
+     * Function lấy ra các thông tin của 1 học viên theo id và trả ra view
+     * @param $id
+     */
+    public function getDetail($id)
+    {
+        $student = Student::findOrFail($id);
+        // $detail = DB::table('students')
+        //         ->select('*')
+        //         ->where('students.id', '=', $id)
+        //         ->get();
+        return view('students.detail', compact('student'));
+    }
+
 
 }

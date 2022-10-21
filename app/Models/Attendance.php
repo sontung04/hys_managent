@@ -12,11 +12,15 @@ class Attendance extends Model
     protected $fillable = [
         'id',
         'study_id',
-        'student_id',
+        'student_code',
+        'student_type',
         'status',
         'note',
+        'feedback',
+        'question',
+        'comment',
         'created_by',
         'updated_by',
     ];
-    
+
 }

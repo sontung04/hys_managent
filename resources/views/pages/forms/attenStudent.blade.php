@@ -1,0 +1,164 @@
+
+@extends('layouts.index')
+
+@section('style')
+    <style>
+        @media only screen and (max-width: 550px) {
+            #divFormCheckinStudent {
+                max-width: 360px;
+            }
+        }
+    </style>
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/js/page/form/attendanceStudent.js') }}" defer></script>
+@endsection
+
+@section('content')
+
+    <div class="register-page">
+        <div class="register-box">
+            <div class="register-logo">
+                <a href="javascript:void(0);"><b>Checkin buổi học</b></a>
+                <br>
+                <a href="javascript:void(0);"><b>{{$studyInfo->class_name}}</b></a>
+            </div>
+
+            <!-- form check isset student -->
+            <div class="card" id="divCheckIssetStudent">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">Nhập thông tin của bạn</p>
+
+                    <form id="" action="" method="post">
+                        @csrf
+                        <input type="hidden" name="study_id" id="study_id" value="{{$studyInfo->id}}">
+
+                        <div class="form-group input-group mb-3">
+                            <select class="form-control" name="student_type" id="student_type">
+                                <option value="" disabled selected>--- Bạn là ---</option>
+                                <option value="0">Học viên</option>
+                                <option value="1">Chủ nhiệm</option>
+                                <option value="2">Trợ giảng</option>
+                            </select>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group input-group mb-3">
+                            <input type="number" class="form-control" name="student_code" id="student_code" placeholder="Mã học viên">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    Tiếp theo <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                            <div class="col-6"></div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.form-box -->
+            </div>
+        </div>
+
+        <!-- form attendance student -->
+        <div class="card" id="divFormCheckinStudent" style="width: 630px" hidden="hidden">
+            <form action="" id="" class="form-horizontal" method="post">
+                @csrf
+                <div class="card-body">
+                    <input type="hidden" id="student_type" name="student_type">
+                    <input type="hidden" class="form-control" id="student_code" name="student_code">
+                    <input type="hidden" id="study_id" name="study_id" value="{{$studyInfo->id}}">
+
+                    <div class="row">
+                        <label class="col-form-label col-lg-3" for="lessonNameRow" id=""> Tên bài học: </label>
+                        <div class="col-form-label col-lg-9" id="lessonNameRow">
+                            @if($studyInfo->lesson_id)
+                                {{$studyInfo->lname}}
+                            @else
+                                {{$studyInfo->lesson_name}}
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-3" for="" id=""> Ngày học: </label>
+                        <div class="col-form-label col-lg-9" id="">
+                            {{date('d/m/Y', strtotime($studyInfo->daylearn))}}
+                        </div>
+                    </div>
+
+                    <div class="row" id="divStatusCheckin">
+                        <label class="col-lg-3" for="status">Trạng thái checkin: </label>
+                        <div class="form-group col-lg-9">
+                            <select class="form-control custom-select" name="status" id="status">
+                                <option value="" selected disabled>--- Chọn trạng thái ---</option>
+                                <option value="0">Nghỉ học</option>
+                                <option value="1">Đi học</option>
+                                <option value="2">Đi học muộn</option>
+                                <option value="3">Học bù</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row" id="divStudentNumber" hidden="hidden">
+                        <label class="col-lg-3 col-form-label" for=""> Sĩ số lớp: </label>
+                        <div class="form-group col-lg-4">
+                            <input type="number" name="number_eat" id="number_eat" class="form-control" placeholder="Số HV dùng bữa">
+                        </div>
+                        <label class=" col-form-label col-lg-1" for="" style="text-align: center"> / </label>
+                        <div class="form-group col-lg-4">
+                            <input type="number" name="number_learn" id="number_learn" class="form-control" placeholder="Số HV đi học">
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-lg-3 col-form-label" for="">Ghi chú:</label>
+                        <div class="col-lg-9">
+                            <textarea type="text" name="note" id="note" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-lg-3" for="feedback">Cảm nhận về bài học:</label>
+                        <div class="col-lg-9" >
+                            <textarea type="text" name="feedback" id="feedback" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3" for="question">Câu hỏi/thắc mắc về bài học:</label>
+                        <div class="col-lg-9" >
+                            <textarea type="text" name="question" id="question" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-3 " for="comment">Góp ý của bạn:</label>
+                        <div class="col-lg-9">
+                            <textarea type="text" name="comment" id="comment" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer" style="text-align: center">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-check"></i> &nbsp; Checkin </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+@endsection
+

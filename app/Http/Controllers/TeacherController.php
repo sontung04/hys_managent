@@ -80,7 +80,7 @@ class TeacherController extends Controller
             if(empty($val->subname)) {
                 $datas[$val->id]['name'] = $val->name;
             } else {
-                $datas[$val->id]['name'] = $val->subname . ' ' .$val->name;
+                $datas[$val->id]['name'] = $val->subname . ' ' . $val->name;
             }
         }
         BaseHelper::ajaxResponse(config('app.textGetSuccess'), true, $datas);

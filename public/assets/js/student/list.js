@@ -6,7 +6,9 @@ $(function() {
 
     let modalAddStudent = $('#modalAddStudent');
 
-    let formFilterStudent = $('#formFilterStudent')
+    let formFilterStudent = $('#formFilterStudent');
+
+    let modalAddIntern = $('#modalAddIntern');
 
     let inputBirthday = modalAddStudent.find('#birthday');
 
@@ -21,9 +23,19 @@ $(function() {
         });
     });
 
+    ['starttimeDate', 'finnishtimeDate'].forEach(field => {
+        modalAddIntern.find('#' +field).datetimepicker({
+            format : datetimepicketFormat,
+            locale : 'vi',
+            useCurrent: false,
+            // minDate: moment(inputBirthday.data('min'), datetimepicketFormat),
+            // maxDate: moment(currentMaxDate, datetimepicketFormat),
+        });
+    });
+
     //* Add new Student
     $('#btnAddStudent').click(function() {
-        document.getElementById('modalAddStudentTitle').innerText = 'Thêm Học viên mới';
+        document.getElementById('modalAddStudentTitle').innerText = 'Thêm Học viên mới ';
         modalAddStudent.modal('show');
     });
 
@@ -61,6 +73,7 @@ $(function() {
     //Sự kiện Đóng modal
     $('.closeModal').on('click', function() {
         eventCloseHiddenModal(modalAddStudent);
+        eventCloseHiddenModal(modalAddIntern);
     });
 
     //Sự kiện Ẩn Modal
@@ -110,7 +123,7 @@ $(function() {
             email: {
                 required: true,
             },
-            guardian: {
+            guardian_name: {
                 required: true,
             },
             guardian_phone: {
@@ -163,14 +176,88 @@ $(function() {
 
     // Xử lý phân trang
     $('.pagination').on('click', '.page-item a', function (){
-       $('#formFilterStudent input[name = "page"]').val(parseInt($(this).attr('data-page')));
-       $('#formFilterStudent #btnSubmit').trigger('click');
-       return false;
+        $('#formFilterStudent input[name = "page"]').val(parseInt($(this).attr('data-page')));
+        $('#formFilterStudent #btnSubmit').trigger('click');
+        return false;
     });
 
     //Đặt các trường dữ liệu về empty khi khi bấm reset form filter
     formFilterStudent.on('click', '#btnReset', function (){
-       formFilterStudent.find('.form-control').val('');
-       formFilterStudent.find('option[value=""]').prop('selected');
+        formFilterStudent.find('.form-control').val('');
+        formFilterStudent.find('option[value=""]').prop('selected');
+    });
+
+    //* Add new Intern
+    $('.btnAddIntern').click(function() {
+        document.getElementById('modalAddInternTitle').innerText = 'Thêm học viên vào danh sách thực tập sinh ';
+
+        let id = $(this).attr('data-id'); //student_id
+        callAjaxGet(BASE_URL + '/student/getInfoAjax/' + id).done(function(res) {
+            if (!res.status) {
+                notifyMessage('Lỗi!', res.msg, 'error', 3000);
+                return;
+            }
+            let studentInfo = res.data;
+
+            /* set field value */
+            modalAddIntern.find('#student_id').val(id);
+            [ 'name', 'gender', 'birthday', 'email', 'phone'].forEach(field => {
+                modalAddIntern.find('#' + field).val(studentInfo[field]);
+            });
+
+            if (studentInfo['gender']) {
+                modalAddIntern.find('#gender1').prop('checked', true);
+            } else {
+                modalAddIntern.find('#gender2').prop('checked', true);
+            }
+
+            modalAddIntern.modal('show');
+        });
+
+    });
+
+    modalAddIntern.on('hidden.bs.modal', function() {
+        eventCloseHiddenModal(modalAddIntern);
+    });
+
+    modalAddIntern.find('form').validate({
+        submitHandler:function (){
+            let data = modalAddIntern.find('form').serialize();
+
+            callAjaxPost(BASE_URL + '/intern/addStudentToInternAjax', data).done(function(res){
+                if (!res.status) {
+                    notifyMessage('Lỗi!', res.msg, 'error', 5000);
+                    return;
+                }
+                notifyMessage('Thông báo!', res.msg,'success');
+                modalAddIntern.modal('hide');
+            });
+        },
+        rules: {
+            starttime: {
+                required: true,
+            }
+        },
+        messages: {
+            starttime: {
+                required: 'Ngày bắt đầu không được để trống',
+            }
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+
+    $("#tableStudentList").on('click', '.btnView', function () {
+        let id = $(this).attr('data-id');
+        window.open(BASE_URL + '/student/detail/' + id);
     });
 })

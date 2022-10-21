@@ -20,15 +20,38 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+Route::prefix('/form')->group(function () {
+
+    //Route form student register class
+    Route::prefix('/class/register')->group(function () {
+        Route::get('/{classid}', 'ClassStudentController@formRegister');
+        Route::post('/student/checkInfoByCodeAjax', 'ClassStudentController@checkInfoByCodeAjax');
+        Route::post('/submitAjax', 'ClassStudentController@submitFormRegisterAjax');
+    });
+
+    //Route form attendance student
+    Route::prefix('/attendance/student')->group(function () {
+        Route::get('/{studyid}', 'AttendanceController@formStudent');
+        Route::post('/checkCodeStudentAjax', 'AttendanceController@checkCodeStudentAjax');
+        Route::post('/submitAjax', 'AttendanceController@formStudentSubmitAjax');
+    });
+
+});
+
+
 Route::middleware(['cors', 'auth'])->group(function (){
     Route::get('/', function () {
         return view('index');
     })->name('index');
+    Route::get('/error404', function () {
+        return view('pages.404');
+    })->name('error404');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('password/change','Auth\ChangePasswordController@showChangeForm')->name('password.edit');
     Route::post('password/change','Auth\ChangePasswordController@changePassword')->name('password.change');
 
+    //Route User
     Route::prefix('/user')->group(function () {
         Route::match(['get', 'post'],'/list', 'UserController@list')->name('user.list');
         Route::get('/create', 'UserController@create')->name('user.create');
@@ -36,6 +59,7 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::post('/saveInfo', 'UserController@saveInfo');
     });
 
+    //Route Group
     Route::prefix('/group')->group(function () {
         Route::get('/test', 'GroupController@test')->name('group.test');
         Route::get('/manage', 'GroupController@manage')->name('group.manage');
@@ -47,11 +71,13 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::get('/getListGroupChild', 'GroupController@getListGroupChild');
     });
 
+    //Route Event
     Route::prefix('/event')->group(function () {
         Route::get('/list', function () {
             return view('events.list');})->name('event.list');
     });
 
+    //Route Role HYS
     Route::prefix('/role')->group(function () {
         Route::get('/list', 'RoleController@list')->name('role.list');
         Route::get('/manage/{userid}', 'RoleController@manage')->where('id', '[0-9]+')->name('role.manage');
@@ -61,6 +87,7 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::post('/saveInfoAjax', 'RoleController@saveInfoAjax');
     });
 
+    //Route User Group Role
     Route::prefix('/ugr')->group(function () {
         Route::get('/getInfoAjax', 'UserGroupRoleController@getInfoAjax');
         Route::post('/saveInfoUgr', 'UserGroupRoleController@saveInfoUgr');
@@ -68,8 +95,8 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::get('/deleteAjax/{id}', 'UserGroupRoleController@deleteAjax');
     });
 
+    //Route Calendar
     Route::prefix('/calendar')->group(function () {
-        Route::get('/weekHys', 'CalendarController@weekHys')->name('calendar.weekHys');
         Route::prefix('/weekHys')->group(function () {
             Route::get('/', function () {
                 return view('calendars.weekHys');
@@ -80,6 +107,7 @@ Route::middleware(['cors', 'auth'])->group(function (){
         });
     });
 
+    //Route Course + Teacher
     Route::prefix('/course')->group(function () {
         Route::get('/list', 'CourseController@list')->name('course.list');
         Route::get('/getInfoAjax/{id}', 'CourseController@getInfoAjax');
@@ -94,6 +122,7 @@ Route::middleware(['cors', 'auth'])->group(function (){
         });
     });
 
+    //Route Lesson
     Route::prefix('/lesson')->group(function () {
         Route::get('/list', function () {
             return view('lessons.list');
@@ -103,33 +132,51 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::post('/saveInfoAjax', 'LessonController@saveInfoAjax');
     });
 
+    //Route Student
     Route::prefix('/student')->group(function (){
         Route::match(['get', 'post'],'/list','StudentController@list')->name('student.list');
         Route::get('/getInfoAjax/{id}','StudentController@getInfoAjax');
         Route::post('/saveInfoAjax','StudentController@saveInfoAjax');
+        Route::get('/detail/{id}', 'StudentController@getDetail');
 
-        Route::get('/detail', function () {
-            return view('students.detail');
+        //Route Student - class
+        Route::prefix('/class')->group(function (){
+            Route::post('/addStudentToClassAjax','ClassStudentController@addStudentToClassAjax');
+            Route::get('/getInfoAjax/{id}','ClassStudentController@getInfoAjax');
+            Route::post('/updateInfoAjax','ClassStudentController@updateInfoAjax');
         });
     });
+
+    //Route Class
     Route::prefix('/class')->group(function (){
-        Route::get('/attendance', function () {
-            return view('classes.attendance');
-        });
-        Route::get('/attendance/test', function () {
-            return view('classes.attendanceTest');
-        });
+
+        Route::get('/diary/{classId}', 'ClassHcController@diary');
 
         Route::match(['get', 'post'], '/list', 'ClassHcController@list')->name('class.list');
         Route::get('/getInfoAjax/{id}', 'ClassHcController@getInfoAjax');
         Route::post('/saveInfoAjax', 'ClassHcController@saveInfoAjax');
-        Route::get('/listStudent/{id}','ClassHcController@listStudentClass')->name('listStudentClass');
-        Route::post('/student/saveInfoAjax','ClassHcController@saveStudentClassAjax');
 
         Route::get('/fees','ClassHcController@viewFees')->name('viewFees');
-        Route::get('/listStudy/{id}','ClassHcController@listStudy')->name('listStudy');
-        Route::get('/getInfoStudyAjax/{id}', 'ClassHcController@getInfoStudyAjax');
-        Route::post('/saveInfoStudyAjax', 'ClassHcController@saveInfoStudyAjax');
+    });
+
+    //Route Study
+    Route::prefix('/study')->group(function (){
+        Route::get('/getInfoAjax/{id}', 'StudyController@getInfoAjax');
+        Route::post('/saveInfoAjax', 'StudyController@saveInfoAjax');
+    });
+
+    //Route Attendance
+    Route::prefix('/attendance')->group(function (){
+        Route::get('/getInfoAjax', 'AttendanceController@getInfoAjax');
+        Route::post('/saveInfoAjax', 'AttendanceController@saveInfoAjax');
+    });
+
+    //Route Intern
+    Route::prefix('/intern')->group(function (){
+        Route::get('/list','InternController@list')->name('intern.list');
+        Route::get('/getInfoAjax/{id}', 'InternController@getInfoAjax');
+        Route::post('/addStudentToInternAjax', 'InternController@addStudentToInternAjax');
+        Route::post('/updateInfoAjax', 'InternController@updateInfoAjax');
     });
 });
 

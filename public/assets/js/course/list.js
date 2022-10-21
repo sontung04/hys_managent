@@ -11,7 +11,7 @@ $(function () {
     $('#tableCourseList').on('click', '.btnEdit', function(){
         document.getElementById('modalAddCourseTitle').innerText = "Chỉnh sửa thông tin Khóa học";
         let id = $(this).attr('data-id');
-        callAjaxGet(BASR_URL + '/course/list/getInfoAjax/' + id).done(function (res){
+        callAjaxGet(BASE_URL + '/course/getInfoAjax/' + id).done(function (res){
             if(!res.status){
                 notifyMessage('Lỗi!', res.msg, 'error', 3000);
                 return;

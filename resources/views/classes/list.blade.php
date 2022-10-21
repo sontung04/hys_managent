@@ -1,12 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('script')
-    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-    <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
-    <script src="{{ asset('assets/js/class/list.js') }}" defer></script>
-@endsection
-
-@section("content")
+@section('style')
     <style>
         @media only screen and (max-width: 540px) {
             #tableListClass {
@@ -31,6 +25,16 @@
             text-align: center;
         }
     </style>
+@endsection
+
+@section('script')
+    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+    <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
+    <script src="{{ asset('assets/js/class/list.js') }}" defer></script>
+@endsection
+
+@section("content")
+
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -72,7 +76,7 @@
                                 <th>Chủ nhiệm</th>
                                 <th>Ngày khai giảng</th>
                                 <th style="width: 10%">Trạng thái</th>
-                                <th style="width: 8%">Hành động</th>
+                                <th style="width: 11%">Hành động</th>
                             </tr>
                             </thead>
                             <tbody id="tableListClassBody">
@@ -82,8 +86,8 @@
                                     <td>{{++$index}}</td>
                                     <td>{{$class->name}}</td>
                                     <td>{{$coursesName[$class->course_id]}}</td>
-                                    <td>{{$class->carer_staff}}</td>
                                     <td>{{$class->coach}}</td>
+                                    <td>{{$class->carer_staff}}</td>
                                     <td> {{date('d/m/Y', strtotime($class->starttime))}}</td>
                                     <td style="text-align: center">
                                         <?php echo $class->status ? '<span style="color:green;">Đang học</span>' : '<span style="color:red">Đã hoàn thành</span>' ?>
@@ -93,12 +97,9 @@
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btnView" data-id="{{$class->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem học sinh của lớp">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-warning btnViewStudy" data-id="{{$class->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem buổi học của lớp">
+
+                                        <button type="button" class="btn btn-outline-primary btnViewDiary" data-id="{{$class->id}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Xem nhật ký của lớp">
                                             <i class="fa-solid fa-book"></i>
                                         </button>
                                     </td>
@@ -150,14 +151,14 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="coach">Trợ giảng: <span class="text-danger">*</span></label>
+                            <label class="col-lg-3 col-form-label" for="coach">Mã trợ giảng: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
                                 <input type="number" name="coach" id="coach" class="form-control">
                             </div>
                         </div>
 
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="carer_staff">Chủ nhiệm lớp: <span class="text-danger">*</span></label>
+                            <label class="col-lg-3 col-form-label" for="carer_staff">Mã chủ nhiệm lớp: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
                                 <input type="number" name="carer_staff" id="carer_staff" class="form-control">
                             </div>
