@@ -23,7 +23,7 @@ $(function() {
         });
     });
 
-    ['starttimeDate', 'finnishtimeDate'].forEach(field => {
+    ['starttimeDate', 'finishtimeDate'].forEach(field => {
         modalAddIntern.find('#' +field).datetimepicker({
             format : datetimepicketFormat,
             locale : 'vi',

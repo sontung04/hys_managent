@@ -26,17 +26,49 @@ class ClassHcController extends Controller
 
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $classes = ClassHc::all();
-        $courses = DB::table('courses', 'c')
-            ->select('id', 'name')
-            ->get();
+        $filters = $request->all();
+
+        $courses = DB::table('courses')->select('id', 'name')->get();
+
         $coursesName = [];
+
         foreach ($courses as $course) {
             $coursesName[$course->id] = $course->name;
         }
-        return view('classes.list',compact('classes', 'coursesName'));
+
+        $query = DB::table('classes_hc', 'c');
+
+        if ($request->isMethod('POST')){
+            $paged = $filters['page'];
+
+            unset($filters['page']);
+            unset($filters['_token']);
+
+            foreach ($filters as $key => $value){
+                if ($value != '' && $value != NULL){
+                    switch ($key){
+                        case 'course_id':
+                            $query->where('c.course_id', '=', $value);
+                            break;
+                        case 'yearOfStart':
+                            $query->where('c.starttime', 'LIKE',  $value . '%' );
+                            break;
+                        case 'status':
+                            $query->where('c.status', '=', $value);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            $classes = $query->paginate(25, ['*'], 'page', $paged);
+        }else
+            $classes = $query->paginate(25);
+
+
+        return view('classes.list',compact('classes', 'coursesName', 'filters'));
     }
 
     /**

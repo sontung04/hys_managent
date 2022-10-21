@@ -6,14 +6,23 @@ $(function() {
 
     let modalAddClass = $('#modalAddClass');
 
+    let formFilterClass = $('#formFilterClass');
+
+    let course_id = localStorage.getItem('course_id');
     /* Gọi Ajax lấy ra danh sách các khóa học */
     callAjaxGet(BASE_URL + '/course/getListCourseAjax').done(function (res){
         let courses = res.data;
         let html = '';
         for (let x in courses) {
-            html += `<option value="${courses[x].id}">${courses[x].name}</option>`;
+            if(courses[x].id == course_id){
+                html += `<option value="${courses[x].id}" selected="selected" >${courses[x].name}</option>`;
+            } else
+                html += `<option value="${courses[x].id}" >${courses[x].name}</option>`;
         }
-        $('#course_id').append(html);
+        modalAddClass.find('#course_id').append(html);
+
+        formFilterClass.find('#course_id').append(html);
+
     });
 
     /* set datetimepicker */
@@ -130,5 +139,23 @@ $(function() {
         window.open(BASE_URL + '/class/diary/' + id, "_blank");
     });
 
+
+    $('#btnSubmit').click(function (){
+        let a = formFilterClass.find('#course_id').val();
+        localStorage.setItem('course_id', a);
+    });
+
+    //Đặt các trường dữ liệu về empty khi khi bấm reset form filter
+    formFilterClass.on('click', '#btnReset', function (){
+        formFilterClass.find('.form-control').val('');
+        formFilterClass.find('option[value=""]').prop('selected');
+    });
+
+    // Xử lý phân trang
+    $('.pagination').on('click', '.page-item a', function (){
+        $('#formFilterClass input[name = "page"]').val(parseInt($(this).attr('data-page')));
+        $('#formFilterClass #btnSubmit').trigger('click');
+        return false;
+    });
 
 })
