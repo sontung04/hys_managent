@@ -19,8 +19,12 @@ class Study extends Model
         'carer_staff',
         'daylearn',
         'location',
+        'status',
+        'number_eat',
+        'number_learn',
+        'description',
         'created_by',
         'updated_by',
     ];
-    
+
 }

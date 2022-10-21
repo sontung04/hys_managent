@@ -229,9 +229,12 @@ return [
 
     ],
 
-    'textSaveSuccess' => 'Lưu dữ liệu thành công!',
-    'textGetSuccess'  => 'Lấy dữ liệu thành công!',
-    'textSaveError'   => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
+    'textSaveSuccess'    => 'Lưu dữ liệu thành công!',
+    'textGetSuccess'     => 'Lấy dữ liệu thành công!',
+    'textGetError'       => 'Có lỗi trong quá trình lấy dữ liệu! Vui lòng thử lại sau!',
+    'textGetEmpty'       => 'Dữ liệu trống! Vui lòng thử lại sau!',
+    'textSaveError'      => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
+    'textRequestDataErr' => 'Dữ liệu đầu vào không hợp lệ!',
 
     'areaName' => [
         0 => 'Chưa xác định',

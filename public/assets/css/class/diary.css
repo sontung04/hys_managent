@@ -1,0 +1,26 @@
+@media only screen and (max-width: 540px) {
+    #tableListStudentClass {
+        display: block;
+        overflow-x: auto;
+    }
+    #tableListStudentClass .setMinWidth {
+        min-width: 225px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    #tableListStudentClass {
+        display: block;
+        overflow-x: auto;
+    }
+
+    #tableListStudentClass .setMinWidth {
+        min-width: 225px;
+    }
+
+}
+
+#diaryClassTable thead th {
+    text-align: center;
+    vertical-align: middle;
+}

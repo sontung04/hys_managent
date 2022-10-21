@@ -254,7 +254,7 @@
                             <li class="nav-item">
                                 <a href="{{route('intern.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/intern/list') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
-                                    <p>Danh sách Thực tập sinh</p>
+                                    <p>Danh sách TTS</p>
                                 </a>
                             </li>
                         </ul>

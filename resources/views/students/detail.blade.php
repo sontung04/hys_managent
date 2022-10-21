@@ -36,7 +36,7 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle"
-                                         src="{{ asset(env('AVATAR_DEFAULT')) }}" alt="User profile picture">
+                                         src="{{ asset($student->img) }}" alt="User profile picture">
                                 </div>
 
                                 <h3 class="profile-username text-center">{{ $student->name }}</h3>
@@ -55,7 +55,8 @@
                                         <b>Email</b> <a class="float-right">{{ $student->email }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Facebook</b> <a href="" class="float-right">{{ $student->facebook }}</a>
+                                        <b>Facebook</b> <a href="{{ $student->facebook }}" class="float-right"
+                                                           target="_blank">Link</a>
                                     </li>
                                 </ul>
 
@@ -147,14 +148,18 @@
                                                     <div class="col-sm-2"><b> Tên bố <span style="float: right">:</span> </b></div>
                                                     <div class="col-sm-4">{{ $student->father }}</div>
                                                     <div class="col-sm-2"><b> Ngày sinh của bố <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->father_birthday))}}</div>
+                                                    <div class="col-sm-4">
+                                                        @if(!is_null($student->father_birthday))
+                                                            {{date('d/m/Y', strtotime($student->father_birthday))}}
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </li>
 
                                             <li class="list-group-item">
                                                 <div class="row">
-                                                    <div class="col-sm-3"><b> Công việc của bố: </b></div>
-                                                    <div class="col-sm-9">{{ $student->father_job }}</div>
+                                                    <div class="col-sm-2"><b> Công việc của bố <span style="float: right">:</span></b></div>
+                                                    <div class="col-sm-10">{{ $student->father_job }}</div>
                                                 </div>
                                             </li>
 
@@ -163,7 +168,11 @@
                                                     <div class="col-sm-2"><b><b> Tên mẹ <span style="float: right">:</span> </b></b></div>
                                                     <div class="col-sm-4">{{ $student->mother }}</div>
                                                     <div class="col-sm-2"><b> Ngày sinh của mẹ <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->mother_birthday))}}</div>
+                                                    <div class="col-sm-4">
+                                                        @if(!is_null($student->mother_birthday))
+                                                            {{date('d/m/Y', strtotime($student->mother_birthday))}}
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </li>
 
@@ -174,19 +183,19 @@
                                                 </div>
                                             </li>
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-sm-3"><b> Biết tới khóa học từ đâu <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-9">{{ $student->course_where }}</div>
-                                                </div>
-                                            </li>
+{{--                                            <li class="list-group-item">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-sm-3"><b> Biết tới khóa học từ đâu <span style="float: right">:</span> </b></div>--}}
+{{--                                                    <div class="col-sm-9">{{ $student->course_where }}</div>--}}
+{{--                                                </div>--}}
+{{--                                            </li>--}}
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-sm-3"><b> Mong muốn khi tham gia học <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-9">{{ $student->desire }}</div>
-                                                </div>
-                                            </li>
+{{--                                            <li class="list-group-item">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-sm-3"><b> Mong muốn khi tham gia học <span style="float: right">:</span> </b></div>--}}
+{{--                                                    <div class="col-sm-9">{{ $student->desire }}</div>--}}
+{{--                                                </div>--}}
+{{--                                            </li>--}}
 
                                         </ul>
                                     </div>

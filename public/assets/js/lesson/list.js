@@ -166,15 +166,21 @@ $(function () {
             course_id: {
                 required: true,
             },
+            teacher_id: {
+                required: true,
+            },
         },
         messages: {
             name: {
-                required: "Tên bài học không được bỏ trống",
-                minlength: "Tên bài học phải có tối thiểu 2 ký tự",
-                maxlength: "Tên bài học phải có tối đa 255 ký tự",
+                required: "Tên bài học không được bỏ trống!",
+                minlength: "Tên bài học phải có tối thiểu 2 ký tự!",
+                maxlength: "Tên bài học phải có tối đa 255 ký tự!",
             },
             course_id: {
-                required: "Mã khóa học không được bỏ trống",
+                required: "Mã khóa học không được bỏ trống!",
+            },
+            teacher_id: {
+                required: "Tên Giảng viên không được bỏ trống!",
             },
         },
         errorElement: 'span',

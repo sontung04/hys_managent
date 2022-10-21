@@ -123,7 +123,7 @@ $(function() {
             email: {
                 required: true,
             },
-            guardian: {
+            guardian_name: {
                 required: true,
             },
             guardian_phone: {
@@ -224,14 +224,13 @@ $(function() {
         submitHandler:function (){
             let data = modalAddIntern.find('form').serialize();
 
-            callAjaxPost(BASE_URL + '/student/saveInternAjax', data).done(function(res){
+            callAjaxPost(BASE_URL + '/intern/addStudentToInternAjax', data).done(function(res){
                 if (!res.status) {
                     notifyMessage('Lỗi!', res.msg, 'error', 5000);
                     return;
                 }
                 notifyMessage('Thông báo!', res.msg,'success');
                 modalAddIntern.modal('hide');
-                setTimeout(function(){ window.location.reload(); }, 1000);
             });
         },
         rules: {

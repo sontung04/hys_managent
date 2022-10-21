@@ -80,6 +80,7 @@ $(function() {
         eventCloseHiddenModal(modalAddClass);
     });
 
+    /* Validate form modal Add Class */
     modalAddClass.find('form').validate({
         submitHandler: function() {
             // modalAddClass.find('#description').val(CKEDITOR.instances['description'].getData());
@@ -132,14 +133,12 @@ $(function() {
         }
     });
 
-    $("#tableListClassBody").on('click', '.btnView', function () {
+    /* Btn click view diary of class */
+    $("#tableListClassBody").on('click', '.btnViewDiary', function () {
         let id = $(this).attr('data-id');
-        window.open(BASE_URL + '/class/listStudent/' + id, "_self");
+        window.open(BASE_URL + '/class/diary/' + id, "_blank");
     });
-    $("#tableListClassBody").on('click', '.btnViewStudy', function () {
-        let id = $(this).attr('data-id');
-        window.open(BASE_URL + '/class/listStudy/' + id);
-    });
+
 
     $('#btnSubmit').click(function (){
         let a = formFilterClass.find('#course_id').val();
@@ -158,4 +157,5 @@ $(function() {
         $('#formFilterClass #btnSubmit').trigger('click');
         return false;
     });
+
 })

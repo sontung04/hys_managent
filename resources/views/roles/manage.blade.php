@@ -163,11 +163,14 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="{{asset('themes/dist/img/user1-128x128.jpg')}}" alt="user image">
+                                    <img class="img-circle img-bordered-sm" alt="user image"
+                                         src="{{ !empty($userInfo->img) ? asset($userInfo->img) : asset(env('AVATAR_DEFAULT')) }}" >
                                     <span class="username">
-                                            <a href="#">Username</a>
+                                            <a href="#">{{$userInfo->lastname . ' ' . $userInfo->firstname }}</a>
                                         </span>
-                                    <span class="description" style="font-size: 16px">Trạng thái:<strong> Đang Hoạt động</strong></span>
+                                    <span class="description" style="font-size: 16px">Trạng thái:
+                                        <strong> @if($userInfo->status) Đang hoạt động @else Dừng hoạt động @endif </strong>
+                                    </span>
                                 </div>
 
                                 <a class="btn btn-success text-white float-right" id="btnAddRoleUser">

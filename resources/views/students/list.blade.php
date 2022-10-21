@@ -140,13 +140,14 @@
                             <tr style="text-align: center">
                                 <th style="width: 3%;">STT</th>
                                 <th>Họ tên</th>
+                                <th>Mã học viên</th>
                                 <th>Giới tính</th>
                                 <th>Ngày sinh</th>
                                 <th>Điện thoại</th>
                                 <th>Email</th>
                                 <th>Quê quán</th>
 {{--                                <th style="width: 5%">Trạng thái</th>--}}
-                                <th style="width: 8%">Hành động</th>
+                                <th style="width: 11%">Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -157,6 +158,7 @@
                                         {{(($students->currentPage() - 1) * 25) + $index++}}
                                     </td>
                                     <td>{{$student->name}}</td>
+                                    <td>{{$student->code}}</td>
                                     <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
                                     <td>{{date('d/m/Y', strtotime($student->birthday))}}</td>
                                     <td>{{$student->phone}}</td>
@@ -268,8 +270,8 @@
 
                                         <div class="row">
                                             <label for="birthday" class="col-sm-3">Ngày sinh: <span style="color: red">*</span></label>
-                                            <div class="form-group col-sm-9">
-                                                <div class="input-group date" id="birthdayDate" data-target-input="nearest">
+                                            <div class="col-sm-9">
+                                                <div class="form-group input-group date" id="birthdayDate" data-target-input="nearest">
                                                     <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
                                                         <div class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
@@ -277,6 +279,7 @@
                                                     </div>
                                                     <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
                                                            data-toggle="datetimepicker" data-min="01/01/1950"/>
+
                                                 </div>
                                             </div>
                                         </div>

@@ -22,70 +22,75 @@ class InternController extends Controller
      */
     public function list(){
         $interns = DB::table('interns', 'i')
-            ->join('students as s', 'i.student_id', '=', 's.id')
-            ->get(['s.id', 's.name','s.img', 's.phone', 's.facebook', 'i.status', 'i.starttime']);
+            ->join('students as s', 'i.student_code', '=', 's.code')
+            ->get(['s.id', 's.code', 's.name','s.img', 's.phone', 's.facebook', 'i.status', 'i.starttime']);
 
         return view('interns/list', compact('interns'));
     }
 
     /**
-     * Save info Intern after check condition by Ajax
+     * Add info Student into Intern after check condition by Ajax
      * @param Request $request
      * @return void
      */
-    public function saveInternAjax(Request $request){
+    public function addStudentToInternAjax(Request $request){
         $this->checkRequestAjax($request);
 
         $requestData = $request->all();
 
-        if ($this->checkConditionIntern($requestData['student_id'])){
+//        if ($this->checkConditionIntern($requestData['student_id'])){
+        if (true){ //Bổ sung điều kiện check sau
 
             $checkExist = DB::table('interns')
-                ->where('student_id', '=', $requestData['student_id'])
+                ->where('student_code', '=', $requestData['student_code'])
                 ->exists();
 
             if ($checkExist) {
-                BaseHelper::ajaxResponse('Học viên đã được thêm vào danh sách thực tập sinh', false);
+                BaseHelper::ajaxResponse('Học viên đã được thêm vào danh sách thực tập sinh!', false);
             }
 
-            $student = Student::findOrFail($requestData['student_id']);
+            $student = Student::findOrFail($requestData['student_code']);
 
             DB::table('interns')
                 ->insert([
-                    'student_id'    => $student->id,
-                    'name'          => $student->name,
-                    'phone'         => $student->phone,
-                    'status'        => $requestData['status'],
-                    'starttime'     => $this->changeFormatDateInput($requestData['starttime']),
-                    'finishtime'    =>$this->changeFormatDateInput( $student['finishtime']),
-                    'created_by'    => Auth::id(),
-                    'created_at'    => Carbon::now(),
+                    'student_code' => $student->code,
+                    'name'         => $student->name,
+                    'phone'        => $student->phone,
+                    'img'          => $student->img,
+                    'status'       => $requestData['status'],
+                    'starttime'    => $this->changeFormatDateInput($requestData['starttime']),
+                    'finishtime'   => $this->changeFormatDateInput( $student['finishtime']),
+                    'created_by'   => Auth::id(),
+                    'created_at'   => Carbon::now(),
                 ]);
 
-            BaseHelper::ajaxResponse(config('app.textSaveSuccess'),true);
+            BaseHelper::ajaxResponse('Đã thêm Học viên vào Danh sách Thực tập sinh',true);
         } else {
-            BaseHelper::ajaxResponse('Chưa đủ điều kiện trở thành thực tập sinh', false);
+            BaseHelper::ajaxResponse('Chưa đủ điều kiện trở thành Thực tập sinh', false);
         }
     }
 
     /**
      * Check the conditions for students to become interns
-     * @param $id ($Student_id)
+     * @param $student_code
      * @return bool|void
      */
-    protected function checkConditionIntern($id){
-        if (isset($id)){
+    protected function checkConditionIntern($student_code){
+        if (isset($student_code)){
             return DB::table('courses', 'c')
                 ->join('classes_hc as hc', 'c.id', '=', 'hc.course_id')
                 ->join('classes_students as cs', 'hc.id', '=', 'cs.class_id')
                 ->where([
                     ['c.id', '=', 2],                     //Id Tư duy tài năng = 2
-                    ['cs.student_id', '=', $id],
+                    ['cs.student_code', '=', $student_code],
                     ['hc.status', '=', 3],              //Lớp đã tổng kết (Thực tế: Lớp >= 10 buổi)
                     ['cs.status', '=', 0]         //Học viên đã hoàn thành khóa học (Thực tế: Học viên học >= 8 buổi)
                 ])->exists();
 
-        }else BaseHelper::ajaxResponse('Không có dữ liệu học viên', false);
+        } else {
+            BaseHelper::ajaxResponse('Không có dữ liệu học viên', false);
+        }
+
     }
 
     /**
@@ -97,7 +102,7 @@ class InternController extends Controller
     public function getInfoAjax(Request $request, $id){
         $this->checkRequestAjax($request);
 
-        $intern = DB::table('interns', )
+        $intern = DB::table('interns' )
                     ->where('student_id', '=', $id)
                     ->get();
         $intern[0]->starttime = $this->changeFormatDateOutput($intern[0]->starttime);

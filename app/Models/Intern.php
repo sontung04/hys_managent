@@ -1,27 +1,27 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-class ClassStudent extends Model
+class Intern extends Model
 {
     //
     use Notifiable;
-    protected $table = 'classes_students';
+    protected $table = 'interns';
     protected $fillable = [
-        'id',
-        'class_id',
         'student_code',
+        'name',
+        'phone',
+        'img',
+        'status',
         'starttime',
         'finishtime',
-        'status',
-        'fees',
-        'note',
-        'course_where',
-        'desire',
         'created_by',
         'updated_by',
+        'created_at',
+        'updated_at',
     ];
+
 }

@@ -16,7 +16,7 @@
             }
         }
 
-        @media only screen and (max-width: 976px) {
+        @media only screen and (max-width: 1024px) {
             #tableListLesson {
                 display: block;
                 overflow-x: auto;
@@ -165,7 +165,8 @@
 
                             <div class="col-md-6">
                                 <div class="row">
-                                    <label class="col-lg-3 col-form-label" for="teacher_id">Giảng viên: </label>
+                                    <label class="col-lg-3 col-form-label" for="teacher_id">Giảng viên: <span
+                                            class="text-danger">*</span></label>
                                     <div class="form-group col-lg-9">
                                         <select class="form-control custom-select" name="teacher_id" id="teacher_id">
                                             <option value="0" selected>--- Chọn Giảng viên ---</option>
