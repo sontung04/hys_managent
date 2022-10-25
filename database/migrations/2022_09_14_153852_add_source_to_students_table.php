@@ -14,7 +14,8 @@ class AddSourceToStudentsTable extends Migration
     public function up()
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->integer('source')->default(1)->after('birthday');
+            $table->integer('code')->unique()->after('user_id');
+            $table->integer('source')->default(0)->after('birthday');
             $table->string('phone', 15)->unique()->change();
             $table->string('email', 255)->unique()->change();
         });
@@ -30,6 +31,7 @@ class AddSourceToStudentsTable extends Migration
         Schema::table('students', function (Blueprint $table) {
             $table->string('phone', 15)->change();
             $table->string('email', 255)->change();
+            $table->dropColumn(['code', 'source']);
         });
     }
 }

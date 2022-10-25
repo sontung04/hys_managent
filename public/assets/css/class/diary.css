@@ -6,6 +6,15 @@
     #tableListStudentClass .setMinWidth {
         min-width: 225px;
     }
+
+    #diaryClassTable {
+        display: block;
+        overflow-x: auto;
+    }
+
+    #diaryClassTable .setMinWidth {
+        min-width: 225px;
+    }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -15,6 +24,15 @@
     }
 
     #tableListStudentClass .setMinWidth {
+        min-width: 225px;
+    }
+
+    #diaryClassTable {
+        display: block;
+        overflow-x: auto;
+    }
+
+    #diaryClassTable .setMinWidth {
         min-width: 225px;
     }
 

@@ -1,5 +1,7 @@
 @extends('layouts.index')
 
+@section('title', 'HYS Manage - Quên mật khẩu')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -32,22 +34,17 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Gửi Email') }}
                                 </button>
+
+                                <a class="btn btn-link" href="{{ route('login') }}">
+                                    {{ __('Đăng nhập') }}
+                                </a>
                             </div>
                         </div>
                     </form>
-                        <form action="{{route('login')}}">
-                            <div class="form-group row mb-0">
-                                <div class="col-sm-6 offset-md-4">
-                                    <button type="submit" class="btn btn-default">
-                                        {{ __('Đăng nhập') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                 </div>
             </div>
         </div>

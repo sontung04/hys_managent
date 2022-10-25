@@ -1,5 +1,7 @@
 @extends('layouts.index')
 
+@section('title', 'HYS Manage - Đặt lại mật khẩu')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

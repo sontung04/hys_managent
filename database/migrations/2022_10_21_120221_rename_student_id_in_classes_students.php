@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDesireToClassesStudentsTable extends Migration
+class RenameStudentIdInClassesStudents extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddDesireToClassesStudentsTable extends Migration
     public function up()
     {
         Schema::table('classes_students', function (Blueprint $table) {
-            $table->string('course_where')->nullable()->after('fees');
-            $table->text('desire')->nullable()->after('course_where');
+            $table->renameColumn('student_id', 'student_code');
         });
     }
 
@@ -27,7 +26,7 @@ class AddDesireToClassesStudentsTable extends Migration
     public function down()
     {
         Schema::table('classes_students', function (Blueprint $table) {
-            $table->dropColumn(['course_where', 'desire']);
+            $table->renameColumn('student_code', 'student_id');
         });
     }
 }

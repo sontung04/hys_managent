@@ -3,7 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>HYS Manage</title>
+    <title>
+        @if(View::hasSection('title'))
+            @yield('title')
+        @else
+            HYS Manage
+        @endif
+    </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

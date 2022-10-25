@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Danh sách khóa học')
+
 @section('script')
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
     <script src="{{ asset('assets/js/course/list.js') }}" defer></script>

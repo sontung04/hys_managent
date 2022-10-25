@@ -15,6 +15,7 @@ $(document).ready(function() {
                 }
                 divCheckIssetStudent.attr('hidden', 'hidden');
                 let student_type = divCheckIssetStudent.find('#student_type').val();
+                let student_code = divCheckIssetStudent.find('#student_code').val();
                 if(student_type == 1) {
                     divFormCheckinStudent.find('#divStatusCheckin').attr('hidden', 'hidden');
                     divFormCheckinStudent.find('#divStudentNumber').removeAttr('hidden');
@@ -76,6 +77,9 @@ $(document).ready(function() {
             status: {
                 required: true,
             },
+            feedback: {
+                required: true,
+            },
             number_eat: {
                 required: true,
             },
@@ -87,6 +91,9 @@ $(document).ready(function() {
         messages: {
             status: {
                 required: "Vui lòng chọn trạng thái checkin!",
+            },
+            feedback: {
+                required: "",
             },
             number_eat: {
                 required: "",

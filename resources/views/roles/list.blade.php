@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Danh sách chức vụ')
+
 @section('script')
     <!-- Ckeidtor -->
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>

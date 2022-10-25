@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Nhật ký lớp học')
+
 @section('style')
 
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
@@ -98,7 +100,7 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <div class="user-block float-right">
+                                        <div class="user-block" >
                                             <img class="img-circle img-bordered-sm" alt="user image"
                                                  src="{{asset($class->coach_img)}}" >
                                             <span class="username">
@@ -108,7 +110,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div class="user-block float-right mr-3">
+                                        <div class="user-block mr-3">
                                             <img class="img-circle img-bordered-sm" alt="user image"
                                                  src="{{asset($class->carer_staff_img)}}" >
                                             <span class="username">
@@ -211,14 +213,14 @@
                                             <thead>
                                             <tr>
                                                 <th style="width: 3%">Buổi</th>
-                                                <th>Tên bài học</th>
-                                                <th>Giảng viên</th>
-                                                <th>Trợ giảng</th>
-                                                <th>Chủ nhiệm</th>
+                                                <th class="setMinWidth">Tên bài học</th>
+                                                <th class="setMinWidth">Giảng viên</th>
+                                                <th style="min-width: 160px; max-width: 175px">Trợ giảng</th>
+                                                <th style="min-width: 160px; max-width: 175px">Chủ nhiệm</th>
                                                 <th>Ngày học</th>
-                                                <th>Địa điểm</th>
-                                                <th style="width: 10%">Số học viên <br>(Dùng bữa/Đi học)</th>
-                                                <th style="width: 10%">Hành động</th>
+                                                <th class="setMinWidth">Địa điểm</th>
+                                                <th style="width: 10%; min-width: 160px">Số học viên <br>(Dùng bữa/Đi học)</th>
+                                                <th style="width: 10%; min-width: 160px">Hành động</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -286,7 +288,7 @@
                                                     }
                                                     for ($i = 0; $i < $classLength; $i++) {
 
-                                                        $textHtml = '<td style="text-align: center">';
+                                                        $textHtml = '<td style="text-align: center; min-width: 64px">';
                                                         $textHtml .= 'Buổi ' . ($i + 1);
                                                         $textHtml .= '<a href="javascript:void(0);" class="btnViewStudyInfo"
                                                             data-toggle="popover" data-trigger="hover" data-placement="bottom"
@@ -309,7 +311,7 @@
                                                 <tbody>
                                                 @foreach($listStuAtten as $key => $stuAtten)
                                                     <tr data-studentcode="{{$key}}">
-                                                        <td>
+                                                        <td style="min-width: 225px">
                                                             <img src="{{asset($stuAtten['img'])}}" alt="Product 1" class="img-circle img-size-32 mr-2">
                                                             <span class="studentNameVal">{{$stuAtten['name']}}</span>
                                                         </td>
