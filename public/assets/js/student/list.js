@@ -201,6 +201,7 @@ $(function() {
 
             /* set field value */
             modalAddIntern.find('#student_id').val(id);
+            modalAddIntern.find('#student_code').val(studentInfo['code']);
             [ 'name', 'gender', 'birthday', 'email', 'phone'].forEach(field => {
                 modalAddIntern.find('#' + field).val(studentInfo[field]);
             });

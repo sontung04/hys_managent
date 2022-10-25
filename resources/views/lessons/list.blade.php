@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Danh sách bài học')
+
 @section('script')
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
     <!-- Select2 -->

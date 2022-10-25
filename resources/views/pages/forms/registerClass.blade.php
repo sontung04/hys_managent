@@ -1,6 +1,8 @@
 
 @extends('layouts.index')
 
+@section('title', 'HYS - Form Đăng ký lớp CiTEdu')
+
 @section('style')
     <style>
         body {

@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Danh sách học viên')
+
 @section('script')
     <script src="{{ asset('assets/js/student/list.js') }}" defer></script>
 @endsection
@@ -493,6 +495,7 @@
                             @csrf
                             <div class="modal-body">
                                 <input type="hidden" id="student_id" name="student_id">
+                                <input type="hidden" id="student_code" name="student_code">
                                 <div class="row">
                                     <label class="col-lg-3 col-form-label" for="name">Họ và Tên: </label>
                                     <div class="form-group col-lg-9">

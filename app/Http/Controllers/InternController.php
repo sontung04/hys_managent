@@ -49,7 +49,7 @@ class InternController extends Controller
                 BaseHelper::ajaxResponse('Học viên đã được thêm vào danh sách thực tập sinh!', false);
             }
 
-            $student = Student::findOrFail($requestData['student_code']);
+            $student = Student::findOrFail($requestData['student_id']);
 
             DB::table('interns')
                 ->insert([

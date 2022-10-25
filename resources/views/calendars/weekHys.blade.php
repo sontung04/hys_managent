@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Lịch tuần HYS')
+
 @section('style')
     <link rel="stylesheet" href="https://fullcalendar.io/js/fullcalendar-3.9.0/fullcalendar.min.css">
 

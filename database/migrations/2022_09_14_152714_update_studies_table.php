@@ -17,7 +17,8 @@ class UpdateStudiesTable extends Migration
             //
             $table->integer('lesson_id')->default(0)->change();
             $table->string('lesson_name', 255)->nullable()->after('lesson_id');
-            $table->tinyInteger('status')->after('location')->comment('Hình thức: 1-off, 0-on');
+            $table->tinyInteger('status')->after('location')->default(1)
+                ->comment('Hình thức: 1-off, 0-on');
             $table->text('description')->nullable()->after('status');
         });
     }
@@ -32,6 +33,7 @@ class UpdateStudiesTable extends Migration
         Schema::table('studies', function (Blueprint $table) {
             //
             $table->integer('lesson_id')->change();
+            $table->dropColumn(['lesson_name', 'status', 'description']);
         });
     }
 }

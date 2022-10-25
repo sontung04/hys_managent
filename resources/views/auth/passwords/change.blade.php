@@ -1,5 +1,7 @@
 @extends('layouts.index')
 
+@section('title', 'HYS Manage - Thay đổi mật khẩu')
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -59,7 +61,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Gửi') }}
+                                        {{ __('Lưu thay đổi') }}
                                     </button>
                                 </div>
                             </div>

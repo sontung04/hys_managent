@@ -1,5 +1,7 @@
 @extends('layouts.index')
 
+@section('title', 'Lỗi 404')
+
 @section('style')
 
 @endsection

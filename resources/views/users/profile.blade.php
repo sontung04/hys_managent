@@ -1,4 +1,7 @@
 @extends('layouts.sidebar')
+
+@section('title', 'HYS Manage - Thông tin thành viên')
+
 @section('script')
     <script src="{{ asset('assets/js/user/user.js') }}" defer></script>
 @endsection

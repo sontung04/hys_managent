@@ -3,7 +3,6 @@ namespace App\Http\Plugins;
 
 /**
  * BaseHelper class
- * @author Ducbui <ducbt@hocmai.vn> - 24/09/2020
  * @version 1.0.0
  */
 class BaseHelper
