@@ -86,6 +86,14 @@ class StudentController extends Controller
         $requestData = $request->all();
 
         if (!isset($requestData['id']) || empty($requestData['id'])){
+            if(!$this->checkDuplicateVal('students', 'phone', $requestData['phone'])) {
+                BaseHelper::ajaxResponse('SĐT học viên bị trùng với một học viên khác! <br> Vui lòng kiểm tra lại SĐT học viên!', false);
+            }
+
+            if(!$this->checkDuplicateVal('students', 'email', $requestData['email'])) {
+                BaseHelper::ajaxResponse('Email học viên bị trùng với một học viên khác! <br> Vui lòng kiểm tra lại email học viên!', false);
+            }
+
             # create a new student
             $student = new Student();
             $student->code       = $this->studentService->createNewCodeStudent();
@@ -94,6 +102,15 @@ class StudentController extends Controller
         } else {
             # update student
             $student = Student::findOrFail($requestData['id']);
+
+            if($student->phone != $requestData['phone'] && !$this->checkDuplicateVal('students', 'phone', $requestData['phone'])) {
+                BaseHelper::ajaxResponse('SĐT học viên bị trùng với một học viên khác! <br> Vui lòng kiểm tra lại SĐT học viên!', false);
+            }
+
+            if($student->email != $requestData['email'] && !$this->checkDuplicateVal('students', 'email', $requestData['email'])) {
+                BaseHelper::ajaxResponse('Email học viên bị trùng với một học viên khác! <br> Vui lòng kiểm tra lại Email học viên!', false);
+            }
+
             $student->updated_by = Auth::id();
             $student->updated_at = Carbon::now();
         }
@@ -127,11 +144,9 @@ class StudentController extends Controller
             $student->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'),true);
         }catch (\Exception $exception){
-            $msg = Auth::id();
 //            print_r($exception->getMessage());
 //            die();
-//            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
-            BaseHelper::ajaxResponse($msg . ' /// ' . $exception->getMessage(), false);
+            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
 

@@ -113,10 +113,17 @@ class UserController extends Controller
         #create new user
         if (!isset($requestData['id']) || empty($requestData['id'])) {
 
+            if(!$this->checkDuplicateVal('users', 'phone', $requestData['phone'])) {
+                BaseHelper::ajaxResponse('SĐT của bạn bị trùng với một tài khoản khác! <br> Vui lòng kiểm tra lại SĐT người dùng!', false);
+            }
+
+            if(!$this->checkDuplicateVal('users', 'email', $requestData['email'])) {
+                BaseHelper::ajaxResponse('Email của bạn bị trùng với một tài khoản khác! <br> Vui lòng kiểm tra lại Email người dùng!', false);
+            }
+
             $user = new User();
             $user->code       = $requestData['code'];
             $user->password   = Hash::make(env('PASSWORD_DEFAULT'));
-            $user->email      = $requestData['email'];
             $user->img        = config('app.avatarDefault');
             $user->created_at = time();
             $user->updated_at = time();
@@ -127,13 +134,21 @@ class UserController extends Controller
             #update data user
             $user = User::find($requestData['id']);
 
+            if($user->phone != $requestData['phone'] && !$this->checkDuplicateVal('users', 'phone', $requestData['phone'])) {
+                BaseHelper::ajaxResponse('SĐT người dùng bị trùng với một tài khoản khác! <br> Vui lòng kiểm tra lại SĐT người dùng!', false);
+            }
+
+            if($user->email != $requestData['email'] && !$this->checkDuplicateVal('users', 'email', $requestData['email'])) {
+                BaseHelper::ajaxResponse('Email người dùng bị trùng với một tài khoản khác! <br> Vui lòng kiểm tra lại Email người dùng!', false);
+            }
+
             $user->updated_by = Auth::id();
             $user->updated_at = strtotime('now');
-
         }
 
         $user->firstname  = $requestData['firstname'];
         $user->lastname   = $requestData['lastname'];
+        $user->email      = $requestData['email'];
         $user->phone      = $requestData['phone'];
         $user->birthday   = $this->changeFormatDateInput($requestData['birthday']);
         $user->school     = $requestData['school'];
@@ -150,6 +165,8 @@ class UserController extends Controller
             $user->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception) {
+//            print_r($exception->getMessage());
+//            die();
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }

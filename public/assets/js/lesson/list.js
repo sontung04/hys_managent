@@ -199,7 +199,7 @@ $(function () {
     function setHtmlRowTableLesson(data, index) {
         let html = '';
 
-        html += `<th style="text-align:center;">${index}</th>`;
+        html += `<th style="text-align:center; ">${index}</th>`;
         html += `<th style="text-align:center;">${data.name}</th>`;
         html += `<th style="text-align:center;">${courses[data.course_id].name}</th>`;
         html += `<th style="text-align:center;">`;
@@ -209,7 +209,7 @@ $(function () {
         html += `<td>${data.question == null ? '' : data.question}</td>`;
         html += `<td>${data.document == null ? '' : data.document}</td>`;
         html += `<td>${data.homework == null ? '' : data.homework}</td>`;
-        html += `<th style="text-align:center;">`;
+        html += `<th>`;
         html += `<button type="button" class="btn btn-outline-success btn-sm btnEdit" data-id="${data.id}">Chỉnh sửa</button>`;
         html += `</th>`;
 

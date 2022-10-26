@@ -101,7 +101,7 @@ $(document).ready(function() {
 
             callAjaxPost(BASE_URL + '/form/class/register/submitAjax', data).done(function(res){
                 if (!res.status) {
-                    notifyMessage('Cảnh báo!', res.msg, 'error', 3600000);
+                    notifyMessage('Cảnh báo!', res.msg, 'error', 5000);
                     return;
                 }
                 Swal.fire({

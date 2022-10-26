@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -58,5 +59,21 @@ class Controller extends BaseController
         if(empty($data)) {
             BaseHelper::ajaxResponse('Dữ liệu trống! Vui lòng thử lại sau!', false);
         }
+    }
+
+    /**
+     * Kiểm tra 1 giá trị có bị trùng hay không
+     * Trả ra True nếu không bị trùng và ngược lại False nếu bị trùng
+     * @param string $tableName
+     * @param string $field
+     * @return boolean
+     */
+    protected function checkDuplicateVal($tableName, $field, $value)
+    {
+        $dataCheck = DB::table($tableName)->where($field, '=', $value)->first();
+        if ($dataCheck === null) {
+            return true;
+        }
+        return false;
     }
 }
