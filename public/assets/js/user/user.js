@@ -5,7 +5,7 @@ $(document).ready(function() {
 
         callAjaxPost(BASE_URL + '/user/saveInfo', data).done(function (res) {
             if (!res.status) {
-                notifyMessage('Lỗi!', res.msg, 'error', 5000);
+                notifyMessage('Lỗi!', res.msg, 'error', 3600000);
                 return;
             }
             notifyMessage('Thông báo!', res.msg,'success');

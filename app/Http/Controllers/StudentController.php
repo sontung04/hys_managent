@@ -127,9 +127,11 @@ class StudentController extends Controller
             $student->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'),true);
         }catch (\Exception $exception){
+            $msg = Auth::id();
 //            print_r($exception->getMessage());
 //            die();
-            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+//            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+            BaseHelper::ajaxResponse($msg . ' /// ' . $exception->getMessage(), false);
         }
     }
 
