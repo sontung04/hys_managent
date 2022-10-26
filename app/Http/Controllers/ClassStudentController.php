@@ -293,9 +293,10 @@ class ClassStudentController extends Controller
             $classStudent->save();
             BaseHelper::ajaxResponse('Chúc mừng bạn đã đăng ký học thành công!',true, $student->code);
         }catch (\Exception $exception){
+            $msg = $exception->getMessage();
 //            print_r($exception->getMessage());
 //            die();
-            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+            BaseHelper::ajaxResponse($msg, false);
         }
     }
 }
