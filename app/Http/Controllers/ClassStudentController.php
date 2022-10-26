@@ -296,7 +296,7 @@ class ClassStudentController extends Controller
             $msg = $exception->getMessage();
 //            print_r($exception->getMessage());
 //            die();
-            BaseHelper::ajaxResponse($msg, false);
+            BaseHelper::ajaxResponse(Auth::id(). ' / '. $msg, false);
         }
     }
 }
