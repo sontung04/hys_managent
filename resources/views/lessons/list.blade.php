@@ -16,12 +16,27 @@
                 display: block;
                 overflow-x: auto;
             }
+            #tableListLesson .setMinWidthMediumText {
+                min-width: 160px;
+            }
+
+            #tableListLesson .setMinWidthLongText {
+                min-width: 225px;
+            }
         }
 
         @media only screen and (max-width: 1024px) {
             #tableListLesson {
                 display: block;
                 overflow-x: auto;
+            }
+
+            #tableListLesson .setMinWidthMediumText {
+                min-width: 160px;
+            }
+
+            #tableListLesson .setMinWidthLongText {
+                min-width: 225px;
             }
         }
     </style>
@@ -87,13 +102,13 @@
                                     <thead>
                                     <tr style="text-align: center">
                                         <th style="width: 3%">STT</th>
-                                        <th>Tên Bài giảng</th>
-                                        <th>Khóa học</th>
-                                        <th>Giảng viên</th>
-                                        <th style="width: 15%">Mô tả</th>
-                                        <th style="width: 15%">Câu hỏi</th>
-                                        <th style="width: 15%">Tài liệu</th>
-                                        <th style="width: 15%">Bài tập về nhà</th>
+                                        <th class="setMinWidthMediumText">Tên Bài giảng</th>
+                                        <th class="setMinWidthMediumText">Khóa học</th>
+                                        <th class="setMinWidthMediumText">Giảng viên</th>
+                                        <th class="setMinWidthLongText" style="width: 15%">Mô tả</th>
+                                        <th class="setMinWidthLongText" style="width: 15%">Câu hỏi</th>
+                                        <th class="setMinWidthLongText" style="width: 15%">Tài liệu</th>
+                                        <th class="setMinWidthLongText" style="width: 15%">Bài tập về nhà</th>
                                         <th style="width: 7%">Hành động</th>
                                     </tr>
                                     </thead>

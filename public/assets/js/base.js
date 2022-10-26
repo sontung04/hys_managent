@@ -208,7 +208,7 @@ try {
             Swal.fire({
                 title: title,
                 icon: type,
-                text: message,
+                html: message,
                 showConfirmButton: true,
                 confirmButtonText: 'Đóng',
                 timer: timeout
@@ -218,7 +218,7 @@ try {
         Swal.fire({
             title: title,
             icon: 'error',
-            text: message,
+            html: message,
             showConfirmButton: true,
             confirmButtonText: 'Đóng',
             timer: timeout
