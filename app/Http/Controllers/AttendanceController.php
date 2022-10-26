@@ -184,9 +184,10 @@ class AttendanceController extends Controller
             try {
                 $study->save();
             } catch (\Exception $exception){
-//            print_r($exception->getMessage());
-//            die();
-                BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+                $msg = $exception->getMessage();
+//                print_r($exception->getMessage());
+//                die();
+                BaseHelper::ajaxResponse($msg, false);
             }
         }
 
@@ -194,7 +195,11 @@ class AttendanceController extends Controller
             $attendance->save();
             BaseHelper::ajaxResponse("CiT Edu cảm ơn về những góp ý của bạn!", true);
         } catch (\Exception $exception){
-            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+            $msg = $exception->getMessage();
+//                print_r($exception->getMessage());
+//                die();
+            BaseHelper::ajaxResponse($msg, false);
+//            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
 
     }
