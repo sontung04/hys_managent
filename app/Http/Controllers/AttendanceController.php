@@ -128,8 +128,17 @@ class AttendanceController extends Controller
             return view('pages.404');
         }
         $studyInfo = $studyInfo[0];
+        $timeCheckinBefore = true;
+        $timeCheckinAfter  = true;
+        if(strtotime($studyInfo->daylearn) + 75600 > strtotime(Carbon::now())) {
+            $timeCheckinBefore = false;
+        }
 
-        return view('pages.forms.attenStudent', compact('studyInfo'));
+        if(strtotime(Carbon::now()) - strtotime($studyInfo->daylearn) > 86400 * 2) {
+            $timeCheckinAfter  = false;
+        }
+
+        return view('pages.forms.attenStudent', compact('studyInfo', 'timeCheckinBefore', 'timeCheckinAfter'));
     }
 
     /**
@@ -154,7 +163,10 @@ class AttendanceController extends Controller
             ['student_code', '=', $requestData['student_code']]])->exists()) {
             BaseHelper::ajaxResponse('Bạn đã checkin buổi học này!',false);
         }
-        BaseHelper::ajaxResponse(config('app.textGetSuccess'),true);
+        $studentInfo = DB::table('students')
+            ->where('code', '=', $requestData['student_code'])
+            ->get(['code', 'name']);
+        BaseHelper::ajaxResponse(config('app.textGetSuccess'),true, $studentInfo[0]);
     }
 
     public function formStudentSubmitAjax(Request $request)
@@ -170,8 +182,10 @@ class AttendanceController extends Controller
         $attendance->student_type = $requestData['student_type'];
         if($requestData['student_type'] == 0) {
             $attendance->status = $requestData['status'];
+        } else {
+            $attendance->note   = $requestData['note'];
         }
-        $attendance->note     = $requestData['note'];
+
         $attendance->feedback = $requestData['feedback'];
         $attendance->question = $requestData['question'];
         $attendance->comment  = $requestData['comment'];

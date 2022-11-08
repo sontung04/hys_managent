@@ -42,9 +42,36 @@
             <!-- form check isset student -->
             <div class="card" id="divCheckIssetStudent" style="width: 360px">
                 <div class="card-body register-card-body">
-                    <p class="login-box-msg">Nhập thông tin của bạn</p>
+                    <div style="text-align: center">
+                        <b style="font-size: 1.5rem; color: #28a745"> Tên bài:
+                            @if($studyInfo->lesson_id)
+                                {{$studyInfo->lname}}
+                            @else
+                                {{$studyInfo->lesson_name}}
+                            @endif
+                        </b>
 
-                    <form id="" action="" method="post">
+                        <br>
+
+                        @if(!$timeCheckinBefore || !$timeCheckinAfter)
+                            <b style="font-size: 1.2rem; color: #dc3545">
+                                @if(!$timeCheckinBefore)
+                                    Chưa đến thời gian Checkin!
+                                @endif
+
+                                @if(!$timeCheckinAfter) Đã quá thời gian Checkin! @endif
+
+                                <br>
+                                Bạn không thể checkin buổi học này!
+                            </b>
+                        @endif
+
+
+
+                    </div>
+
+                    <form id="" action="" method="post" @if(!$timeCheckinBefore || !$timeCheckinAfter) hidden="hidden" @endif>
+                        <p class="login-box-msg">Nhập thông tin của bạn</p>
                         @csrf
                         <input type="hidden" name="study_id" id="study_id" value="{{$studyInfo->id}}">
 
@@ -105,10 +132,17 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class=" row">
                             <label class="col-form-label col-lg-3" for="" id=""> Ngày học: </label>
                             <div class="col-form-label col-lg-9" id="">
                                 {{date('d/m/Y', strtotime($studyInfo->daylearn))}}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3" for="" id="nameCodeStudentTitle"> Học viên: </label>
+                            <div class="col-form-label col-lg-9" id="nameCodeStudent">
+
                             </div>
                         </div>
 
@@ -136,8 +170,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row" >
-                            <label class="col-lg-3 col-form-label" for="">Ghi chú:</label>
+                        <div class="form-group row" id="divStudentNote" hidden="hidden">
+                            <label class="col-lg-3 col-form-label" for="">Ghi chú: </label>
                             <div class="col-lg-9">
                                 <textarea type="text" name="note" id="note" class="form-control" rows="3"></textarea>
                             </div>

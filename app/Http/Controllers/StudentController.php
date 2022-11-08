@@ -52,9 +52,9 @@ class StudentController extends Controller
                     }
                 }
             }
-            $students = $query->paginate(25, ['*'], 'page', $paged);
+            $students = $query->paginate(20, ['*'], 'page', $paged);
         }else
-            $students = $query->paginate(25);
+            $students = $query->paginate(20);
 
         return view('students.list',compact('students', 'filters'));
     }
