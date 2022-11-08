@@ -13,15 +13,22 @@ $(document).ready(function() {
                     notifyMessage('Cảnh báo!', res.msg, 'error', 5000);
                     return;
                 }
+                let studentInfo = res.data;
                 divCheckIssetStudent.attr('hidden', 'hidden');
                 let student_type = divCheckIssetStudent.find('#student_type').val();
                 let student_code = divCheckIssetStudent.find('#student_code').val();
+
                 if(student_type == 1) {
+                    document.getElementById('nameCodeStudentTitle').innerText = "Chủ nhiệm: ";
                     divFormCheckinStudent.find('#divStatusCheckin').attr('hidden', 'hidden');
                     divFormCheckinStudent.find('#divStudentNumber').removeAttr('hidden');
+                    divFormCheckinStudent.find('#divStudentNote').removeAttr('hidden');
                 } else if(student_type == 2) {
+                    document.getElementById('nameCodeStudentTitle').innerText = "Trợ giảng: ";
                     divFormCheckinStudent.find('#divStatusCheckin').attr('hidden', 'hidden');
+                    divFormCheckinStudent.find('#divStudentNote').removeAttr('hidden');
                 }
+                document.getElementById('nameCodeStudent').innerHTML = studentInfo.name + ' - ' + student_code;
                 divFormCheckinStudent.find('#student_type').val(student_type);
                 divFormCheckinStudent.find('#student_code').val(student_code);
                 divFormCheckinStudent.removeAttr('hidden');

@@ -152,7 +152,7 @@ class ClassStudentController extends Controller
             $classStudent->updated_at   = Carbon::now();
 
             /* Update Record Student */
-            $student = Student::find($classStudent->student_id);
+            $student = Student::find($requestData['student_id']);
             $student->name         = $requestData['name'];
             $student->birthday     = $this->changeFormatDateInput($requestData['birthday']);
             $student->phone        = $requestData['phone'];

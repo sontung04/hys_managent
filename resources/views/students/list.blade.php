@@ -136,6 +136,38 @@
                     </div>
 
                     <!-- /.card-body -->
+                    @if ($students->hasPages())
+                        <div class="card-footer clearfix">
+                            <ul class="pagination m-0 float-right">
+                                @if (!$students->onFirstPage())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$students->currentPage() - 1}}" href="">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @for($i = 1; $i <= $students->lastPage(); $i++)
+                                    @if($i == 1 || $i == $students->lastPage() || ($i <= ($students->currentPage() + 1) && $i >= ($students->currentPage() - 1)))
+
+                                        <li class="btn page-item {{$i == $students->currentPage() ? 'active' : ''}}">
+                                            <a class="page-link" data-page="{{$i}}" href="">{{$i}}</a>
+                                        </li>
+                                    @elseif($i == $students->currentPage() - 2 || $i == $students->currentPage() + 2)
+                                        <li class="btn page-item disabled"><a class="page-link" >...</a></li>
+                                    @endif
+                                @endfor
+
+                                @if($students->hasMorePages())
+                                    <li class="btn page-item">
+                                        <a class="page-link" data-page="{{$students->currentPage() + 1}}" href="">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    @endif
                     <div class="card-body">
                         <table id="tableStudentList" class="table table-bordered table-striped table-hover">
                             <thead>
