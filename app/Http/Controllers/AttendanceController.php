@@ -130,11 +130,12 @@ class AttendanceController extends Controller
         $studyInfo = $studyInfo[0];
         $timeCheckinBefore = true;
         $timeCheckinAfter  = true;
-        if(strtotime($studyInfo->daylearn) + 75600 > strtotime(Carbon::now())) {
+        $timeCheckin = strtotime($studyInfo->daylearn) + 72000;
+        if(strtotime(Carbon::now()) < $timeCheckin) {
             $timeCheckinBefore = false;
         }
 
-        if(strtotime(Carbon::now()) - strtotime($studyInfo->daylearn) > 86400 * 2) {
+        if(strtotime(Carbon::now()) - $timeCheckin > 86400 ) {
             $timeCheckinAfter  = false;
         }
 

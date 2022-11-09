@@ -57,9 +57,9 @@
                             <b style="font-size: 1.2rem; color: #dc3545">
                                 @if(!$timeCheckinBefore)
                                     Chưa đến thời gian Checkin!
+                                @elseif(!$timeCheckinAfter)
+                                    Đã quá thời gian Checkin!
                                 @endif
-
-                                @if(!$timeCheckinAfter) Đã quá thời gian Checkin! @endif
 
                                 <br>
                                 Bạn không thể checkin buổi học này!

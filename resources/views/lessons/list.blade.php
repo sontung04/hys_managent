@@ -141,7 +141,7 @@
                 <form action="" id="formAddLesson" class="form-horizonal" method="post">
                     @csrf
                     <!-- Modal body -->
-                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="id" name="id" class="form-control">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
