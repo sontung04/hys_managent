@@ -201,6 +201,15 @@ $(document).ready(function () {
         // allowClear: true
     });
 
+    $('#coach').select2({
+        theme: 'bootstrap4'
+    });
+
+    $('#carer_staff').select2({
+        theme: 'bootstrap4'
+    });
+    /* end set select2 */
+
     /* set datetimepicker daylearnDate */
     modalAddStudyClass.find('#daylearnDate').datetimepicker({
         format : datetimepicketFormat,
@@ -310,10 +319,10 @@ $(document).ready(function () {
                 required: "Tên Giảng viên không được để trống!",
             },
             coach: {
-                required: "Mã Trợ giảng không được để trống!"
+                required: "Trợ giảng lớp không được để trống!"
             },
             carer_staff: {
-                required: "Tên Chủ nhiệm lớp không được để trống!"
+                required: "Chủ nhiệm lớp không được để trống!"
             },
             daylearn: {
                 required: "Ngày học không được để trống!"

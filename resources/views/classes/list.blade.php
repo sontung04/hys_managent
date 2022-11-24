@@ -28,11 +28,14 @@
         }
     </style>
 
+    <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 
 @section('script')
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-    <script src="{{ asset('assets/js/user/list.js') }}" defer></script>
+    <!-- Select2 -->
+    <script src="{{ asset('themes/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/class/list.js') }}" defer></script>
 @endsection
 
@@ -137,6 +140,7 @@
                                 <th>Trợ giảng</th>
                                 <th>Chủ nhiệm</th>
                                 <th>Ngày khai giảng</th>
+                                <th>Ngày kết thúc</th>
                                 <th style="width: 10%">Trạng thái</th>
                                 <th style="width: 11%">Hành động</th>
                             </tr>
@@ -150,11 +154,16 @@
                                     </td>
                                     <td>{{$class->name}}</td>
                                     <td>{{$coursesName[$class->course_id]}}</td>
-                                    <td>{{$class->coach}}</td>
+                                    <td>{{$class->coach_name}}</td>
 
-                                    <td>{{$class->carer_staff}}</td>
+                                    <td>{{$class->cs_name}}</td>
 
                                     <td> {{date('d/m/Y', strtotime($class->starttime))}}</td>
+                                    <td>
+                                        @if(!is_null($class->finishtime))
+                                            {{date('d/m/Y', strtotime($class->finishtime))}}
+                                        @endif
+                                    </td>
                                     <td style="text-align: center">
                                         @switch($class->status)
                                             @case(0)
@@ -261,23 +270,36 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="coach">Mã trợ giảng: <span class="text-danger">*</span></label>
+                            <label class="col-lg-3 col-form-label" for="coach">Trợ Giảng lớp: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
-                                <input type="number" name="coach" id="coach" class="form-control">
+                                <select class="" id="coach" name="coach"
+                                        data-placeholder="--- Chọn Trợ giảng ---" style="width: 100%;">
+                                    <option value=""></option>
+                                    @foreach($listIntern as $intern)
+                                        <option value="{{$intern['code']}}">{{$intern['name'] . ' - ' . $intern['code']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="carer_staff">Mã chủ nhiệm lớp: <span class="text-danger">*</span></label>
+                            <label class="col-lg-3 col-form-label" for="carer_staff">Chủ Nhiệm lớp: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
-                                <input type="number" name="carer_staff" id="carer_staff" class="form-control">
+
+                                <select class="" name="carer_staff" id="carer_staff"
+                                        data-placeholder="--- Chọn Chủ nhiệm ---" style="width: 100%;">
+                                    <option value=""></option>
+                                    @foreach($listIntern as $intern)
+                                        <option value="{{$intern['code']}}">{{$intern['name'] . ' - ' . $intern['code']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="row">
                             <label class="col-lg-3 col-form-label" for="starttime">Ngày khai giảng: <span class="text-danger">*</span></label>
-                            <div class="form-group col-lg-9">
-                                <div class="input-group date" id="starttimeDate" data-target-input="nearest">
+                            <div class="col-lg-9">
+                                <div class="form-group input-group date" id="starttimeDate" data-target-input="nearest">
                                     <div class="input-group-append" data-target="#starttimeDate" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>

@@ -90,8 +90,8 @@ class StudyController extends Controller
         $study->status       = $requestData['status'];
         $study->location     = $requestData['location'];
 
-        if(!is_null($study->number_eat)) $study->number_eat = $requestData['number_eat'];
-        if(!is_null($study->number_learn)) $study->number_learn = $requestData['number_learn'];
+        if(!is_null($requestData['number_eat'])) $study->number_eat = $requestData['number_eat'];
+        if(!is_null($requestData['number_learn'])) $study->number_learn = $requestData['number_learn'];
 
         $study->description  = $requestData['description'];
 
