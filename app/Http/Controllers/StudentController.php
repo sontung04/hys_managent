@@ -24,6 +24,8 @@ class StudentController extends Controller
 
         $query = DB::table('students', 's');
 
+        $query->orderBy('code', 'DESC');
+
         if ($request->isMethod('POST')){
             $paged = $filters['page'];
             unset($filters['page']);
@@ -52,9 +54,12 @@ class StudentController extends Controller
                     }
                 }
             }
+
             $students = $query->paginate(20, ['*'], 'page', $paged);
-        }else
+        } else {
             $students = $query->paginate(20);
+        }
+
 
         return view('students.list',compact('students', 'filters'));
     }

@@ -23,6 +23,7 @@ class InternController extends Controller
     public function list(){
         $interns = DB::table('interns', 'i')
             ->join('students as s', 'i.student_code', '=', 's.code')
+            ->orderBy('s.code', 'DESC')
             ->get(['s.id', 's.code', 's.name','s.img', 's.phone', 's.facebook', 'i.status', 'i.starttime']);
 
         return view('interns/list', compact('interns'));

@@ -9,6 +9,14 @@ $(function() {
     let formFilterClass = $('#formFilterClass');
 
     let course_id = localStorage.getItem('course_id');
+
+    $('#coach').select2({
+        theme: 'bootstrap4'
+    });
+    $('#carer_staff').select2({
+        theme: 'bootstrap4'
+    });
+
     /* Gọi Ajax lấy ra danh sách các khóa học */
     callAjaxGet(BASE_URL + '/course/getListCourseAjax').done(function (res){
         let courses = res.data;
@@ -104,6 +112,12 @@ $(function() {
             course_id: {
                 required: true,
             },
+            coach: {
+                required: true,
+            },
+            carer_staff: {
+                required: true,
+            },
             starttime: {
                 required: true,
             },
@@ -115,6 +129,12 @@ $(function() {
             },
             course_id: {
                 required: "Khóa học không được để trống",
+            },
+            coach: {
+                required: "Trợ giảng lớp không được để trống!"
+            },
+            carer_staff: {
+                required: "Chủ nhiệm lớp không được để trống!"
             },
             starttime: {
                 required: "Ngày khai giảng không được để trống",

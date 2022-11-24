@@ -18,11 +18,8 @@ class UserController extends Controller
     {
         $filters = $request->all();
 
-//        $testQuery = DB::table('users', 'u');
-//        $test = $testQuery->join('user_groups as ug', 'u.id', '=', 'ug.user_id')->where('u.id', '=', 6)->get();
-//        print_r($test);
-//        die();
         $query = DB::table('users', 'u');
+        $query->orderBy('u.code', 'DESC');
 
         $departs = DB::table('groups')
             ->select('id', 'name')
@@ -80,9 +77,9 @@ class UserController extends Controller
                 }
             }
 
-            $users = $query->paginate(25, ['*'], 'page', $paged);
+            $users = $query->paginate(20, ['*'], 'page', $paged);
         } else {
-            $users = $query->paginate(25);
+            $users = $query->paginate(20);
         }
 //        $users = DB::table('users')->paginate(1);
 //        $paged = $users->currentPage();

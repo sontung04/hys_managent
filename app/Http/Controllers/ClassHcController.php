@@ -7,6 +7,7 @@ use App\Models\ClassHc;
 use App\Models\Intern;
 use App\Models\Study;
 use App\Models\Teacher;
+use App\Services\InternService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 
 class ClassHcController extends Controller
 {
+    private $internService;
+
     private $studentClassStatus = [
         0 => 'Nghỉ học',
         1 => 'Đang học',
@@ -21,9 +24,9 @@ class ClassHcController extends Controller
         3 => 'Bảo lưu',
     ];
 
-    public function __construct()
+    public function __construct(InternService $internService)
     {
-
+        $this->internService = $internService;
     }
 
     public function list(Request $request)
@@ -38,7 +41,10 @@ class ClassHcController extends Controller
             $coursesName[$course->id] = $course->name;
         }
 
-        $query = DB::table('classes_hc', 'c');
+        $query = DB::table('classes_hc', 'c')
+            ->join('interns as coach', 'c.coach', '=', 'coach.student_code')
+            ->join('interns as cs', 'c.carer_staff', '=', 'cs.student_code');
+        $query->orderBy('c.id', 'DESC');
 
         if ($request->isMethod('POST')){
             $paged = $filters['page'];
@@ -63,12 +69,14 @@ class ClassHcController extends Controller
                     }
                 }
             }
-            $classes = $query->paginate(25, ['*'], 'page', $paged);
-        }else
-            $classes = $query->paginate(25);
+            $classes = $query->paginate(25, ['c.*', 'coach.name as coach_name', 'cs.name as cs_name'], 'page', $paged);
+        } else {
+            $classes = $query->paginate(25, ['c.*', 'coach.name as coach_name', 'cs.name as cs_name']);
+        }
 
+        $listIntern = $this->internService->getListCurrent();
 
-        return view('classes.list',compact('classes', 'coursesName', 'filters'));
+        return view('classes.list',compact('classes', 'coursesName', 'filters', 'listIntern'));
     }
 
     /**
@@ -243,8 +251,11 @@ class ClassHcController extends Controller
 //        print_r($listStudy);
 //        die();
 
+        $listIntern = $this->internService->getListCurrent();
+
         return view('classes.diary',
-            array_merge(compact('class','listStudent', 'listStudy', 'listTeacher', 'listLesson', 'listStuAtten'),
+            array_merge(compact('class','listStudent', 'listStudy', 'listTeacher', 'listLesson',
+                'listStuAtten', 'listIntern'),
             ['studentClassStatus' => $this->studentClassStatus]));
     }
 

@@ -558,14 +558,26 @@
                         <div class="row">
                             <label class="col-lg-3 col-form-label" for="coach"> Trợ giảng: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
-                                <input type="number" name="coach" id="coach" class="form-control" placeholder="Nhập mã TTS Trợ giảng lớp">
+                                <select class="" id="coach" name="coach"
+                                        data-placeholder="--- Chọn Trợ giảng ---" style="width: 100%;">
+                                    <option value=""></option>
+                                    @foreach($listIntern as $intern)
+                                        <option value="{{$intern['code']}}">{{$intern['name'] . ' - ' . $intern['code']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="row">
                             <label class="col-lg-3 col-form-label" for="carer_staff"> Chủ nhiệm: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
-                                <input type="number" name="carer_staff" id="carer_staff" class="form-control" placeholder="Nhập mã TTS Chủ nhiệm lớp">
+                                <select class="" name="carer_staff" id="carer_staff"
+                                        data-placeholder="--- Chọn Chủ nhiệm ---" style="width: 100%;">
+                                    <option value=""></option>
+                                    @foreach($listIntern as $intern)
+                                        <option value="{{$intern['code']}}">{{$intern['name'] . ' - ' . $intern['code']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
