@@ -113,7 +113,7 @@
                             <li class="nav-item">
                                 <a href="" class="nav-link">
                                     <i class="far fa-calendar-plus nav-icon"></i>
-                                    <p>Tạo sự kiên mới</p>
+                                    <p>Tạo sự kiện mới</p>
                                 </a>
                             </li>
                         </ul>
@@ -172,8 +172,8 @@
 
                 <!-- Lesson Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/lesson') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/lesson') !== false) active @endif">
                             <i class="fas fa-graduation-cap nav-icon"></i>
                             <p>
                                 Bài học
@@ -193,8 +193,8 @@
 
                 <!-- Class Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/class') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/class') !== false) active @endif">
                             <i class="fa-solid fa-chalkboard-user"></i>
                             <p>
                                 Lớp học
@@ -221,8 +221,8 @@
                 </ul>
                 <!-- Student Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/student') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/student') !== false) active @endif">
                             <i class="fas fa-user-graduate"></i>
                             <p>
                                 Học Viên
@@ -231,9 +231,16 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('student.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/students/list') !== false) active @endif">
+                                <a href="{{route('student.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/student/list') !== false) active @endif">
                                     <i class="fas fa-list nav-icon"></i>
                                     <p>Danh sách Học viên</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('s.fee.list')}}" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/fee/list') !== false) active @endif">
+                                    <i class="fa-solid fa-sack-dollar"></i>
+                                    <p>Danh sách Học phí</p>
                                 </a>
                             </li>
                         </ul>
@@ -242,8 +249,8 @@
 
                 <!-- Intern Menu -->
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview @if(strpos($_SERVER['REQUEST_URI'], '/intern') !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($_SERVER['REQUEST_URI'], '/intern') !== false) active @endif">
                             <i class="fa fa-drivers-license"></i>
                             <p>
                                 Thực tập sinh

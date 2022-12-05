@@ -5,7 +5,7 @@ $(document).ready(function () {
     let listRowInputHidden = ['rowInputName', 'rowInputPhone', 'rowInputEmail', 'rowInputEmail', 'rowInputNativeplace'];
 
     /* set datetimepicker */
-    ['birthdayDate', 'starttimeDate', 'finishtimeDate'].forEach(field => {
+    ['birthdayDate', 'starttimeDate', 'finishtimeDate', 'datepaymentDate'].forEach(field => {
         modalAddStudentClass.find('#' +field).datetimepicker({
             format : datetimepicketFormat,
             locale : 'vi',
@@ -57,7 +57,7 @@ $(document).ready(function () {
 
             // /* set field value */
             ['student_id', 'student_code', 'id', 'name', 'phone', 'email', 'birthday', 'native_place',
-                'starttime', 'finishtime', 'course_where', 'desire'].forEach(field => {
+                'starttime', 'finishtime', 'datepayment', 'course_where', 'desire'].forEach(field => {
                 modalAddStudentClass.find('#' + field).val(studentInfo[field]);
             });
             modalAddStudentClass.find('#student_code').attr('disabled', 'disabled');

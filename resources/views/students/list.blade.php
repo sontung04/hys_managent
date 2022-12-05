@@ -7,19 +7,27 @@
 @endsection
 
 @section("content")
-    <?php $years = range(strftime("%Y", time()), 1950); ?>
+    <?php $years = range(strftime("%Y", time()), 1980); ?>
     <style>
         @media only screen and (max-width: 540px) {
             #tableStudentList {
                 display: block;
                 overflow-x: auto;
             }
+
+            #tableStudentList .setMinWidth {
+                min-width: 175px;
+            }
         }
 
-        @media only screen and (max-width: 976px) {
+        @media only screen and (max-width: 1024px) {
             #tableStudentList {
                 display: block;
                 overflow-x: auto;
+            }
+
+            #tableStudentList .setMinWidth {
+                min-width: 175px;
             }
         }
         .table thead th {
@@ -180,14 +188,16 @@
                                 <th>Điện thoại</th>
                                 <th>Email</th>
                                 <th>Quê quán</th>
+                                <th>Trường học</th>
+                                <th>Chuyên ngành</th>
 {{--                                <th style="width: 5%">Trạng thái</th>--}}
-                                <th style="width: 11%">Hành động</th>
+                                <th class="setMinWidth" style="width: 11%">Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php $index = 1 ?>
                             @forelse($students as $key => $student)
-                                <tr id="role-{{$student->id}}">
+                                <tr>
                                     <td>
                                         {{(($students->currentPage() - 1) * 25) + $index++}}
                                     </td>
@@ -196,12 +206,14 @@
                                     <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
                                     <td>{{date('d/m/Y', strtotime($student->birthday))}}</td>
                                     <td>{{$student->phone}}</td>
-                                    <td>{{$student->email}}</td>
-                                    <td>{{$student->native_place}}</td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->email}}</td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->native_place}}</td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->school}}</td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->major}}</td>
 {{--                                    <td style="text-align: center">--}}
 {{--                                        <?php echo $student->status ? '<span style="color:green;">Học</span>' : '<span style="color:red">Nghỉ</span>' ?>--}}
 {{--                                    </td>--}}
-                                    <td>
+                                    <td >
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->id}}"
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
@@ -382,6 +394,9 @@
                                             </div>
                                         </div>
 
+                                    </div>
+                                    <div class="col-md-6">
+
                                         <div class="row">
                                             <label class="col-lg-3 col-form-label" for="school">Trường học: </label>
                                             <div class="form-group col-lg-9">
@@ -395,9 +410,6 @@
                                                 <input type="text" name="major" id="major" class="form-control">
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col-md-6">
 
                                         <div class="row">
                                             <label class="col-lg-3 col-form-label" for="facebook">Facebook cá nhân: </label>
@@ -485,18 +497,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <label for="course_where" class="col-sm-3">Bạn biết khóa học từ đâu: </label>
-                                            <div class="form-group col-sm-9">
-                                                <textarea id="course_where" name="course_where" class="form-control" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="desire" class="col-sm-3">Bạn mong muốn điều gì từ khóa học: </label>
-                                            <div class="form-group col-sm-9">
-                                                <textarea id="desire" name="desire" class="form-control" rows="3"></textarea>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

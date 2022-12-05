@@ -145,57 +145,81 @@
 
                                         <br>
 
-                                        <table class="table table-bordered table-striped" id="tableListStudentClass">
-                                            <thead>
-                                            <tr style="text-align: center">
-                                                <th style="width: 15%">Học viên</th>
-                                                <th style="width: 5%">Mã</th>
-                                                <th style="width: 6%">SĐT</th>
-                                                <th>Email</th>
-                                                <th style="width: 6%">Ngày sinh</th>
-                                                <th style="width: 15%">Quê quán</th>
-                                                <th style="width: 9%">Trạng thái</th>
-                                                <th style="width: 15%">Biết tới khóa học từ</th>
-                                                <th style="width: 15%">Mong muốn khi học</th>
-                                                <th style="width: 3%"></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            @forelse($listStudent as $student)
-                                                <tr>
-                                                    <td class="setMinWidth">
-                                                        <img src="{{!empty($student->img) ? asset($student->img) : asset(config('app.avatarDefault'))}}"
-                                                             alt="Product 1" class="img-circle img-size-32 mr-2">
-                                                        {{$student->name}}
-                                                    </td>
-                                                    <td style="text-align: center">{{$student->code}}</td>
-                                                    <td style="text-align: center;">{{$student->phone}}</td>
-                                                    <td class="cell-table-scroll" style="max-width: 210px">{{$student->email}}</td>
-                                                    <td style="text-align: center">{{date('d/m/Y', strtotime($student->birthday))}}</td>
-                                                    <td class="cell-table-scroll setMinWidth" style="max-width: 225px">{{$student->native_place}}</td>
-
-                                                    <th style="text-align: center">
-                                                        <span style="color:@if($student->status == 1 || $student->status == 2) green @else red @endif;">
-                                                            {{$studentClassStatus[$student->status]}}
-                                                        </span>
-                                                    </th>
-                                                    <td class="cell-table-scroll setMinWidth" style="max-width: 240px">{{$student->course_where}}</td>
-                                                    <td class="cell-table-scroll setMinWidth" style="max-width: 240px">{{$student->desire}}</td>
-                                                    <td style="text-align: center">
-                                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->csid}}"
-                                                                data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                    </td>
+                                        <div style="display:block; overflow-x:auto">
+                                            <table class="table table-bordered table-striped" id="tableListStudentClass">
+                                                <thead>
+                                                <tr style="text-align: center">
+                                                    <th class="firstcol">Học viên</th>
+                                                    <th>Mã</th>
+                                                    <th>SĐT</th>
+                                                    <th>Email</th>
+                                                    <th>Ngày sinh</th>
+                                                    <th>Quê quán</th>
+                                                    <th style="min-width: 125px">Trạng thái</th>
+                                                    <th style="min-width:225px; max-width: 240px">Biết tới khóa học từ</th>
+                                                    <th style="min-width:225px; max-width: 240px">Mong muốn khi học</th>
+                                                    <th style="min-width: 125px">Ngày đăng ký</th>
+                                                    <th style="min-width: 125px">Ngày nghỉ</th>
+                                                    <th style="min-width: 100px">Học phí</th>
+                                                    <th style="min-width: 125px">Ngày hẹn</th>
+                                                    <th style="min-width:225px; max-width: 240px">Ghi chú</th>
+                                                    <th class="lastcol"></th>
                                                 </tr>
-                                            @empty
-                                                <tr>
-                                                    <th colspan="10" style="text-align: center">Chưa có học viên tham gia lớp!</th>
-                                                </tr>
-                                            @endforelse
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+
+                                                @forelse($listStudent as $student)
+                                                    <tr>
+                                                        <td class="firstcol" >
+                                                            <img src="{{!empty($student->img) ? asset($student->img) : asset(config('app.avatarDefault'))}}"
+                                                                 alt="Product 1" class="img-circle img-size-32 mr-2">
+                                                            {{$student->name}}
+                                                        </td>
+                                                        <td style="text-align: center">{{$student->code}}</td>
+                                                        <td style="text-align: center;">{{$student->phone}}</td>
+                                                        <td class="cell-table-scroll" style="max-width: 210px">{{$student->email}}</td>
+                                                        <td style="text-align: center">{{date('d/m/Y', strtotime($student->birthday))}}</td>
+                                                        <td class="cell-table-scroll setMinWidth" style="max-width: 225px">{{$student->native_place}}</td>
+                                                        <th style="text-align: center">
+                                                            <span style="color:@if($student->status == 1 || $student->status == 2) green @else red @endif;">
+                                                                {{$studentClassStatus[$student->status]}}
+                                                            </span>
+                                                        </th>
+                                                        <td class="cell-table-scroll setMinWidth" >{{$student->course_where}}</td>
+                                                        <td class="cell-table-scroll setMinWidth" style="max-width: 240px">{{$student->desire}}</td>
+                                                        <td style="text-align: center">
+                                                            @if(!is_null($student->starttime))
+                                                                {{date('d/m/Y', strtotime($student->starttime))}}
+                                                            @endif
+                                                        </td>
+                                                        <td style="text-align: center">
+                                                            @if(!is_null($student->finishtime))
+                                                                {{date('d/m/Y', strtotime($student->finishtime))}}
+                                                            @endif
+                                                        </td>
+                                                        <td style="text-align: center">{{$student->fees}}</td>
+                                                        <td style="text-align: center">
+                                                            @if(!is_null($student->date_payment))
+                                                                {{date('d/m/Y', strtotime($student->date_payment))}}
+                                                            @endif
+                                                        </td>
+                                                        <td class="cell-table-scroll setMinWidth" style="max-width: 240px">{{$student->note}}</td>
+                                                        <td class="lastcol">
+                                                            <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->csid}}"
+                                                                    data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <th colspan="10" style="text-align: center">Chưa có học viên tham gia lớp!</th>
+                                                    </tr>
+                                                @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                     {{-- End Tab List Student --}}
 
@@ -442,6 +466,21 @@
                                     </div>
                                     <input type="text" class="form-control datetimepicker-input" id="finishtime" name="finishtime"
                                            data-target="#finishtimeDate" data-toggle="datetimepicker" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="datepayment"> Ngày hẹn học phí: </label>
+                            <div class="col-sm-9">
+                                <div class="form-group input-group date" id="datepaymentDate" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#datepaymentDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" id="datepayment" name="datepayment"
+                                           data-target="#datepaymentDate" data-toggle="datetimepicker" />
                                 </div>
                             </div>
                         </div>

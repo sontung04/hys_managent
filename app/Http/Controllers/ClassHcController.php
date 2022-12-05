@@ -170,7 +170,8 @@ class ClassHcController extends Controller
             ->join('classes_students as cs', 's.code', '=', 'cs.student_code')
             ->where('cs.class_id', '=', $classId)
             ->select('s.id', 's.code', 's.name', 's.birthday', 's.img', 's.phone', 's.email', 's.native_place',
-                'cs.id as csid', 'cs.starttime', 'cs.course_where', 'cs.desire', 'cs.status')
+                'cs.id as csid', 'cs.starttime', 'cs.finishtime', 'cs.fees', 'cs.date_payment',
+                'cs.course_where', 'cs.desire', 'cs.status', 'cs.note')
             ->get();
 
         $listStudy = DB::table('studies', 's')
@@ -259,8 +260,4 @@ class ClassHcController extends Controller
             ['studentClassStatus' => $this->studentClassStatus]));
     }
 
-
-    public function viewFees(){
-        return view('classes.fees');
-    }
 }
