@@ -145,6 +145,7 @@ class ClassStudentController extends Controller
             $classStudent->note         = $requestData['note'];
             $classStudent->starttime    = $this->changeFormatDateInput($requestData['starttime']);
             $classStudent->finishtime   = $this->changeFormatDateInput($requestData['finishtime']);
+            $classStudent->date_payment = $this->changeFormatDateInput($requestData['datepayment']);
             $classStudent->status       = $requestData['status'];
             $classStudent->course_where = $requestData['course_where'];
             $classStudent->desire       = $requestData['desire'];

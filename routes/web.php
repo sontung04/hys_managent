@@ -145,6 +145,11 @@ Route::middleware(['cors', 'auth'])->group(function (){
             Route::get('/getInfoAjax/{id}','ClassStudentController@getInfoAjax');
             Route::post('/updateInfoAjax','ClassStudentController@updateInfoAjax');
         });
+
+        //Route Fees
+        Route::prefix('/fee')->group(function (){
+            Route::get('/list', 'FeeController@studentList')->name('s.fee.list');
+        });
     });
 
     //Route Class
@@ -156,7 +161,6 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::get('/getInfoAjax/{id}', 'ClassHcController@getInfoAjax');
         Route::post('/saveInfoAjax', 'ClassHcController@saveInfoAjax');
 
-        Route::get('/fees','ClassHcController@viewFees')->name('viewFees');
     });
 
     //Route Study
@@ -178,5 +182,7 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::post('/addStudentToInternAjax', 'InternController@addStudentToInternAjax');
         Route::post('/updateInfoAjax', 'InternController@updateInfoAjax');
     });
+
+
 });
 

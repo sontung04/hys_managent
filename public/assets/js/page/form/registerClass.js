@@ -7,15 +7,26 @@ $(document).ready(function() {
     /* set date range  picker */
     ['birthday', 'date_of_issue', 'father_birthday', 'mother_birthday'].forEach(field => {
         divFormRegisterClass.find('#' + field).daterangepicker({
+            autoUpdateInput: false,
             locale: {
                 format: datetimepicketFormat,
+                cancelLabel: 'Clear'
             },
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1950,
             maxYear: parseInt(moment().format('YYYY'),10),
+
         });
         divFormRegisterClass.find('#' + field).val('');
+
+        divFormRegisterClass.find('#' + field).on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format(datetimepicketFormat));
+        });
+
+        divFormRegisterClass.find('#' + field).on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
     });
 
 

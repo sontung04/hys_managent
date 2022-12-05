@@ -54,8 +54,8 @@ $(function() {
             /* set field value */
             ['id', 'name', 'birthday', 'email', 'phone', 'facebook', 'native_place', 'address', 'school', 'major',
                 'guardian_name', 'guardian_phone', 'father', 'father_job', 'father_birthday', 'mother', 'mother_birthday', 'mother_job',
-                'course_where', 'place_of_issue', 'date_of_issue', 'citizen_identify',
-                'religion', 'nation',  'level', 'job', 'position', 'desire',].forEach(field => {
+                'place_of_issue', 'date_of_issue', 'citizen_identify',
+                'religion', 'nation',  'level', 'job', 'position',].forEach(field => {
                 modalAddStudent.find('#' + field).val(studentInfo[field]);
             });
 
