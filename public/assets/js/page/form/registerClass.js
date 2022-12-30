@@ -102,6 +102,10 @@ $(document).ready(function() {
     })
 
     /* Validate form register student to class */
+    jQuery.validator.addMethod("validDate", function(value, element) {
+        return this.optional(element) || moment(value,"DD/MM/YYYY").isValid();
+    }, "Định dạng ngày tháng chưa đúng! (Ngày/Tháng/Năm)");
+
     $.validator.addMethod("validatePhone", function (value, element) {
         return this.optional(element) || /((09|03|07|08|05)+([0-9]{8})\b)/g.test(value);
     }, "Định dạng số điện thoại không đúng!");
@@ -135,6 +139,7 @@ $(document).ready(function() {
             },
             birthday: {
                 required: true,
+                validDate: true,
             },
             address: {
                 required: true,
@@ -163,9 +168,27 @@ $(document).ready(function() {
             citizen_identify: {
                 required: true,
             },
+            date_of_issue: {
+                validDate: true,
+            },
             facebook: {
                 required: true,
                 url: true
+            },
+            native_place: {
+                required: true,
+            },
+
+            father_birthday: {
+                validDate: true,
+            },
+
+            mother_birthday: {
+                validDate: true,
+            },
+
+            desire: {
+                required: true,
             },
         },
         messages: {
@@ -206,6 +229,13 @@ $(document).ready(function() {
             facebook: {
                 required: "Link Facebook cá nhân không được để trống!",
                 url: "Link Facebook không đúng định dạng!"
+            },
+            native_place: {
+                required: "Quê quán không được để trống!",
+            },
+
+            desire: {
+                required: "Bạn có thể chia sẻ mục đích tham gia khóa học được chứ?",
             },
         },
         errorElement: 'span',

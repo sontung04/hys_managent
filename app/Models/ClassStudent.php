@@ -13,11 +13,13 @@ class ClassStudent extends Model
     protected $fillable = [
         'id',
         'class_id',
+        'course_id',
         'student_code',
         'starttime',
         'finishtime',
         'status',
         'fees',
+        'date_payment',
         'note',
         'course_where',
         'desire',

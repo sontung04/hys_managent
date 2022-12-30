@@ -218,14 +218,14 @@
                             </div>
 
                             <div class="row">
-                                <label class="col-lg-3 col-form-label" for="native_place">Quê quán: </label>
+                                <label class="col-lg-3 col-form-label" for="native_place">Quê quán: <span class="text-danger">*</span></label>
                                 <div class="form-group col-lg-9">
                                     <input type="text" name="native_place" id="native_place" class="form-control">
                                 </div>
                             </div>
 
                             <div class="row">
-                                <label class="col-lg-3 col-form-label" for="nation">Dân tộc : </label>
+                                <label class="col-lg-3 col-form-label" for="nation">Dân tộc: </label>
                                 <div class="form-group col-lg-9">
                                     <input type="text" name="nation" id="nation" class="form-control">
                                 </div>
@@ -287,7 +287,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="desire" class="col-sm-3">Bạn mong muốn điều gì từ khóa học: </label>
+                                <label for="desire" class="col-sm-3">Bạn mong muốn điều gì từ khóa học: <span class="text-danger">*</span></label>
                                 <div class="form-group col-sm-9">
                                     <textarea id="desire" name="desire" class="form-control" rows="3"></textarea>
                                 </div>

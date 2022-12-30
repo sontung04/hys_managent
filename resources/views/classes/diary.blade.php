@@ -213,7 +213,7 @@
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <th colspan="10" style="text-align: center">Chưa có học viên tham gia lớp!</th>
+                                                        <th colspan="15" style="text-align: center">Chưa có học viên tham gia lớp!</th>
                                                     </tr>
                                                 @endforelse
                                                 </tbody>
