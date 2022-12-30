@@ -19,6 +19,7 @@ class ClassHc extends Model
         'starttime',
         'finishtime',
         'status',
+        'reg_status',
         'created_by',
         'updated_by',
         'created_at',

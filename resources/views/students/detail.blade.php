@@ -1,5 +1,7 @@
 @extends('layouts.sidebar')
 
+@section('title', 'HYS Manage - Thông tin học viên')
+
 @section('style')
 
 @endsection

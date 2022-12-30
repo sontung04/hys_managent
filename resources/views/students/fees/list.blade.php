@@ -88,32 +88,32 @@
                             </thead>
                             <tbody>
                             <?php $index = 1 ?>
-                            @forelse($students as $key => $student)
-                                <tr id="role-{{$student->id}}">
+                            @forelse($listStudent as $key => $student)
+                                <tr >
                                     <td>
                                         {{ $index++}}
                                     </td>
-                                    <td>{{$student->name}}</td>
-                                    <td>{{$student->code}}</td>
-                                    <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
-                                    <td>{{date('d/m/Y', strtotime($student->birthday))}}</td>
-                                    <td>{{$student->phone}}</td>
-                                    <td>{{$student->email}}</td>
-                                    <td><a href="{{$student->facebook}}">Link</a></td>
-                                    <td>10,800,000</td>
-                                    <td>3,600,000</td>
-                                    <td>7,200,000</td>
+                                    <td>{{$student['name']}}</td>
+                                    <td>{{$student['code']}}</td>
+                                    <td>{{$student['gender'] ? "Nam" : "Nữ"}}</td>
+                                    <td>{{date('d/m/Y', strtotime($student['birthday']))}}</td>
+                                    <td>{{$student['phone']}}</td>
+                                    <td>{{$student['email']}}</td>
+                                    <td><a href="{{$student['facebook']}}">Link</a></td>
+                                    <td>{{number_format($student['total_fee'])}}</td>
+                                    <td>{{number_format($student['money_paid'])}}</td>
+                                    <td>{{number_format($student['total_fee'] - $student['money_paid'])}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->id}}"
+                                        <button type="button" class="btn btn-outline-success btnEdit" data-id=""
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btnView" data-id="{{$student->id}}"
+                                        <button type="button" class="btn btn-outline-primary btnView" data-id=""
                                                 data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </button>
 
-                                        <button type="button" class="btn btn-outline-success btnAddIntern" data-id="{{$student->id}}"
+                                        <button type="button" class="btn btn-outline-success btnAddIntern" data-id=""
                                                 data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Thêm vào thực tập sinh">
                                             <i class="fas fa-plus-circle"></i>
                                         </button>

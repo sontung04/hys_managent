@@ -14,6 +14,7 @@ class AddDatePaymentToCsTable extends Migration
     public function up()
     {
         Schema::table('classes_students', function (Blueprint $table) {
+            $table->integer('course_id')->default(0)->after('class_id');
             $table->timestamp('date_payment')->nullable()->after('fees');
         });
     }
@@ -26,6 +27,7 @@ class AddDatePaymentToCsTable extends Migration
     public function down()
     {
         Schema::table('classes_students', function (Blueprint $table) {
+            $table->dropColumn('course_id');
             $table->dropColumn('date_payment');
         });
     }
