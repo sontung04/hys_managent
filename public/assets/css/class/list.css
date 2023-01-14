@@ -1,0 +1,30 @@
+@media only screen and (max-width: 540px) {
+    #tableListClass {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .setMinWidth {
+        min-width: 200px;
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    #tableListClass {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .setMinWidth {
+        min-width: 200px;
+    }
+}
+
+.table thead th {
+    vertical-align: middle;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    text-align: center;
+}

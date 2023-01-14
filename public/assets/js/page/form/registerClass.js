@@ -60,7 +60,7 @@ $(document).ready(function() {
                     divFormRegisterClass.find('#' + field).val(studentInfo[field]);
                 });
 
-                if (studentInfo['gender']) {
+                if (changeTypeNumberText(studentInfo['gender'])) {
                     divFormRegisterClass.find('#gender1').prop('checked', true);
                 } else {
                     divFormRegisterClass.find('#gender2').prop('checked', true);

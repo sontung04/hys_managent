@@ -20,6 +20,7 @@ class ClassHc extends Model
         'finishtime',
         'status',
         'reg_status',
+        'note',
         'created_by',
         'updated_by',
         'created_at',

@@ -19,7 +19,7 @@ class CreateClassPaymentLogsTable extends Migration
             $table->integer('money_paid');
             $table->string('cashier', 255);
             $table->tinyInteger('status')->default('0')->comment('Hình thức đóng: 0-Off; 1-Onl');
-            $table->timestamp('date_paid');
+            $table->timestamp('date_paid')->nullable();
             $table->string('note', 255)->nullable();
             $table->timestamps();
         });

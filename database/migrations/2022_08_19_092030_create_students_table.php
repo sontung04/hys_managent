@@ -18,7 +18,7 @@ class CreateStudentsTable extends Migration
             $table->integer('user_id')->nullable()->default(0);
             $table->string('name', 255);
             $table->tinyInteger('gender')->default('0');
-            $table->timestamp('birthday');
+            $table->timestamp('birthday')->nullable();
             $table->string('img', 255)->nullable();
             $table->string('native_place', 255)->nullable();
             $table->string('nation', 255)->nullable();

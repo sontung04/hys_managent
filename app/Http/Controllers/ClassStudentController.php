@@ -35,7 +35,7 @@ class ClassStudentController extends Controller
 
         $class = DB::table('classes_hc')
             ->where('id', '=', $requestData['class_id'])
-            ->get(['coach', 'carer_staff', 'status']);
+            ->get(['course_id', 'coach', 'carer_staff', 'status']);
 
         if ($class[0]->status == 3) {
             BaseHelper::ajaxResponse('Lớp học đã hoàn thành', false);
@@ -82,6 +82,7 @@ class ClassStudentController extends Controller
                 $classStudentRecord = DB::table('classes_students')
                     ->insert([
                         'class_id'     => $requestData['class_id'],
+                        'course_id'    => $class[0]->course_id,
                         'student_code' => $student[0]->code,
                         'starttime'    => $this->changeFormatDateInput($requestData['starttime']),
                         'finishtime'   => $this->changeFormatDateInput($requestData['finishtime']),
@@ -191,7 +192,8 @@ class ClassStudentController extends Controller
         }
         $classInfo = DB::table('classes_hc', 'chc')
             ->join('courses as c', 'chc.course_id', '=', 'c.id')
-            ->select('chc.id', 'chc.name', 'chc.status', 'chc.course_id', 'c.length', 'c.fees')
+            ->select('chc.id', 'chc.name', 'chc.carer_staff', 'chc.coach',
+                'chc.status', 'chc.reg_status', 'chc.course_id', 'c.length', 'c.fees')
             ->where('chc.id', '=', $class_id)
             ->get();
         $classInfo = $classInfo[0];
@@ -213,9 +215,17 @@ class ClassStudentController extends Controller
             BaseHelper::ajaxResponse('Mã học viên không chính xác!',false);
         }
 
+        if($requestData['student_code'] == $requestData['carer_staff']) {
+            BaseHelper::ajaxResponse('Mã học viên trùng với Mã chủ nhiệm lớp!',false);
+        }
+
+        if($requestData['student_code'] == $requestData['coach']) {
+            BaseHelper::ajaxResponse('Mã học viên trùng với Mã Trợ giảng lớp!',false);
+        }
+
         if(ClassStudent::where([['class_id', '=', $requestData['class_id']],
             ['student_code', '=', $requestData['student_code']]])->exists()) {
-            BaseHelper::ajaxResponse('Học viên đã tham gia lớp học!',false);
+            BaseHelper::ajaxResponse('Học viên đã tham gia lớp học này!',false);
         }
 
         $student = Student::where('code', '=', $requestData['student_code'])->get();
@@ -224,6 +234,8 @@ class ClassStudentController extends Controller
         $student->date_of_issue   = $this->changeFormatDateOutput($student->date_of_issue);
         $student->father_birthday = $this->changeFormatDateOutput($student->father_birthday);
         $student->mother_birthday = $this->changeFormatDateOutput($student->mother_birthday);
+//        print_r($student);
+//        die();
 
         BaseHelper::ajaxResponse(config('app.textGetSuccess'),true, $student);
     }
@@ -295,6 +307,7 @@ class ClassStudentController extends Controller
 
             $classStudent = new ClassStudent();
             $classStudent->class_id     = $requestData['class_id'];
+            $classStudent->course_id    = $requestData['course_id'];
             $classStudent->student_code = $student->code;
             $classStudent->desire       = $requestData['desire'];
             $classStudent->course_where = $requestData['course_where'];
@@ -308,10 +321,10 @@ class ClassStudentController extends Controller
 
             $classStudent->save();
             BaseHelper::ajaxResponse('Chúc mừng bạn đã đăng ký học thành công!',true, $student->code);
-        }catch (\Exception $exception){
-//            $msg = $exception->getMessage();
-//            print_r($exception->getMessage());
-//            die();
+        } catch (\Exception $exception){
+            $msg = $exception->getMessage();
+            print_r($exception->getMessage());
+            die();
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }

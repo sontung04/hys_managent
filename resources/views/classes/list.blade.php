@@ -3,30 +3,7 @@
 @section('title', 'HYS Manage - Danh sách lớp')
 
 @section('style')
-    <style>
-        @media only screen and (max-width: 540px) {
-            #tableListClass {
-                display: block;
-                overflow-x: auto;
-            }
-        }
-
-        @media only screen and (max-width: 976px) {
-            #tableListClass {
-                display: block;
-                overflow-x: auto;
-            }
-        }
-
-        .table thead th {
-            vertical-align: middle;
-        }
-
-        .table tbody td {
-            vertical-align: middle;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/class/list.css') }}">
 
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -40,7 +17,7 @@
 @endsection
 
 @section("content")
-    <?php $years = range(strftime("%Y", time()), 2010); ?>
+    <?php $years = range(strftime("%Y", time()), 2013); ?>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -69,20 +46,30 @@
                             @csrf
                             <input type="hidden" name="page" value="">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label" >Tên khoá học:</label>
-                                        <div class="col-sm-7">
+                                        <label class="col-sm-4 col-form-label" >Tên lớp:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" name="name" id="name" value="{{ isset($filters['name']) ? $filters['name'] : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" >Khóa học:</label>
+                                        <div class="col-sm-8">
                                             <select class="form-control" name="course_id" id="course_id">
                                                 <option value="" {{ (isset($filters['course_id']) && '' == $filters['course_id']) ? 'selected' : ''}}>Chọn khóa học</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+
+                                <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label" style="text-align: right">Năm khai giảng:</label>
-                                        <div class="col-sm-7">
+                                        <label class="col-sm-4 col-form-label" >Năm học:</label>
+                                        <div class="col-sm-8">
                                             <select class="form-control" name="yearOfStart" id="yearOfStart">
                                                 <option value="" {{ (isset($filters['yearOfStart']) && '' == $filters['yearOfStart']) ? 'selected' : ''}}>Chọn năm khai giảng</option>
                                                 @foreach($years as $year)
@@ -92,28 +79,27 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label" style="text-align: right" >Trạng thái:</label>
-                                        <div class="col-sm-7">
+                                        <label class="col-sm-4 col-form-label" >Trạng thái:</label>
+                                        <div class="col-sm-8">
                                             <select class="form-control" name="status" id="status">
                                                 <option value="" {{ (isset($filters['status']) && '' == $filters['status']) ? 'selected' : ''}}>Chọn trạng thái</option>
-                                                <option value="0" {{ (isset($filters['status']) && 0 == $filters['status']) ? 'selected' : ''}}>Hủy</option>
+                                                <option value="0" {{ (isset($filters['status']) && 0 == $filters['status']) ? 'selected' : ''}}>Tạm dừng</option>
                                                 <option value="1" {{ (isset($filters['status']) && 1 == $filters['status']) ? 'selected' : ''}}>Đang học</option>
-                                                <option value="2" {{ (isset($filters['status']) && 2 == $filters['status']) ? 'selected' : ''}}>Hoãn khai giảng</option>
-                                                <option value="3" {{ (isset($filters['status']) && 3 == $filters['status']) ? 'selected' : ''}}>Đã tổng kết</option>
+                                                <option value="2" {{ (isset($filters['status']) && 2 == $filters['status']) ? 'selected' : ''}}>Hoàn thành</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
-                                <div class="col-lg-5">
-                                    <div class="form-group row">
-                                        <div class="col-sm-7">
-                                            <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>
-                                            <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>
-                                        </div>
+                                <div class="col-lg-12" style="text-align: right">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>
+                                        <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>
                                     </div>
                                 </div>
                             </div>
@@ -135,14 +121,16 @@
                             <thead>
                             <tr style="text-align: center">
                                 <th style="width: 3%;">STT</th>
-                                <th>Tên lớp</th>
-                                <th>Tên Khóa học</th>
-                                <th>Trợ giảng</th>
-                                <th>Chủ nhiệm</th>
-                                <th>Ngày khai giảng</th>
-                                <th>Ngày kết thúc</th>
-                                <th style="width: 10%">Trạng thái</th>
-                                <th style="width: 11%">Hành động</th>
+                                <th class="setMinWidth">Tên lớp</th>
+                                <th class="setMinWidth">Tên Khóa học</th>
+                                <th class="setMinWidth">Trợ giảng</th>
+                                <th class="setMinWidth">Chủ nhiệm</th>
+                                <th style="min-width: 140px">Ngày khai giảng</th>
+                                <th style="min-width: 125px">Ngày kết thúc</th>
+                                <th style="min-width: 100px">Trạng thái</th>
+                                <th style="min-width: 100px">Link Đky</th>
+                                <th>Ghi chú</th>
+                                <th style="min-width: 120px">Hành động</th>
                             </tr>
                             </thead>
                             <tbody id="tableListClassBody">
@@ -158,28 +146,35 @@
 
                                     <td>{{$class->cs_name}}</td>
 
-                                    <td> {{date('d/m/Y', strtotime($class->starttime))}}</td>
+                                    <td>{{date('d/m/Y', strtotime($class->starttime))}}</td>
                                     <td>
                                         @if(!is_null($class->finishtime))
                                             {{date('d/m/Y', strtotime($class->finishtime))}}
                                         @endif
                                     </td>
                                     <td style="text-align: center">
+                                        <b>
                                         @switch($class->status)
                                             @case(0)
-                                                <span style="color: red"> Hủy</span>
+                                                <span style="color: red"> Tạm dừng</span>
                                                 @break
                                             @case(1)
                                                 <span style="color: green"> Đang học</span>
                                                 @break
                                             @case(2)
-                                                <span style="color: yellow"> Hoãn khai giảng</span>
-                                                @break
-                                            @case(3)
-                                                <span style="color: blue"> Đã tổng kết</span>
+                                                <span style="color: blue"> Hoàn thành</span>
                                                 @break
                                         @endswitch
+                                        </b>
                                     </td>
+                                    <td style="text-align: center">
+                                        <b>
+                                            <?php echo $class->reg_status ? '<span style="color:green;">Mở</span>' : '<span style="color:red">Đóng</span>' ?>
+                                        </b>
+                                    </td>
+
+                                    <td class="cell-table-scroll" style="max-width: 200px">{{$class->note}}</td>
+
                                     <td>
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$class->id}}"
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
@@ -325,8 +320,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="status">Trạng thái: </label>
+                            <label class="col-lg-3 col-form-label" for="status">Trạng thái lớp: </label>
                             <div class="form-group col-lg-9">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status0" name="status" value="0">
+                                    <label for="status0" style="margin-right: 10px">
+                                        Tạm dừng
+                                    </label>
+                                </div>
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="status1" name="status" value="1" checked>
                                     <label for="status1" style="margin-right: 10px">
@@ -336,11 +337,38 @@
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="status2" name="status" value="2">
                                     <label for="status2">
-                                        Hoãn khai giảng
+                                        Hoàn thành
                                     </label>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <label class="col-lg-3 col-form-label" for="status">Trạng thái đăng ký: </label>
+                            <div class="form-group col-lg-9">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="reg_status1" name="reg_status" value="1" checked>
+                                    <label for="reg_status1" style="margin-right: 10px">
+                                        Mở
+                                    </label>
+                                </div>
+
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="reg_status0" name="reg_status" value="0">
+                                    <label for="reg_status0" style="margin-right: 10px">
+                                        Đóng
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label class="col-lg-3 col-form-label" for="note">Ghi chú:</label>
+                            <div class="col-lg-9">
+                                <textarea type="text" name="note" id="note" class="form-control" rows="2"></textarea>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer ">
                         <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Đóng</button>

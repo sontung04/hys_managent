@@ -15,6 +15,7 @@ class AddColRegStatusTableClass extends Migration
     {
         Schema::table('classes_hc', function (Blueprint $table) {
             $table->tinyInteger('reg_status')->default(1)->after('status');
+            $table->string('note', 255)->default('')->nullable()->after('reg_status');
         });
     }
 
@@ -27,6 +28,7 @@ class AddColRegStatusTableClass extends Migration
     {
         Schema::table('classes_hc', function (Blueprint $table) {
             $table->dropColumn('reg_status');
+            $table->dropColumn('note');
         });
     }
 }

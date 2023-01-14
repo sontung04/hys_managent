@@ -160,7 +160,7 @@
                         </div>
 
                         <div class="row" id="divStudentNumber" hidden="hidden">
-                            <label class="col-lg-3 col-form-label" for=""> Sĩ số lớp: </label>
+                            <label class="col-lg-3 col-form-label" for=""> Sĩ số lớp: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-4">
                                 <input type="number" name="number_eat" id="number_eat" class="form-control" placeholder="Số HV dùng bữa">
                             </div>

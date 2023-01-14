@@ -2,34 +2,20 @@
 
 @section('title', 'HYS Manage - Danh sách học viên')
 
-@section('script')
-    <script src="{{ asset('assets/js/student/list.js') }}" defer></script>
-@endsection
+@section('style')
 
-@section("content")
-    <?php $years = range(strftime("%Y", time()), 1980); ?>
     <style>
-        @media only screen and (max-width: 540px) {
+        @media only all and (min-width: 280px) and (max-width: 1880px) {
             #tableStudentList {
                 display: block;
                 overflow-x: auto;
             }
-
-            #tableStudentList .setMinWidth {
-                min-width: 175px;
-            }
         }
 
-        @media only screen and (max-width: 1024px) {
-            #tableStudentList {
-                display: block;
-                overflow-x: auto;
-            }
-
-            #tableStudentList .setMinWidth {
-                min-width: 175px;
-            }
+        #tableStudentList .setMinWidth {
+            min-width: 175px;
         }
+
         .table thead th {
             vertical-align: middle;
         }
@@ -39,6 +25,15 @@
             text-align: center;
         }
     </style>
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/js/student/list.js') }}" defer></script>
+@endsection
+
+@section("content")
+    <?php $years = range(strftime("%Y", time()), 1980); ?>
+
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -63,11 +58,11 @@
                 <div class="card">
                     <div class="card-header">
 
-                        <form action="{{route('student.list')}}" method="post" id="formFilterStudent">
+                        <form action="{{route('student.list')}}" method="post" class="formFilterData" id="formFilterStudent">
                             @csrf
                             <input type="hidden" name="page" value="">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Họ tên:</label>
                                         <div class="col-sm-7">
@@ -76,7 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Số điện thoại:</label>
                                         <div class="col-sm-7">
@@ -85,7 +80,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Email:</label>
                                         <div class="col-sm-7">
@@ -96,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Giới tính:</label>
                                         <div class="col-sm-7">
@@ -108,7 +103,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label" style="text-align: right">Năm sinh:</label>
                                         <div class="col-sm-7">
@@ -121,10 +116,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group row">
-                                        <label class="col-sm-5"></label>
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-12" style="text-align: right">
                                             <button type="submit" class="btn btn-info mr-2" id="btnSubmit"><span class="fa fa-search"></span>Tìm kiếm</button>
                                             <button type="button" class="btn btn-default" id="btnReset">Đặt lại</button>
                                         </div>
@@ -187,11 +181,11 @@
                                 <th>Ngày sinh</th>
                                 <th>Điện thoại</th>
                                 <th>Email</th>
+                                <th>Facebook</th>
                                 <th>Quê quán</th>
                                 <th>Trường học</th>
                                 <th>Chuyên ngành</th>
-{{--                                <th style="width: 5%">Trạng thái</th>--}}
-                                <th class="setMinWidth" style="width: 11%">Hành động</th>
+                                <th style="min-width: 160px">Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -199,20 +193,23 @@
                             @forelse($students as $key => $student)
                                 <tr>
                                     <td>
-                                        {{(($students->currentPage() - 1) * 25) + $index++}}
+                                        {{(($students->currentPage() - 1) * 20) + $index++}}
                                     </td>
                                     <td>{{$student->name}}</td>
                                     <td>{{$student->code}}</td>
                                     <td>{{$student->gender ? "Nam" : "Nữ"}}</td>
                                     <td>{{date('d/m/Y', strtotime($student->birthday))}}</td>
                                     <td>{{$student->phone}}</td>
-                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->email}}</td>
-                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->native_place}}</td>
-                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->school}}</td>
-                                    <td class="cell-table-scroll setMinWidth" style="max-width: 200px">{{$student->major}}</td>
-{{--                                    <td style="text-align: center">--}}
-{{--                                        <?php echo $student->status ? '<span style="color:green;">Học</span>' : '<span style="color:red">Nghỉ</span>' ?>--}}
-{{--                                    </td>--}}
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 175px">{{$student->email}}</td>
+                                    <td style="text-align: center;">
+                                        @if(!empty($student->facebook))
+                                            <a href="{{ $student->facebook }}" target="_blank">Link</a>
+                                        @endif
+                                    </td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 175px">{{$student->native_place}}</td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 175px">{{$student->school}}</td>
+                                    <td class="cell-table-scroll setMinWidth" style="max-width: 175px">{{$student->major}}</td>
+
                                     <td >
                                         <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$student->id}}"
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">

@@ -55,6 +55,9 @@ class ClassHcController extends Controller
             foreach ($filters as $key => $value){
                 if ($value != '' && $value != NULL){
                     switch ($key){
+                        case 'name':
+                            $query->where('c.name', 'LIKE', '%' . $value . '%');
+                            break;
                         case 'course_id':
                             $query->where('c.course_id', '=', $value);
                             break;
@@ -69,9 +72,9 @@ class ClassHcController extends Controller
                     }
                 }
             }
-            $classes = $query->paginate(25, ['c.*', 'coach.name as coach_name', 'cs.name as cs_name'], 'page', $paged);
+            $classes = $query->paginate(20, ['c.*', 'coach.name as coach_name', 'cs.name as cs_name'], 'page', $paged);
         } else {
-            $classes = $query->paginate(25, ['c.*', 'coach.name as coach_name', 'cs.name as cs_name']);
+            $classes = $query->paginate(20, ['c.*', 'coach.name as coach_name', 'cs.name as cs_name']);
         }
 
         $listIntern = $this->internService->getListCurrent();
@@ -133,6 +136,8 @@ class ClassHcController extends Controller
         $class->carer_staff = $requestData['carer_staff'];
         $class->coach       = $requestData['coach'];
         $class->status      = $requestData['status'];
+        $class->reg_status  = $requestData['reg_status'];
+        $class->note        = $requestData['note'];
         $class->starttime   = $this->changeFormatDateInput($requestData['starttime']);
         $class->finishtime  = $this->changeFormatDateInput($requestData['finishtime']);
 
@@ -169,7 +174,7 @@ class ClassHcController extends Controller
         $listStudent = DB::table('students', 's')
             ->join('classes_students as cs', 's.code', '=', 'cs.student_code')
             ->where('cs.class_id', '=', $classId)
-            ->select('s.id', 's.code', 's.name', 's.birthday', 's.img', 's.phone', 's.email', 's.native_place',
+            ->select('s.id', 's.code', 's.name', 's.birthday', 's.img', 's.phone', 's.email', 's.facebook', 's.native_place',
                 'cs.id as csid', 'cs.starttime', 'cs.finishtime', 'cs.fees', 'cs.date_payment',
                 'cs.course_where', 'cs.desire', 'cs.status', 'cs.note')
             ->get();

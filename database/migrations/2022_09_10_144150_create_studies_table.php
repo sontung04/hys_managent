@@ -20,7 +20,7 @@ class CreateStudiesTable extends Migration
             $table->integer('teacher');
             $table->integer('carer_staff');
             $table->integer('coach');
-            $table->timestamp('daylearn');
+            $table->timestamp('daylearn')->nullable();
             $table->string('location')->nullable();
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);

@@ -197,6 +197,14 @@ function setOptionSelectedDisable(id, text) {
     document.getElementById(id).innerHTML = '<option value="" selected disabled>--- Chọn ' + text + ' ---</option>';
 }
 
+/* Chỉ sử dụng để đổi các giá trị chuỗi số từ string thành integer */
+function changeTypeNumberText(value) {
+      if(typeof value == 'string') {
+          return Number(value);
+      }
+      return value;
+}
+
 try {
     //show notify message
     function notifyMessage(title = 'Lỗi!', message = '', type = 'error', timeout = 5000) {

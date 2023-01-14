@@ -22,7 +22,7 @@ class CreateTableCalendarsWeekTable extends Migration
             $table->integer('group_id')->default(0)->nullable();
             $table->string('group_name', 255)->default("")->nullable();
             $table->tinyInteger('formality')->default(1)->comment('Hình thức: 1-off, 0-on');
-            $table->timestamp('starttime', 0);
+            $table->timestamp('starttime', 0)->nullable();
             $table->timestamp('finishtime', 0)->nullable();
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);
