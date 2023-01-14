@@ -35,15 +35,21 @@
         <div class="register-logo font-weight-light text-white" >
             <b>{{$classInfo->name}}</b>
             <br>
-            @if($classInfo->status == 1)
-                <div >
-                    <b>Form đăng ký lớp</b>
+            @if($classInfo->reg_status == 0)
+                <br>
+                <div>
+                    <h1>Thông báo!</h1>
+                    <b>Lớp học đã đóng link đăng ký! <br> Bạn không thể đăng ký nhập học!</b>
                 </div>
-            @else
+            @elseif($classInfo->status != 1)
                 <br>
                 <div>
                     <h1>Thông báo!</h1>
                     <b>Lớp học {{$classStatus[$classInfo->status]}}. Bạn không thể đăng ký nhập học!</b>
+                </div>
+            @else
+                <div >
+                    <b>Form đăng ký lớp</b>
                 </div>
             @endif
 
@@ -52,13 +58,17 @@
         <div style="width: 100%; display: flex; justify-content: center;">
 
             <!-- form check isset student -->
-            <div class="card" id="divCheckStudentInfo" style="width: 360px" @if($classInfo->status != 1) hidden="hidden" @endif>
+            <div class="card" id="divCheckStudentInfo" style="width: 360px"
+                 @if($classInfo->reg_status == 0 || $classInfo->status != 1) hidden="hidden" @endif>
                 <div class="card-body register-card-body" style="border-radius: 25px">
                     <p class="login-box-msg">Vui lòng nhập mã học viên của bạn!</p>
 
                     <form id="" action="" method="post">
                         @csrf
                         <input type="hidden" id="class_id" name="class_id" value="{{$classInfo->id}}">
+                        <input type="hidden" id="coach" name="coach" value="{{$classInfo->coach}}">
+                        <input type="hidden" id="carer_staff" name="carer_staff" value="{{$classInfo->carer_staff}}">
+
                         <div class="form-group input-group mb-3">
                             <input type="number" class="form-control" name="student_code" id="student_code" placeholder="Mã học viên">
                             <div class="input-group-append">
@@ -96,8 +106,10 @@
                 <div class="modal-body">
                     <input type="hidden" id="id" name="id"> <!-- /.student_id -->
                     <input type="hidden" id="class_id" name="class_id" value="{{$classInfo->id}}">
+                    <input type="hidden" id="course_id" name="course_id" value="{{$classInfo->course_id}}">
                     <input type="hidden" id="class_length" name="class_length" value="{{$classInfo->length}}">
                     <input type="hidden" id="class_fee" name="class_fee" value="{{$classInfo->fees}}">
+
                     <div class="row">
                         <div class="col-md-6">
 
@@ -138,7 +150,7 @@
                             <div class="row">
                                 <label class="col-lg-3 col-form-label" for="phone">Số điện thoại: <span class="text-danger">*</span></label>
                                 <div class="form-group col-lg-9">
-                                    <input type="number" name="phone" id="phone" class="form-control">
+                                    <input type="text" name="phone" id="phone" class="form-control">
                                 </div>
                             </div>
 
@@ -166,7 +178,7 @@
                             <div class=" row">
                                 <label class="col-lg-3 col-form-label" for="guardian_phone">SĐT Giám hộ: <span class="text-danger">*</span></label>
                                 <div class="form-group col-lg-9">
-                                    <input type="number" name="guardian_phone" id="guardian_phone" class="form-control">
+                                    <input type="text" name="guardian_phone" id="guardian_phone" class="form-control">
                                 </div>
                             </div>
 
@@ -187,7 +199,7 @@
                             <div class="row">
                                 <label class="col-lg-3 col-form-label" for="citizen_identify">CCCD: <span class="text-danger">*</span></label>
                                 <div class="form-group col-lg-9">
-                                    <input type="number" name="citizen_identify" id="citizen_identify" class="form-control">
+                                    <input type="text" name="citizen_identify" id="citizen_identify" class="form-control">
                                 </div>
                             </div>
 

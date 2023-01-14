@@ -16,7 +16,7 @@ class CreateCallStudentLogsTable extends Migration
         Schema::create('call_student_logs', function (Blueprint $table) {
             $table->id();
             $table->string('agent', 255);
-            $table->timestamp('date_call');
+            $table->timestamp('date_call')->nullable();
             $table->tinyInteger('channel')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->text('note')->default('')->nullable();

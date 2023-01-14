@@ -62,17 +62,17 @@ $(function() {
             let classInfo = res.data;
 
             /* set field value */
-            ['id', 'name', 'carer_staff', 'coach', 'starttime', 'finishtime'].forEach(field => {
+            ['id', 'name', 'starttime', 'finishtime', 'note'].forEach(field => {
                 modalAddClass.find('#' + field).val(classInfo[field]);
             });
 
             modalAddClass.find('#course_id').find(`option[value="${classInfo['course_id']}"]`).prop('selected', true);
 
-            if (classInfo['status']) {
-                modalAddClass.find('#status1').prop('checked', true);
-            } else {
-                modalAddClass.find('#status2').prop('checked', true);
-            }
+            $('#coach').val(classInfo['coach']).trigger('change');
+            $('#carer_staff').val(classInfo['carer_staff']).trigger('change');
+
+            modalAddClass.find('#status' + classInfo['status']).prop('checked', true);
+            modalAddClass.find('#reg_status' + classInfo['reg_status']).prop('checked', true);
 
             modalAddClass.modal('show');
         });
@@ -80,11 +80,15 @@ $(function() {
 
     //Sự kiện Đóng modal
     $('.closeModal').on('click', function() {
+        $('#coach').val('').trigger('change');
+        $('#carer_staff').val('').trigger('change');
         eventCloseHiddenModal(modalAddClass);
     });
 
     //Sự kiện Ẩn Modal
     modalAddClass.on('hidden.bs.modal', function() {
+        $('#coach').val('').trigger('change');
+        $('#carer_staff').val('').trigger('change');
         eventCloseHiddenModal(modalAddClass);
     });
 

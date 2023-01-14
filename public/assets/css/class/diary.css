@@ -1,81 +1,98 @@
-#tableListStudentClass .firstcol {
-    position: -webkit-sticky;
-    position: sticky;
-    min-width: 225px;
-    max-width: 240px;
-    left: 0px;
-}
 
-#tableListStudentClass .lastcol {
-    text-align: center;
-    position: -webkit-sticky;
-    position: sticky;
-    width: 50px;
-    right: 0px;
-}
-
-#tableListStudentClass thead .firstcol, .lastcol {
-    background: white;
-}
-
-#tableListStudentClass tbody tr:nth-child(even) .firstcol  {
-    background: white;
-}
-
-#tableListStudentClass tbody tr:nth-child(even) .lastcol {
-    background: white;
-}
-
-#tableListStudentClass tbody tr:nth-child(odd) .firstcol {
-    background: #f2f2f2;
-}
-
-#tableListStudentClass tbody tr:nth-child(odd) .lastcol {
-    background: #f2f2f2;
-}
-
-
-@media only screen and (max-width: 540px) {
-    #tableListStudentClass {
-        display: block;
-        overflow-x: auto;
-    }
-    #tableListStudentClass .setMinWidth {
-        min-width: 225px;
-    }
-
-    #diaryClassTable {
-        display: block;
-        overflow-x: auto;
-    }
-
-    #diaryClassTable .setMinWidth {
-        min-width: 225px;
-    }
-}
-
-@media only screen and (max-width: 1024px) {
-    #tableListStudentClass {
-        display: block;
-        overflow-x: auto;
-    }
-
-    #tableListStudentClass .setMinWidth {
-        min-width: 225px;
-    }
-
-    #diaryClassTable {
-        display: block;
-        overflow-x: auto;
-    }
-
-    #diaryClassTable .setMinWidth {
-        min-width: 225px;
-    }
-
+#tableListStudentClass tbody td {
+    vertical-align: middle;
 }
 
 #diaryClassTable thead th {
     text-align: center;
     vertical-align: middle;
 }
+
+@media only all and (min-width: 280px) and (max-width: 1024px) {
+    #tableListStudentClass {
+        display: block;
+        overflow-x: auto;
+    }
+    #tableListStudentClass .setMinWidth {
+        min-width: 225px;
+    }
+
+    #diaryClassTable {
+        display: block;
+        overflow-x: auto;
+    }
+
+    #diaryClassTable .setMinWidth {
+        min-width: 225px;
+    }
+}
+
+@media only all and (min-width: 1024px) {
+    #tableListStudentClass .firstcol {
+        position: -webkit-sticky;
+        position: sticky;
+        min-width: 225px;
+        max-width: 240px;
+        left: 0px;
+    }
+
+    #tableListStudentClass .lastcol {
+        text-align: center;
+        position: -webkit-sticky;
+        position: sticky;
+        width: 50px;
+        right: 0px;
+    }
+
+    #tableListStudentClass thead .firstcol, .lastcol {
+        background: white;
+    }
+
+    #tableListStudentClass tbody tr:nth-child(even) .firstcol  {
+        background: white;
+    }
+
+    #tableListStudentClass tbody tr:nth-child(even) .lastcol {
+        background: white;
+    }
+
+    #tableListStudentClass tbody tr:nth-child(odd) .firstcol {
+        background: #f2f2f2;
+    }
+
+    #tableListStudentClass tbody tr:nth-child(odd) .lastcol {
+        background: #f2f2f2;
+    }
+
+    #diaryClassTable {
+        display: block;
+        overflow-x: auto;
+    }
+
+    #diaryClassTable .setMinWidth {
+        min-width: 225px;
+    }
+}
+
+/*@media only all and (max-width: 1024px) {*/
+/*    #tableListStudentClass {*/
+/*        display: block;*/
+/*        overflow-x: auto;*/
+/*    }*/
+
+/*    #tableListStudentClass .setMinWidth {*/
+/*        min-width: 225px;*/
+/*    }*/
+
+/*    #diaryClassTable {*/
+/*        display: block;*/
+/*        overflow-x: auto;*/
+/*    }*/
+
+/*    #diaryClassTable .setMinWidth {*/
+/*        min-width: 225px;*/
+/*    }*/
+
+/*}*/
+
+

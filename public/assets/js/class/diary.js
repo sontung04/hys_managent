@@ -62,7 +62,7 @@ $(document).ready(function () {
             });
             modalAddStudentClass.find('#student_code').attr('disabled', 'disabled');
 
-            switch (studentInfo['status']){
+            switch (changeTypeNumberText(studentInfo['status'])) {
                 case 0: modalAddStudentClass.find('#status0').prop('checked', true); break;
                 case 1: modalAddStudentClass.find('#status1').prop('checked', true); break;
                 case 2: modalAddStudentClass.find('#status2').prop('checked', true); break;
@@ -73,7 +73,7 @@ $(document).ready(function () {
         });
     });
 
-    /* Validate form modal Add Student to Class */
+    /* Validate Form modal Add Student to Class */
     modalAddStudentClass.find('form').validate({
         submitHandler: function() {
             let data = modalAddStudentClass.find('form').serialize();
@@ -243,12 +243,15 @@ $(document).ready(function () {
             } else {
                 $("#lesson_id").val(studyInfo['lesson_id']).trigger('change');
             }
-            ['id', 'coach', 'carer_staff', 'daylearn', 'location', 'number_eat', 'number_learn', 'description'].forEach(field => {
+            ['id', 'daylearn', 'location', 'number_eat', 'number_learn', 'description'].forEach(field => {
                 modalAddStudyClass.find('#' + field).val(studyInfo[field]);
             });
             modalAddStudyClass.find('#teacher').find(`option[value="${studyInfo['teacher']}"]`).prop('selected', true);
 
-            if(studyInfo['status']) {
+            modalAddStudyClass.find('#coach').val(studyInfo['coach']).trigger('change');
+            modalAddStudyClass.find('#carer_staff').val(studyInfo['carer_staff']).trigger('change');
+
+            if(changeTypeNumberText(studyInfo['status'])) {
                 modalAddStudentClass.find('#status1').prop('checked', true);
             } else {
                 modalAddStudentClass.find('#status2').prop('checked', true);
@@ -260,14 +263,18 @@ $(document).ready(function () {
 
     //Sự kiện Đóng modal Add Study Class
     modalAddStudyClass.on('click', '.closeModal', function() {
-        $("#lesson_id").val('').trigger('change');
+        ['lesson_id', 'coach', 'carer_staff'].forEach(field => {
+            modalAddStudyClass.find('#' + field).val('').trigger('change');
+        });
         $("#lesson_id").find('.otpAddClear').remove();
         eventCloseHiddenModal(modalAddStudyClass, [ 'teacher']);
     });
 
     //Sự kiện Ẩn Modal Add Study Class
     modalAddStudyClass.on('hidden.bs.modal', function() {
-        $("#lesson_id").val('').trigger('change');
+        ['lesson_id', 'coach', 'carer_staff'].forEach(field => {
+            modalAddStudyClass.find('#' + field).val('').trigger('change');
+        });
         $("#lesson_id").find('.otpAddClear').remove();
         eventCloseHiddenModal(modalAddStudyClass, [ 'teacher']);
     });
@@ -475,7 +482,7 @@ $(document).ready(function () {
                 modalStudyInfo.find('#' + field + 'Row').html(studyInfo[field]);
             });
             modalStudyInfo.find('#numberStudentRow').html(studyInfo['number_eat'] + '/' + studyInfo['number_learn']);
-            if(studyInfo['status']) {
+            if(changeTypeNumberText(studyInfo['status'])) {
                 modalStudyInfo.find('#statusRow').html('Offline');
             } else {
                 modalStudyInfo.find('#statusRow').html('Online');
@@ -549,7 +556,7 @@ $(document).ready(function () {
             modalAttenStudent.find('#noteRow').text(attenInfo['note']);
             modalAttenStudent.find('#status').attr('hidden', 'hidden');
 
-            switch (attenInfo['status']){
+            switch (changeTypeNumberText(attenInfo['status'])){
                 case 0: modalAttenStudent.find('#statusRow').text('Nghỉ học'); break;
                 case 1: modalAttenStudent.find('#statusRow').text('Đi học'); break;
                 case 2: modalAttenStudent.find('#statusRow').text('Đi học muộn'); break;

@@ -40,7 +40,7 @@ $(function () {
             });
 
             CKEDITOR.instances['description'].setData(teacherInfo['description']);
-            if(teacherInfo['status']) {
+            if(changeTypeNumberText(teacherInfo['status'])) {
                 modalAddTeacher.find('#status1').prop('checked', true);
             } else {
                 modalAddTeacher.find('#status2').prop('checked', true);

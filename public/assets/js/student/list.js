@@ -59,8 +59,7 @@ $(function() {
                 modalAddStudent.find('#' + field).val(studentInfo[field]);
             });
 
-
-            if (studentInfo['gender']) {
+            if (changeTypeNumberText(studentInfo['gender'])) {
                 modalAddStudent.find('#gender1').prop('checked', true);
             } else {
                 modalAddStudent.find('#gender2').prop('checked', true);
@@ -206,7 +205,7 @@ $(function() {
                 modalAddIntern.find('#' + field).val(studentInfo[field]);
             });
 
-            if (studentInfo['gender']) {
+            if (changeTypeNumberText(studentInfo['gender'])) {
                 modalAddIntern.find('#gender1').prop('checked', true);
             } else {
                 modalAddIntern.find('#gender2').prop('checked', true);

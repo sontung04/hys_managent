@@ -152,18 +152,44 @@ class AttendanceController extends Controller
 
         $requestData = $request->all();
 
+        $studyInfo = Study::find($requestData['study_id']);
+
         if(!isset($requestData['student_code'])) {
             BaseHelper::ajaxResponse(config('app.textRequestDataErr'), false);
         }
 
+        //Kiểm tra MHV có tồn tại hay không
         if (!StudentServices::checkIssetByCode($requestData['student_code'])) {
             BaseHelper::ajaxResponse('Mã học viên không chính xác!',false);
-
         }
+
+        //CNL và TG không checkin vào phần của HV
+        if($requestData['student_type'] == 0) {
+            if($requestData['student_code'] == $studyInfo->carer_staff) {
+                BaseHelper::ajaxResponse('Chủ nhiệm không được checkin phần của học viên!',false);
+            }
+
+            if($requestData['student_code'] == $studyInfo->coach) {
+                BaseHelper::ajaxResponse('Trợ giảng không được checkin phần của học viên!',false);
+            }
+        }
+
+        //Kiểm tra Mã Chủ nhiệm lớp có chính xác không
+        if($requestData['student_type'] == 1 && $requestData['student_code'] != $studyInfo->carer_staff) {
+            BaseHelper::ajaxResponse('Mã Chủ nhiệm lớp không chính xác!',false);
+        }
+
+        //Kiểm tra Mã Trợ giảng lớp có chính xác không
+        if($requestData['student_type'] == 2 && $requestData['student_code'] != $studyInfo->coach) {
+            BaseHelper::ajaxResponse('Mã Trợ giảng lớp không chính xác!',false);
+        }
+
+        //Kiểm tra học viên đã checkin hay chưa
         if(Attendance::where([['study_id', '=', $requestData['study_id']],
             ['student_code', '=', $requestData['student_code']]])->exists()) {
             BaseHelper::ajaxResponse('Bạn đã checkin buổi học này!',false);
         }
+
         $studentInfo = DB::table('students')
             ->where('code', '=', $requestData['student_code'])
             ->get(['code', 'name']);
@@ -200,8 +226,6 @@ class AttendanceController extends Controller
                 $study->save();
             } catch (\Exception $exception){
                 $msg = $exception->getMessage();
-//                print_r($exception->getMessage());
-//                die();
                 BaseHelper::ajaxResponse($msg, false);
             }
         }
@@ -211,10 +235,7 @@ class AttendanceController extends Controller
             BaseHelper::ajaxResponse("CiT Edu cảm ơn về những góp ý của bạn!", true);
         } catch (\Exception $exception){
             $msg = $exception->getMessage();
-//                print_r($exception->getMessage());
-//                die();
             BaseHelper::ajaxResponse($msg, false);
-//            BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
 
     }

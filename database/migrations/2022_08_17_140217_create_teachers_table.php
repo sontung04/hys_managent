@@ -18,7 +18,7 @@ class CreateTeachersTable extends Migration
             $table->string('name',255);
             $table->string('subname',100)->nullable();
             $table->tinyInteger('gender')->default(0);
-            $table->timestamp('birthday');
+            $table->timestamp('birthday')->nullable();
             $table->string('img', 255)->nullable();
             $table->string('address',255)->nullable();
             $table->string('level',255)->nullable();

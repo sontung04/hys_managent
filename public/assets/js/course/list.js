@@ -23,7 +23,7 @@ $(function () {
             });
 
             CKEDITOR.instances['description'].setData(courseInfo['description']);
-            if(courseInfo['status']) {
+            if(changeTypeNumberText(courseInfo['status'])) {
                 modalAddCourse.find('#status1').prop('checked', true);
             } else {
                 modalAddCourse.find('#status2').prop('checked', true);

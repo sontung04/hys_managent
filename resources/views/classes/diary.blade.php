@@ -130,7 +130,10 @@
                                     {{-- Tab List Student: Danh sách học viên của lớp --}}
                                     <div class="tab-pane active" id="listStudentClass">
                                         <div class="row">
-                                            <div class="col-md-12" style="text-align: right">
+                                            <div class="col-md-3" style="text-align: left; margin: auto">
+                                                <b>Lớp có {{count($listStudent)}} học viên</b>
+                                            </div>
+                                            <div class="col-md-9" style="text-align: right">
                                                 <a class="btn btn-info text-white mr-2" id="btnGetLinkRegister"
                                                    data-url="{{url('') . '/form/class/register/' . base64_encode('class' . $class->id)}}" >
                                                     <i class="fa-solid fa-pen-nib"></i>
@@ -155,6 +158,7 @@
                                                     <th>Email</th>
                                                     <th>Ngày sinh</th>
                                                     <th>Quê quán</th>
+                                                    <th>Facebook</th>
                                                     <th style="min-width: 125px">Trạng thái</th>
                                                     <th style="min-width:225px; max-width: 240px">Biết tới khóa học từ</th>
                                                     <th style="min-width:225px; max-width: 240px">Mong muốn khi học</th>
@@ -170,7 +174,7 @@
 
                                                 @forelse($listStudent as $student)
                                                     <tr>
-                                                        <td class="firstcol" >
+                                                        <td class="firstcol setMinWidth" >
                                                             <img src="{{!empty($student->img) ? asset($student->img) : asset(config('app.avatarDefault'))}}"
                                                                  alt="Product 1" class="img-circle img-size-32 mr-2">
                                                             {{$student->name}}
@@ -180,7 +184,12 @@
                                                         <td class="cell-table-scroll" style="max-width: 210px">{{$student->email}}</td>
                                                         <td style="text-align: center">{{date('d/m/Y', strtotime($student->birthday))}}</td>
                                                         <td class="cell-table-scroll setMinWidth" style="max-width: 225px">{{$student->native_place}}</td>
-                                                        <th style="text-align: center">
+                                                        <td style="text-align: center;">
+                                                            @if(!empty($student->facebook))
+                                                                <a href="{{ $student->facebook }}" target="_blank">Link</a>
+                                                            @endif
+                                                        </td>
+                                                        <th style="text-align: center; vertical-align: middle">
                                                             <span style="color:@if($student->status == 1 || $student->status == 2) green @else red @endif;">
                                                                 {{$studentClassStatus[$student->status]}}
                                                             </span>
