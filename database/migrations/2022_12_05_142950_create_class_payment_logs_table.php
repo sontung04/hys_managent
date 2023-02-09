@@ -15,7 +15,8 @@ class CreateClassPaymentLogsTable extends Migration
     {
         Schema::create('class_payment_logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('cs_id');
+            $table->integer('course_id');
+            $table->integer('student_code');
             $table->integer('money_paid');
             $table->string('cashier', 255);
             $table->tinyInteger('status')->default('0')->comment('Hình thức đóng: 0-Off; 1-Onl');

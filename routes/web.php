@@ -149,7 +149,9 @@ Route::middleware(['cors', 'auth'])->group(function (){
         //Route Fees
         Route::prefix('/fee')->group(function (){
             Route::get('/list', 'FeeController@studentList')->name('s.fee.list');
-            Route::get('/detail/{id}', 'FeeController@getDetailCs');
+            Route::get('/detail/{id}', 'FeeController@getDetailStudent');
+            Route::post('/paymentLogCreateAjax', 'FeeController@paymentLogCreateAjax');
+            Route::post('/callLogCreateAjax', 'FeeController@callLogCreateAjax');
         });
     });
 

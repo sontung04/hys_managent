@@ -13,6 +13,7 @@ class CallStudentLog extends Model
 
     protected $fillable = [
         'id',
+        'student_code',
         'agent',
         'date_call',
         'channel',

@@ -344,7 +344,7 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-lg-3 col-form-label" for="status">Trạng thái đăng ký: </label>
+                            <label class="col-lg-3 col-form-label" for="reg_status">Trạng thái đăng ký: </label>
                             <div class="form-group col-lg-9">
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="reg_status1" name="reg_status" value="1" checked>

@@ -2,11 +2,14 @@
 
 @section('title', 'HYS Manage - Danh sách học phí học viên')
 
+@section('style')
+@endsection
+
 @section('script')
+    <script src="{{ asset('assets/js/fee/list.js') }}" defer></script>
 @endsection
 
 @section("content")
-<!--    --><?php //$years = range(strftime("%Y", time()), 1950); ?>
     <style>
         @media only screen and (max-width: 540px) {
             #tableFeeStudentList {
@@ -108,7 +111,7 @@
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btnView" data-id=""
+                                        <button type="button" class="btn btn-outline-primary btnViewDetail" data-id="{{$student['id']}}"
                                                 data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </button>
