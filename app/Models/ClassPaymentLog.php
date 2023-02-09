@@ -13,7 +13,8 @@ class ClassPaymentLog extends Model
 
     protected $fillable = [
         'id',
-        'cs_id',
+        'course_id',
+        'student_code',
         'money_paid',
         'cashier',
         'status',

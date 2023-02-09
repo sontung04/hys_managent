@@ -1,0 +1,11 @@
+@media only all and (min-width: 280px) and (max-width: 1280px) {
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+@media only all and (min-width: 375px) {
+    #liBtnAddPaymentLog {
+        margin-left: auto;
+    }
+}
