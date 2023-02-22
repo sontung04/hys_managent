@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Plugins\BaseHelper;
 use App\Models\Group;
+use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -120,6 +122,7 @@ class UserController extends Controller
 
             $user = new User();
             $user->code       = $requestData['code'];
+            $user->area       = $requestData['area'];
             $user->password   = Hash::make(env('PASSWORD_DEFAULT'));
             $user->img        = config('app.avatarDefault');
             $user->created_at = time();
@@ -153,13 +156,34 @@ class UserController extends Controller
         $user->address    = $requestData['address'];
         $user->facebook   = $requestData['facebook'];
         $user->gender     = $requestData['gender'];
+        $user->status     = $requestData['status'];
+        $user->jointime   = $this->changeFormatDateInput($requestData['jointime']);
+        $user->stoptime   = $this->changeFormatDateInput($requestData['stoptime']);
         $user->skill      = $requestData['skill'];
         $user->desire     = $requestData['desire'];
         $user->company    = $requestData['company'];
         $user->work       = $requestData['work'];
 
+        if($requestData['status'] == 0) {
+            $user->stoptime = Carbon::now();
+        }
+
         try {
             $user->save();
+
+            if (!isset($requestData['id']) || empty($requestData['id'])) {
+                $checkStudent = Student::select('id')
+                    ->where('phone', '=', $requestData['phone'])
+                    ->orWhere('email', '=', $requestData['email'])
+                    ->get();
+
+                if(!is_null($checkStudent)) {
+                    $student = Student::find($checkStudent[0]->id);
+                    $student->user_id = $user->id;
+                    $student->save();
+                }
+
+            }
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception) {
 //            print_r($exception->getMessage());

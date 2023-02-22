@@ -6,7 +6,9 @@ use App\Http\Plugins\BaseHelper;
 use App\Models\ClassHc;
 use App\Models\ClassStudent;
 use App\Models\Student;
-use App\Services\StudentServices;
+use App\Models\User;
+use App\Services\ClassStudentService;
+use App\Services\StudentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +19,13 @@ class ClassStudentController extends Controller
 
     private $studentService;
 
-    public function __construct(StudentServices $studentService)
+    private $classStudentService;
+
+    public function __construct(StudentService $studentService,
+                                ClassStudentService $classStudentService)
     {
         $this->studentService = $studentService;
+        $this->classStudentService= $classStudentService;
     }
 
     /**
@@ -166,6 +172,16 @@ class ClassStudentController extends Controller
             try {
                 $classStudent->save();
                 $student->save();
+
+                if(in_array($classStudent->status, [0, 3, 4])) {
+                    if($this->classStudentService->updateFeeStudentClass($student->code,
+                        $classStudent->class_id, $classStudent->course_id)) {
+                        BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
+                    }
+
+                    BaseHelper::ajaxResponse(config('app.textSaveError'), false);
+                }
+
                 BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
             } catch (\Exception $exception){
                 BaseHelper::ajaxResponse(config('app.textSaveError'), false);
@@ -183,12 +199,12 @@ class ClassStudentController extends Controller
     public function formRegister($classid) {
         $class_id = base64_decode($classid);
         if(!$class_id || strlen($class_id) < 5) {
-            return view('pages.404');
+            return view('pages.errors.404');
         }
 
         $class_id = substr($class_id, 5);
         if(!is_numeric($class_id) || !ClassHc::where('id', '=', $class_id)->exists()) {
-            return view('pages.404');
+            return view('pages.errors.404');
         }
         $classInfo = DB::table('classes_hc', 'chc')
             ->join('courses as c', 'chc.course_id', '=', 'c.id')
@@ -262,6 +278,16 @@ class ClassStudentController extends Controller
             $student = new Student();
             $student->code       = $this->studentService->createNewCodeStudent();
             $student->created_at = Carbon::now();
+
+            $checkUser = User::select('id')
+                ->where('phone', '=', $requestData['phone'])
+                ->orWhere('email', '=', $requestData['email'])
+                ->get();
+
+            if(!is_null($checkUser)) {
+                $student->user_id = $checkUser[0]->id;
+            }
+
         } else {
             # update student
             $student = Student::find($requestData['id']);

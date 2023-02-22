@@ -4,7 +4,7 @@
 
 @section('script')
 
-    <script src="{{ asset('assets/js/user/user.js') }}" defer></script>
+    <script src="{{ asset('assets/js/user/create.js') }}" defer></script>
 @endsection
 @section("content")
     <div class="content-wrapper">
@@ -13,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Tạo người dùng</h1>
+                        <h1>Tạo người dùng mới</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -39,6 +39,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
+
                                 <div class="row">
                                     <label for="area" class="col-sm-3">Khu vực hoạt động: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
@@ -50,30 +51,35 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class=" row">
                                     <label for="code" class="col-sm-3">Mã thành viên: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
                                         <input type="text" id="code" name="code" class="form-control">
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <label for="lastname" class="col-sm-3">Họ: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
                                         <input type="text" id="lastname" name="lastname" class="form-control">
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <label for="firstname" class="col-sm-3">Tên: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
                                         <input type="text" id="firstname" name="firstname" class="form-control">
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <label for="phone" class="col-sm-3">Số điện thoại: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
                                         <input type="number" id="phone" name="phone" class="form-control">
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <label for="email" class="col-sm-3">Email: <span style="color: red">*</span></label>
                                     <div class="form-group col-sm-9">
@@ -117,9 +123,8 @@
                                 <div class="row">
                                     <label for="facebook" class="col-sm-3">Link Facebook: </label>
                                     <div class="form-group col-sm-9">
-                                        <input type="text" id="facebook" name="facebook" class="form-control">
+                                        <input type="url" id="facebook" name="facebook" class="form-control">
                                     </div>
-
                                 </div>
 
                                 <div class="row">
@@ -127,8 +132,8 @@
                                     <div class="form-group col-sm-9">
                                         <textarea id="address" name="address" class="form-control" rows="3"></textarea>
                                     </div>
-
                                 </div>
+
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -143,45 +148,100 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                         <i class="fas fa-minus"></i></button>
                                 </div>
+
                             </div>
                             <div class="card-body">
+
                                 <div class="form-group row">
                                     <label for="school" class="col-sm-3">Trường đang học:</label>
                                     <div class="form-group col-sm-9">
-                                        <textarea type="text" id="school" name="school" class="form-control" rows="2"></textarea>
+                                        <input type="text" id="school" name="school" class="form-control">
                                     </div>
-
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="major" class="col-sm-3">Ngành học:</label>
                                     <div class="form-group col-sm-9">
                                         <input type="text" name="major" id="major" class="form-control">
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <label for="status" class="col-sm-3 col-form-label">Tình trạng:</label>
+                                    <div class="form-group col-sm-9">
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status1" name="status" value="1" checked>
+                                            <label for="status1" style="margin-right: 10px">
+                                                Đang hoạt động
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="status2" name="status" value="0">
+                                            <label for="status2">
+                                                Dừng hoạt động
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label for="jointime" class="col-sm-3">Thời gian tham gia: </label>
+                                    <div class="form-group col-sm-9">
+                                        <div class="input-group date" id="jointimeDate" data-target-input="nearest">
+                                            <div class="input-group-append" data-target="#jointimeDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker"
+                                                   id="jointime" name="jointime" data-target="#jointimeDate" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label for="stoptime" class="col-sm-3">Thời gian nghỉ: </label>
+                                    <div class="form-group col-sm-9">
+                                        <div class="input-group date" id="stoptimeDate" data-target-input="nearest">
+                                            <div class="input-group-append" data-target="#stoptimeDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker"
+                                                   id="stoptime" name="stoptime" data-target="#stoptimeDate" />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row">
                                     <label for="major" class="col-sm-3">Công việc hiện tại:</label>
                                     <div class="form-group col-sm-9">
                                         <input type="text" name="work" id="work" class="form-control">
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="major" class="col-sm-3">Nơi làm việc hiện tại:</label>
                                     <div class="form-group col-sm-9">
                                         <input type="text" name="company" id="company" class="form-control">
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="major" class="col-sm-3">Kỹ năng cá nhân:</label>
                                     <div class="form-group col-sm-9">
-                                        <textarea name="skill" id="skill" class="form-control" rows="4"></textarea>
+                                        <textarea name="skill" id="skill" class="form-control" rows="2"></textarea>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="major" class="col-sm-3">Mong muốn khi hoạt động ở HYS:</label>
                                     <div class="form-group col-sm-9">
-                                        <textarea name="desire" id="desire" class="form-control" rows="4"></textarea>
+                                        <textarea name="desire" id="desire" class="form-control" rows="2"></textarea>
                                     </div>
                                 </div>
+
                             </div>
                             <!-- /.card-body -->
                         </div>

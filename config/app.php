@@ -271,4 +271,21 @@ return [
     'avatarDefault' => 'themes/dist/img/user2-160x160.jpg',
     'dateBirthdayHys' => '17/11/2013',
     'datetimepicketFormat' => 'DD/MM/YYYY',
+
+    'listStatusClassStudent' => [
+        0 => 'Nghỉ học',
+        1 => 'Đang học',
+        2 => 'Đã hoàn thành',
+        3 => 'Bảo lưu',
+        4 => 'Học lại',
+    ],
+
+    'statusClassStudentColor' => [
+        0 => 'danger',
+        1 => 'success',
+        2 => 'primary',
+        3 => 'warning',
+        4 => 'info',
+    ],
+
 ];

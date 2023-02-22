@@ -13,19 +13,6 @@
 
 @section('content')
     <?php
-        $listStatusClass = [
-            0 => 'Nghỉ học',
-            1 => 'Đang học',
-            2 => 'Đã hoàn thành',
-            3 => 'Bảo lưu',
-        ];
-
-        $statusClassColor = [
-            0 => 'danger',
-            1 => 'success',
-            2 => 'info',
-            3 => 'warning',
-        ];
 
         $listChannelLog = [
             0 => 'SĐT',
@@ -151,8 +138,8 @@
                                                                     <tr>
                                                                         <td><b>{{$courseInfo['name']}}</b></td>
                                                                         <td>
-                                                                            <b><span class="text-{{$statusClassColor[$courseInfo['status']]}}">
-                                                                                {{$listStatusClass[$courseInfo['status']]}}
+                                                                            <b><span class="text-{{$statusClassStudentColor[$courseInfo['status']]}}">
+                                                                                {{$listStatusClassStudent[$courseInfo['status']]}}
                                                                             </span></b>
                                                                         </td>
                                                                         <td>{{number_format($courseInfo['fees'])}}</td>
@@ -203,8 +190,8 @@
                                                                             {{$classInfo['learn'] . '/' . $classInfo['studies']}}
                                                                         </td>
                                                                         <td>
-                                                                            <b><span class="text-{{$statusClassColor[$classInfo['status']]}}">
-                                                                                {{$listStatusClass[$classInfo['status']]}}
+                                                                            <b><span class="text-{{$statusClassStudentColor[$classInfo['status']]}}">
+                                                                                {{$listStatusClassStudent[$classInfo['status']]}}
                                                                             </span></b>
                                                                         </td>
                                                                         <td>{{date('d/m/Y', strtotime($classInfo['starttime']))}}</td>

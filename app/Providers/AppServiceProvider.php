@@ -27,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
         View::share('areaName', config('app.areaName'));
         View::share('areaColor', config('app.areaColor'));
         View::share('groupType', config('app.groupType'));
+        View::share('listStatusClassStudent', config('app.listStatusClassStudent'));
+        View::share('statusClassStudentColor', config('app.statusClassStudentColor'));
     }
 }

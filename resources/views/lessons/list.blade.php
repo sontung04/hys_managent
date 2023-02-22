@@ -11,32 +11,17 @@
 
 @section('style')
     <style>
-        @media only screen and (max-width: 540px) {
+        @media only screen and (min-width: 280px) and (max-width: 1880px) {
             #tableListLesson {
                 display: block;
                 overflow-x: auto;
             }
             #tableListLesson .setMinWidthMediumText {
-                min-width: 160px;
+                min-width: 150px;
             }
 
             #tableListLesson .setMinWidthLongText {
-                min-width: 225px;
-            }
-        }
-
-        @media only screen and (max-width: 1024px) {
-            #tableListLesson {
-                display: block;
-                overflow-x: auto;
-            }
-
-            #tableListLesson .setMinWidthMediumText {
-                min-width: 160px;
-            }
-
-            #tableListLesson .setMinWidthLongText {
-                min-width: 225px;
+                min-width: 200px;
             }
         }
     </style>
@@ -102,19 +87,21 @@
                                     <thead>
                                     <tr style="text-align: center">
                                         <th style="width: 3%">STT</th>
-                                        <th class="setMinWidthMediumText">Tên Bài giảng</th>
+                                        <th style="min-width:100px; width: 100px">Thứ tự học</th>
+                                        <th class="setMinWidthMediumText" style="width: 150px">Tên Bài giảng</th>
                                         <th class="setMinWidthMediumText">Khóa học</th>
                                         <th class="setMinWidthMediumText">Giảng viên</th>
-                                        <th class="setMinWidthLongText" style="width: 15%">Mô tả</th>
-                                        <th class="setMinWidthLongText" style="width: 15%">Câu hỏi</th>
-                                        <th class="setMinWidthLongText" style="width: 15%">Tài liệu</th>
-                                        <th class="setMinWidthLongText" style="width: 15%">Bài tập về nhà</th>
-                                        <th style="width: 7%">Hành động</th>
+                                        <th style="min-width:100px; width: 100px">Trạng thái</th>
+                                        <th class="setMinWidthLongText" style="width: 200px">Mô tả</th>
+                                        <th class="setMinWidthLongText" style="width: 200px">Câu hỏi</th>
+                                        <th class="setMinWidthLongText" style="width: 200px">Tài liệu</th>
+                                        <th class="setMinWidthLongText" style="width: 200px">Bài tập về nhà</th>
+                                        <th style="min-width: 105px; width: 7%">Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody id="tableBodyLessonList">
                                     <tr>
-                                        <th colspan="9" style="text-align: center">Vui lòng chọn khóa học trước!</th>
+                                        <th colspan="11" style="text-align: center">Vui lòng chọn khóa học trước!</th>
                                     </tr>
 
                                     </tbody>
@@ -206,6 +193,14 @@
                                                 <span style="color:red;">Đóng</span>
                                             </label>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label" for="name">Thứ tự bài giảng: <span
+                                            class="text-danger">*</span></label>
+                                    <div class="form-group col-lg-9">
+                                        <input type="text" name="order" id="order" class="form-control">
                                     </div>
                                 </div>
 

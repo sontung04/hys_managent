@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Plugins\BaseHelper;
 use App\Models\Attendance;
 use App\Models\Study;
-use App\Services\StudentServices;
+use App\Services\StudentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,12 +108,12 @@ class AttendanceController extends Controller
     public function formStudent($studyid) {
         $study_id = base64_decode($studyid);
         if(!$study_id || strlen($study_id) < 5) {
-            return view('pages.404');
+            return view('pages.errors.404');
         }
 
         $study_id = substr($study_id, 5);
         if(!is_numeric($study_id) || !Study::where('id', '=', $study_id)->exists()) {
-            return view('pages.404');
+            return view('pages.errors.404');
         }
 
         $studyInfo = DB::table('studies', 's')
@@ -125,7 +125,7 @@ class AttendanceController extends Controller
             ->get();
 
         if(!count($studyInfo)) {
-            return view('pages.404');
+            return view('pages.errors.404');
         }
         $studyInfo = $studyInfo[0];
         $timeCheckinBefore = true;
@@ -159,7 +159,7 @@ class AttendanceController extends Controller
         }
 
         //Kiểm tra MHV có tồn tại hay không
-        if (!StudentServices::checkIssetByCode($requestData['student_code'])) {
+        if (!StudentService::checkIssetByCode($requestData['student_code'])) {
             BaseHelper::ajaxResponse('Mã học viên không chính xác!',false);
         }
 
@@ -196,12 +196,19 @@ class AttendanceController extends Controller
         BaseHelper::ajaxResponse(config('app.textGetSuccess'),true, $studentInfo[0]);
     }
 
+    /**
+     * function Xử lý Request khi học viên Checkin
+     * @param Request $request
+     */
     public function formStudentSubmitAjax(Request $request)
     {
         $this->checkRequestAjax($request);
         $requestData = $request->all();
-//        print_r($requestData);
-//        die();
+
+        if(Attendance::where([['study_id', '=', $requestData['study_id']],
+            ['student_code', '=', $requestData['student_code']]])->exists()) {
+            BaseHelper::ajaxResponse('Phản hồi của bạn đã được ghi nhận!',false);
+        }
 
         $attendance = new Attendance();
         $attendance->study_id     = $requestData['study_id'];

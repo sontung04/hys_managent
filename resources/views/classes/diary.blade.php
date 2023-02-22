@@ -131,7 +131,7 @@
                                     <div class="tab-pane active" id="listStudentClass">
                                         <div class="row">
                                             <div class="col-md-3" style="text-align: left; margin: auto">
-                                                <b>Lớp có {{count($listStudent)}} học viên</b>
+                                                <b>Lớp có {{$studentLearn . '/' .count($listStudent)}} học viên</b>
                                             </div>
                                             <div class="col-md-9" style="text-align: right">
                                                 <a class="btn btn-info text-white mr-2" id="btnGetLinkRegister"
@@ -159,7 +159,7 @@
                                                     <th>Ngày sinh</th>
                                                     <th>Quê quán</th>
                                                     <th>Facebook</th>
-                                                    <th style="min-width: 125px">Trạng thái</th>
+                                                    <th style="min-width: 130px">Trạng thái</th>
                                                     <th style="min-width:225px; max-width: 240px">Biết tới khóa học từ</th>
                                                     <th style="min-width:225px; max-width: 240px">Mong muốn khi học</th>
                                                     <th style="min-width: 125px">Ngày đăng ký</th>
@@ -175,8 +175,8 @@
                                                 @forelse($listStudent as $student)
                                                     <tr>
                                                         <td class="firstcol setMinWidth" >
-                                                            <img src="{{!empty($student->img) ? asset($student->img) : asset(config('app.avatarDefault'))}}"
-                                                                 alt="Product 1" class="img-circle img-size-32 mr-2">
+{{--                                                            <img src="{{!empty($student->img) ? asset($student->img) : asset(config('app.avatarDefault'))}}"--}}
+{{--                                                                 alt="Product 1" class="img-circle img-size-32 mr-2">--}}
                                                             {{$student->name}}
                                                         </td>
                                                         <td style="text-align: center">{{$student->code}}</td>
@@ -190,8 +190,8 @@
                                                             @endif
                                                         </td>
                                                         <th style="text-align: center; vertical-align: middle">
-                                                            <span style="color:@if($student->status == 1 || $student->status == 2) green @else red @endif;">
-                                                                {{$studentClassStatus[$student->status]}}
+                                                            <span class="text-{{$statusClassStudentColor[$student->status]}}">
+                                                                {{$listStatusClassStudent[$student->status]}}
                                                             </span>
                                                         </th>
                                                         <td class="cell-table-scroll setMinWidth" >{{$student->course_where}}</td>
@@ -206,7 +206,7 @@
                                                                 {{date('d/m/Y', strtotime($student->finishtime))}}
                                                             @endif
                                                         </td>
-                                                        <td style="text-align: center">{{$student->fees}}</td>
+                                                        <td style="text-align: center">{{number_format($student->fees)}}</td>
                                                         <td style="text-align: center">
                                                             @if(!is_null($student->date_payment))
                                                                 {{date('d/m/Y', strtotime($student->date_payment))}}
@@ -356,7 +356,11 @@
                                                                 echo '<td></td>';
                                                             } else {
                                                                 if(!isset($stuAtten['atten'][$listStudy[$i]->id])) {
-                                                                    showHtmlAttenStatus($listStudy[$i]);
+                                                                    if(isset($stuAtten['status']) && in_array($stuAtten['status'], [0,3])) {
+                                                                        echo '<td></td>';
+                                                                    } else {
+                                                                        showHtmlAttenStatus($listStudy[$i]);
+                                                                    }
                                                                 } else {
                                                                     showHtmlAttenStatus($listStudy[$i], false, $stuAtten['atten'][$listStudy[$i]->id]);
                                                                 }
@@ -384,7 +388,7 @@
     <!------------------------------------- The List Modal Tab List Student ------------------------------------------->
     <!-- The Modal Add New Student To Class Tab List Student-->
     <div class="modal fade" id="modalAddStudentClass">
-        <div class="modal-dialog modal-lg" style="width: 50%; max-width: 90%;">
+        <div class="modal-dialog modal-lg" >
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modalAddStudentClassTitle">Modal default</h4>
@@ -497,7 +501,7 @@
                         <div class="row">
                             <label class="col-lg-3 col-form-label" for="notr"> Ghi chú: </label>
                             <div class="form-group col-lg-9">
-                                <input type="text" name="note" id="note" class="form-control">
+                                <textarea type="text" name="note" id="note" class="form-control" rows="2"></textarea>
                             </div>
                         </div>
 
@@ -521,14 +525,20 @@
 
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="status2" name="status" value="2">
-                                    <label for="status2">
+                                    <label for="status2" style="margin-right: 10px">
                                         Đã hoàn thành
                                     </label>
                                 </div>
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="status3" name="status" value="3">
-                                    <label for="status3">
+                                    <label for="status3" style="margin-right: 10px">
                                         Bảo lưu
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status4" name="status" value="4">
+                                    <label for="status4">
+                                        Học lại
                                     </label>
                                 </div>
                             </div>
@@ -585,7 +595,9 @@
                                 <select class="form-control custom-select" name="lesson_id" id="lesson_id">
                                     <option value=""></option>
                                     @foreach($listLesson as $key => $value)
-                                        <option value="{{$key}}">{{$value['name']}}</option>
+                                        @if($value['status'])
+                                            <option value="{{$key}}">{{$value['name']}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

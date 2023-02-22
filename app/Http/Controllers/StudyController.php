@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Plugins\BaseHelper;
 use App\Models\Intern;
 use App\Models\Study;
+use App\Services\ClassStudentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class StudyController extends Controller
 {
-    public function __construct()
-    {
+    private $classStudentService;
 
+    public function __construct(ClassStudentService $classStudentService)
+    {
+        $this->classStudentService = $classStudentService;
     }
 
     /**
@@ -97,6 +100,11 @@ class StudyController extends Controller
 
         try {
             $study->save();
+
+            if (!isset($requestData['id']) || empty($requestData['id'])) {
+                $this->classStudentService->updateFeeCs($requestData['class_id']);
+            }
+
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception){
 //            print_r($exception->getMessage());

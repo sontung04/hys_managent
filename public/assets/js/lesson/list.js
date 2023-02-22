@@ -90,12 +90,13 @@ $(function () {
             }
             let lessonInfo = res.data;
             /* set field value */
-            ['id', 'name', 'teacher_id','course_id'].forEach(field => {
+            ['id', 'name', 'teacher_id','course_id', 'order'].forEach(field => {
                 modalAddLesson.find('#' + field).val(lessonInfo[field]);
             });
             ['description', 'question', 'document', 'homework'].forEach(field => {
                 CKEDITOR.instances[field].setData(lessonInfo[field]);
             });
+            modalAddLesson.find('#status' + lessonInfo['status']).prop('checked', true);
             modalAddLesson.modal('show');
         });
     });
@@ -200,10 +201,16 @@ $(function () {
         let html = '';
 
         html += `<th style="text-align:center; ">${index}</th>`;
+        html += `<th style="text-align:center;">${data.order == 0 ? '' : 'Bài ' + data.order}</th>`;
         html += `<th style="text-align:center;">${data.name}</th>`;
         html += `<th style="text-align:center;">${courses[data.course_id].name}</th>`;
         html += `<th style="text-align:center;">`;
         html += `${data.teacher_id == 0 ? '' : teachers[data.teacher_id].name}`;
+        html += `</th>`;
+        html += `<th style="text-align:center;">`;
+        html += `<span style="color: ${data.status == 0 ? 'red' : 'green'}">`;
+        html += `${data.status == 0 ? 'Đóng' : 'Mở'}`;
+        html += `</span>`;
         html += `</th>`;
         html += `<td>${data.description == null ? '' : data.description}</td>`;
         html += `<td>${data.question == null ? '' : data.question}</td>`;

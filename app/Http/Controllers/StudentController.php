@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Plugins\BaseHelper;
 use App\Models\Student;
-use App\Services\StudentServices;
+use App\Models\User;
+use App\Services\StudentService;
 use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,7 @@ class StudentController extends Controller
 {
     private $studentService;
 
-    public function __construct(StudentServices $studentService)
+    public function __construct(StudentService $studentService)
     {
         $this->studentService = $studentService;
     }
@@ -104,6 +106,15 @@ class StudentController extends Controller
             $student->code       = $this->studentService->createNewCodeStudent();
             $student->created_by = Auth::id();
             $student->created_at = Carbon::now();
+
+            $checkUser = User::select('id')
+                ->where('phone', '=', $requestData['phone'])
+                ->orWhere('email', '=', $requestData['email'])
+                ->get();
+
+            if(!is_null($checkUser)) {
+                $student->user_id = $checkUser[0]->id;
+            }
         } else {
             # update student
             $student = Student::findOrFail($requestData['id']);
