@@ -228,7 +228,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <th colspan="8" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
+                                    <th colspan="12" style="text-align: center">Không có dữ liệu hiển thị! Vui lòng thử lại!</th>
                                 </tr>
                             @endforelse
                             </tbody>

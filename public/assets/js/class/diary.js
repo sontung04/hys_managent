@@ -61,13 +61,7 @@ $(document).ready(function () {
                 modalAddStudentClass.find('#' + field).val(studentInfo[field]);
             });
             modalAddStudentClass.find('#student_code').attr('disabled', 'disabled');
-
-            switch (changeTypeNumberText(studentInfo['status'])) {
-                case 0: modalAddStudentClass.find('#status0').prop('checked', true); break;
-                case 1: modalAddStudentClass.find('#status1').prop('checked', true); break;
-                case 2: modalAddStudentClass.find('#status2').prop('checked', true); break;
-                case 3: modalAddStudentClass.find('#status3').prop('checked', true); break;
-            }
+            modalAddStudentClass.find('#status' + changeTypeNumberText(studentInfo['status'])).prop('checked', true);
 
             modalAddStudentClass.modal('show');
         });

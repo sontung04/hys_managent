@@ -44,8 +44,11 @@ Route::middleware(['cors', 'auth'])->group(function (){
         return view('index');
     })->name('index');
     Route::get('/error404', function () {
-        return view('pages.404');
+        return view('pages.errors.404');
     })->name('error404');
+    Route::get('/error403', function () {
+        return view('pages.errors.403');
+    })->name('error403');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('password/change','Auth\ChangePasswordController@showChangeForm')->name('password.edit');

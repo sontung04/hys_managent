@@ -1,3 +1,7 @@
+#usersTable td {
+    vertical-align: middle;
+}
+
 @media only screen and (max-width: 540px) {
     #usersTable {
         display: block;
@@ -7,7 +11,7 @@
     }
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1280px) {
     #usersTable {
         display: block;
     }

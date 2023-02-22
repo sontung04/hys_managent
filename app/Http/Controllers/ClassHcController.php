@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Plugins\BaseHelper;
 use App\Models\ClassHc;
 use App\Models\Intern;
-use App\Models\Study;
-use App\Models\Teacher;
+use App\Services\ClassStudentService;
 use App\Services\InternService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,16 +16,13 @@ class ClassHcController extends Controller
 {
     private $internService;
 
-    private $studentClassStatus = [
-        0 => 'Nghỉ học',
-        1 => 'Đang học',
-        2 => 'Đã hoàn thành',
-        3 => 'Bảo lưu',
-    ];
+    private $classStudentService;
 
-    public function __construct(InternService $internService)
+    public function __construct(InternService $internService,
+                                ClassStudentService $classStudentService)
     {
         $this->internService = $internService;
+        $this->classStudentService= $classStudentService;
     }
 
     public function list(Request $request)
@@ -44,7 +40,7 @@ class ClassHcController extends Controller
         $query = DB::table('classes_hc', 'c')
             ->join('interns as coach', 'c.coach', '=', 'coach.student_code')
             ->join('interns as cs', 'c.carer_staff', '=', 'cs.student_code');
-        $query->orderBy('c.id', 'DESC');
+        $query->orderBy('c.starttime', 'DESC');
 
         if ($request->isMethod('POST')){
             $paged = $filters['page'];
@@ -125,12 +121,15 @@ class ClassHcController extends Controller
             $class = new ClassHc();
             $class->created_by = Auth::id();
             $class->created_at = Carbon::now();
-        }else{
+        } else {
             #update infomation class
             $class = ClassHc::findOrFail($requestData['id']);
             $class->updated_by = Auth::id();
             $class->updated_at = Carbon::now();
+
+            $classOldStatus = $class->status;
         }
+
         $class->name        = $requestData['name'];
         $class->course_id   = $requestData['course_id'];
         $class->carer_staff = $requestData['carer_staff'];
@@ -143,8 +142,22 @@ class ClassHcController extends Controller
 
         try {
             $class->save();
+
+            if(isset($requestData['id']) && !empty($requestData['id'])) {
+                if($classOldStatus == 1 && $classOldStatus != $requestData['status']) {
+                    $result = $this->classStudentService->updateStatusCs($requestData['id'], $requestData['status']);
+                    if($result) {
+                        BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
+                    } else {
+                        BaseHelper::ajaxResponse(config('Xử lý dữ liệu học viên bị lỗi!'), true);
+                    }
+                }
+            }
+
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         }catch (\Exception $exception){
+//            print_r($exception->getMessage());
+//            die();
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }
@@ -167,7 +180,7 @@ class ClassHcController extends Controller
             ->where('chc.id', '=', $classId)
             ->get();
         if(!count($class)) {
-            return view('pages.404');
+            return view('pages.errors.404');
         }
 
         $class = $class[0];
@@ -210,28 +223,31 @@ class ClassHcController extends Controller
         }
 
         $lessons = DB::table('lessons')
-            ->where([
-                ['status', '=', 1],
-                ['course_id', '=', $class->course_id],
-            ])
-            ->get(['id', 'name', 'teacher_id']);
+            ->where('course_id', '=', $class->course_id)
+            ->orderBy('order')
+            ->get(['id', 'name', 'teacher_id', 'status']);
         $listLesson = [];
         foreach ($lessons as $lesson) {
             $listLesson[$lesson->id] = [
                 'id'   => $lesson->id,
                 'name' => $lesson->name,
+                'status' => $lesson->status,
                 'teacher_id' => $lesson->teacher_id,
             ];
         }
 
         $listStuAtten = [];
+        $studentLearn = 0;
         foreach ($listStudent as $student) {
             $listStuAtten[$student->code] = [
                 'name' => $student->name,
                 'img'  => $student->img,
+                'status'  => $student->status,
                 'inClass' => true,
                 'atten' => [],
             ];
+
+            if(in_array($student->status, [1,2,4])) $studentLearn++;
         }
 
         foreach ($listAtten as $atten) {
@@ -254,15 +270,15 @@ class ClassHcController extends Controller
             ];
         }
 
-//        print_r($listStudy);
+//        print_r($listStudent);
+//        print_r($listStuAtten);
 //        die();
 
         $listIntern = $this->internService->getListCurrent();
 
         return view('classes.diary',
-            array_merge(compact('class','listStudent', 'listStudy', 'listTeacher', 'listLesson',
-                'listStuAtten', 'listIntern'),
-            ['studentClassStatus' => $this->studentClassStatus]));
+            compact('class','listStudent', 'listStudy', 'listTeacher', 'listLesson',
+                'listStuAtten', 'listIntern', 'studentLearn'));
     }
 
 }

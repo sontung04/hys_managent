@@ -27,9 +27,11 @@ class LessonController extends Controller
             $courseIds[] = $val;
         }
         $results = DB::table('lessons')
-            ->select('id', 'name', 'teacher_id', 'course_id', 'description', 'question', 'document', 'homework', 'status')
+            ->select('id', 'name', 'teacher_id', 'course_id', 'status', 'order',
+                'description', 'question', 'document', 'homework')
             ->whereIn('course_id', $courseIds)
             ->orderBy('course_id')
+            ->orderBy('order')
             ->get();
 
         $this->checkEmptyDataAjax($results);
@@ -64,6 +66,8 @@ class LessonController extends Controller
         $lesson->name        = $requestData['name'];
         $lesson->course_id   = $requestData['course_id'];
         $lesson->teacher_id  = $requestData['teacher_id'];
+        $lesson->order       = $requestData['order'];
+        $lesson->status      = $requestData['status'];
         $lesson->description = $requestData['description'];
         $lesson->question    = $requestData['question'];
         $lesson->document    = $requestData['document'];

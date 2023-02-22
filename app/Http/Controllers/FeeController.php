@@ -113,6 +113,7 @@ class FeeController extends Controller
                 ['cs.student_code', '=', $studentInfo->code],
                 ['a.student_code', '=', $studentInfo->code]
             ])
+            ->whereIn('a.status', [1,2])
             ->groupBy('cs.class_id')
             ->get();
 

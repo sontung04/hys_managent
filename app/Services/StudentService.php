@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Http\Plugins\BaseHelper;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 
-class StudentServices
+class StudentService
 {
 
     /**

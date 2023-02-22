@@ -3,7 +3,7 @@
 @section('title', 'HYS Manage - Thông tin thành viên')
 
 @section('script')
-    <script src="{{ asset('assets/js/user/user.js') }}" defer></script>
+    <script src="{{ asset('assets/js/user/profile.js') }}" defer></script>
 @endsection
 @section("content")
     <div class="content-wrapper">
@@ -40,18 +40,18 @@
 
                                 <h3 class="profile-username text-center">{{$user->lastname . ' ' . $user->firstname }}</h3>
 
-                                <p class="text-muted text-center">Software Engineer</p>
+{{--                                <p class="text-muted text-center">Software Engineer</p>--}}
 
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
                                         <b>Khu vực</b> <a class="float-right">{{ $user->area ? 'HYS ' . $areaName[$user->area] : 'Chưa xác định'}}</a>
                                     </li>
-                                    <li class="list-group-item">
-                                        <b>Ban</b> <a class="float-right">543</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Chức vụ</b> <a class="float-right">13,287</a>
-                                    </li>
+{{--                                    <li class="list-group-item">--}}
+{{--                                        <b>Ban</b> <a class="float-right">543</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li class="list-group-item">--}}
+{{--                                        <b>Chức vụ</b> <a class="float-right">13,287</a>--}}
+{{--                                    </li>--}}
                                     <li class="list-group-item">
                                         <b>Trạng thái</b> <a class="float-right">@if($user->status) Đang hoạt động @else Dừng hoạt động @endif</a>
                                     </li>
@@ -109,7 +109,7 @@
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
                                     <li class="nav-item"><a class="nav-link active" href="#infoUser" data-toggle="tab">Thông tin cá nhân</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#timeline1" data-toggle="tab">Timeline</a></li>
+{{--                                    <li class="nav-item"><a class="nav-link" href="#timeline1" data-toggle="tab">Timeline</a></li>--}}
                                     <li class="nav-item ml-auto"><a class="nav-link" href="#updateInfoUser" data-toggle="tab">Cập nhật thông tin cá nhân</a></li>
                                 </ul>
                             </div><!-- /.card-header -->
@@ -157,14 +157,18 @@
                                             </li>
                                             <li class="list-group-item">
                                                 <div class="row">
-                                                    <div class="col-sm-2"><i class="fas fa-map-marker-alt mr-1"></i><b> Quê quán: </b></div>
-                                                    <div class="col-sm-10">{{$user->address}}</div>
+                                                    <div class="col-sm-2"><i class="fab fa-facebook-square mr-1"></i><b> Facebook: </b></div>
+                                                    <div class="col-sm-10">
+                                                        @if(!empty($user->facebook))
+                                                            <a href="{{ $user->facebook }}" target="_blank">Link</a>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
                                                 <div class="row">
-                                                    <div class="col-sm-2"><i class="fab fa-facebook-square mr-1"></i><b> Facebook: </b></div>
-                                                    <div class="col-sm-10">{{$user->facebook}}</div>
+                                                    <div class="col-sm-2"><i class="fas fa-map-marker-alt mr-1"></i><b> Quê quán: </b></div>
+                                                    <div class="col-sm-10">{{$user->address}}</div>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -182,13 +186,17 @@
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><i class="fas fa-file-signature mr-1"></i><b> Thời gian tham gia: </b></div>
-                                                    <div class="col-sm-10">{{$user->jointime}}</div>
+                                                    <div class="col-sm-10">{{date('d/m/Y', strtotime($user->jointime))}}</div>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
                                                 <div class="row">
                                                     <div class="col-sm-2"><i class="fas fa-hourglass-end mr-1"></i><b> Thời gian dừng: </b></div>
-                                                    <div class="col-sm-10">{{$user->stoptime}}</div>
+                                                    <div class="col-sm-10">
+                                                        @if(!empty($user->stoptime))
+                                                            {{date('d/m/Y', strtotime($user->stoptime))}}
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -219,102 +227,9 @@
 
                                     </div>
 
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="timeline1">
-                                        <!-- The timeline -->
-                                        <div class="timeline timeline-inverse">
-                                            <!-- timeline time label -->
-                                            <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                                            </div>
-                                            <!-- /.timeline-label -->
-                                            <!-- timeline item -->
-                                            <div>
-                                                <i class="fas fa-envelope bg-primary"></i>
+                                    <!-- /.tab-pane timeline1 -->
 
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                                                    <div class="timeline-body">
-                                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                                        quora plaxo ideeli hulu weebly balihoo...
-                                                    </div>
-                                                    <div class="timeline-footer">
-                                                        <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- END timeline item -->
-                                            <!-- timeline item -->
-                                            <div>
-                                                <i class="fas fa-user bg-info"></i>
-
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                                                    <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <!-- END timeline item -->
-                                            <!-- timeline item -->
-                                            <div>
-                                                <i class="fas fa-comments bg-warning"></i>
-
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                                                    <div class="timeline-body">
-                                                        Take me to your leader!
-                                                        Switzerland is small and neutral!
-                                                        We are more like Germany, ambitious and misunderstood!
-                                                    </div>
-                                                    <div class="timeline-footer">
-                                                        <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- END timeline item -->
-                                            <!-- timeline time label -->
-                                            <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                                            </div>
-                                            <!-- /.timeline-label -->
-                                            <!-- timeline item -->
-                                            <div>
-                                                <i class="fas fa-camera bg-purple"></i>
-
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                                                    <div class="timeline-body">
-                                                        <img src="http://placehold.it/150x100" alt="...">
-                                                        <img src="http://placehold.it/150x100" alt="...">
-                                                        <img src="http://placehold.it/150x100" alt="...">
-                                                        <img src="http://placehold.it/150x100" alt="...">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- END timeline item -->
-                                            <div>
-                                                <i class="far fa-clock bg-gray"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.tab-pane -->
+                                    <!-- /.tab-pane timeline1-->
 
                                     {{--tab Update infoUser: Chỉnh sửa thông tin cá nhân người dùng Thông tin người dùng--}}
                                     <div class="tab-pane" id="updateInfoUser">
@@ -325,28 +240,35 @@
 {{--                                            <input type="hidden" name="email" value="{{$user->email}}">--}}
 
                                             <div class="row">
-                                                <label for="lastname" class="col-sm-2 col-form-label">Họ:</label>
+                                                <label for="lastname" class="col-sm-2 col-form-label">Họ: <span class="text-danger">*</span></label>
                                                 <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Họ" value="{{$user->lastname}}">
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <label for="firstname" class="col-sm-2 col-form-label">Tên:</label>
+                                                <label for="firstname" class="col-sm-2 col-form-label">Tên: <span class="text-danger">*</span></label>
                                                 <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Tên" value="{{$user->firstname}}">
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <label for="phone" class="col-sm-2 col-form-label">Số điện thoại:</label>
+                                                <label for="phone" class="col-sm-2 col-form-label">Số điện thoại: <span class="text-danger">*</span></label>
                                                 <div class="form-group col-sm-10">
                                                     <input type="number" class="form-control" name="phone" id="phone" placeholder="Số điện thoại" value="{{$user->phone}}">
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <label for="gender1" class="col-sm-2 col-form-label">Giới tính:</label>
+                                                <label for="phone" class="col-sm-2 col-form-label">Email: <span class="text-danger">*</span></label>
+                                                <div class="form-group col-sm-10">
+                                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email cá nhân" value="{{$user->email}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <label for="gender1" class="col-sm-2 col-form-label">Giới tính: <span class="text-danger">*</span></label>
                                                 <div class="form-group col-sm-10">
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="gender1" name="gender" value="1" @if($user->gender) checked @endif>
@@ -364,7 +286,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <label for="birthday" class="col-sm-2 col-form-label">Ngày sinh:</label>
+                                                <label for="birthday" class="col-sm-2 col-form-label">Ngày sinh: <span class="text-danger">*</span></label>
                                                 <div class="form-group col-sm-10">
                                                     <div class="input-group date" id="birthdayDate" data-target-input="nearest">
                                                         <div class="input-group-append" data-target="#birthdayDate" data-toggle="datetimepicker">
@@ -372,16 +294,24 @@
                                                                 <i class="fa fa-calendar"></i>
                                                             </div>
                                                         </div>
-                                                        <input type="text" class="form-control datetimepicker-input" id="birthday" name="birthday" data-target="#birthdayDate"
-                                                               data-toggle="datetimepicker" data-format="DD/MM/YYYY" data-min="01/01/1960" data-max="{{date("d/m/Y")}}"/>
+                                                        <input type="text" class="form-control datetimepicker-input" data-target="#birthdayDate"
+                                                               data-toggle="datetimepicker" id="birthday" name="birthday"
+                                                               data-min="01/01/1970" data-value="{{date('d/m/Y', strtotime($user->birthday))}}"/>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <label for="facebook" class="col-sm-2 col-form-label">Link Facebook:</label>
+                                                <label for="facebook" class="col-sm-2 col-form-label">Link Facebook: <span class="text-danger">*</span></label>
                                                 <div class="form-group col-sm-10">
-                                                    <input type="url" class="form-control" name="facebook" id="facebook" placeholder="Link Facebook" value="{{$user->facebook}}">
+                                                    <input type="url" class="form-control" name="facebook" id="facebook" value="{{$user->facebook}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <label for="address" class="col-sm-2 col-form-label">Quê quán: <span class="text-danger">*</span></label>
+                                                <div class="form-group col-sm-10">
+                                                    <textarea class="form-control" name="address" id="address" placeholder="Quê quán" value="{{$user->address}}"></textarea>
                                                 </div>
                                             </div>
 
@@ -400,16 +330,52 @@
                                             </div>
 
                                             <div class="row">
-                                                <label for="address" class="col-sm-2 col-form-label">Quê quán:</label>
+                                                <label for="status" class="col-sm-2 col-form-label">Tình trạng:</label>
                                                 <div class="form-group col-sm-10">
-                                                    <textarea class="form-control" name="address" id="address" placeholder="Quê quán" value="{{$user->address}}"></textarea>
+                                                    <div class="icheck-primary d-inline">
+                                                        <input type="radio" id="status1" name="status" value="1" @if($user->status) checked @endif>
+                                                        <label for="status1" style="margin-right: 10px">
+                                                            Đang hoạt động
+                                                        </label>
+                                                    </div>
+                                                    <div class="icheck-primary d-inline">
+                                                        <input type="radio" id="status2" name="status" value="0" @if(!$user->status) checked @endif>
+                                                        <label for="status2">
+                                                            Dừng hoạt động
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <label for="skill" class="col-sm-2 col-form-label">Kỹ năng:</label>
+                                                <label for="jointime" class="col-sm-2">Thời gian tham gia: </label>
                                                 <div class="form-group col-sm-10">
-                                                    <textarea class="form-control" name="skill" id="skill" placeholder="Kỹ năng cá nhân" value="{{$user->skill}}"></textarea>
+                                                    <div class="input-group date" id="jointimeDate" data-target-input="nearest">
+                                                        <div class="input-group-append" data-target="#jointimeDate" data-toggle="datetimepicker">
+                                                            <div class="input-group-text">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker"
+                                                               id="jointime" name="jointime" data-target="#jointimeDate"
+                                                               data-value="@if(!empty($user->jointime)) {{date('d/m/Y', strtotime($user->jointime))}} @endif"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <label for="stoptime" class="col-sm-2">Thời gian nghỉ: </label>
+                                                <div class="form-group col-sm-10">
+                                                    <div class="input-group date" id="stoptimeDate" data-target-input="nearest">
+                                                        <div class="input-group-append" data-target="#stoptimeDate" data-toggle="datetimepicker">
+                                                            <div class="input-group-text">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker"
+                                                               id="stoptime" name="stoptime" data-target="#stoptimeDate"
+                                                               data-value="@if(!empty($user->stoptime)) {{date('d/m/Y', strtotime($user->stoptime))}} @endif"/>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -419,10 +385,18 @@
                                                     <input type="text" class="form-control" name="work" id="work" placeholder="Công việc hiện tại" value="{{$user->work}}">
                                                 </div>
                                             </div>
+
                                             <div class="row">
                                                 <label for="company" class="col-sm-2 col-form-label">Nơi làm việc:</label>
                                                 <div class="form-group col-sm-10">
                                                     <input type="text" class="form-control" name="company" id="company" placeholder="Nơi làm việc hiện tại" value="{{$user->company}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <label for="skill" class="col-sm-2 col-form-label">Kỹ năng:</label>
+                                                <div class="form-group col-sm-10">
+                                                    <textarea class="form-control" name="skill" id="skill" placeholder="Kỹ năng cá nhân" value="{{$user->skill}}"></textarea>
                                                 </div>
                                             </div>
 

@@ -328,3 +328,14 @@ try {
 }
 
 $('[data-toggle="popover"]').popover();
+
+$.validator.addMethod("validatePhone", function (value, element) {
+    return this.optional(element) || /((09|03|07|08|05)+([0-9]{8})\b)/g.test(value);
+}, "Định dạng số điện thoại không đúng!");
+
+$.validator.addMethod("checkBirthday", function (value, element) {
+    let now = new Date();
+    if( value.slice(6,10) < now.getFullYear() - 15) {
+        return true;
+    } return false;
+}, "Chưa đủ 15 tuổi mà đòi tham gia à?");

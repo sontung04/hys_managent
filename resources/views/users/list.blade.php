@@ -151,6 +151,7 @@
                             <tr style="text-align: center; position: sticky;" >
                                 <th>Mã thành viên</th>
                                 <th>Họ tên</th>
+                                <th>Giới tính</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
                                 <th>Facebook</th>
@@ -166,8 +167,13 @@
                             @forelse($users as $user)
                                 <tr>
                                     <td style="text-align: center">{{$user->code}}</td>
-                                    <td>{{$user->lastname . ' ' . $user->firstname}}</td>
-                                    <td>{{$user->email}}</td>
+                                    <td class="cell-table-scroll" style="max-width: 175px;">
+                                        {{$user->lastname . ' ' . $user->firstname}}
+                                    </td>
+                                    <td>{{$user->gender ? "Nam" : "Nữ"}}</td>
+                                    <td class="cell-table-scroll" style="max-width: 175px;">
+                                        {{$user->email}}
+                                    </td>
                                     <td>{{$user->phone}}</td>
                                     <td>
                                         @if(!empty($user->facebook))
@@ -179,7 +185,7 @@
                                             {{date('d/m/Y', strtotime($user->birthday))}}
                                         @endif
                                     </td>
-                                    <td class="cell-table-scroll" style="max-width: 240px; ">
+                                    <td class="cell-table-scroll" style="max-width: 175px;">
                                         {{$user->address}}
                                     </td>
                                     <td>
