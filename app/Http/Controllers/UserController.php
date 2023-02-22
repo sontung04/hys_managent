@@ -171,19 +171,18 @@ class UserController extends Controller
         try {
             $user->save();
 
-            if (!isset($requestData['id']) || empty($requestData['id'])) {
-                $checkStudent = Student::select('id')
-                    ->where('phone', '=', $requestData['phone'])
-                    ->orWhere('email', '=', $requestData['email'])
-                    ->get();
-
-                if(!is_null($checkStudent)) {
-                    $student = Student::find($checkStudent[0]->id);
-                    $student->user_id = $user->id;
-                    $student->save();
-                }
-
-            }
+//            if (!isset($requestData['id']) || empty($requestData['id'])) {
+//                $checkStudent = Student::select('id')
+//                    ->where('phone', '=', $requestData['phone'])
+//                    ->orWhere('email', '=', $requestData['email'])
+//                    ->get();
+//
+//                if(!is_null($checkStudent)) {
+//                    $student = Student::find($checkStudent[0]->id);
+//                    $student->user_id = $user->id;
+//                    $student->save();
+//                }
+//            }
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception) {
 //            print_r($exception->getMessage());
