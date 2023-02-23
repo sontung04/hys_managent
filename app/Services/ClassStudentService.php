@@ -9,6 +9,7 @@ class ClassStudentService
 
     /**
      * Update trạng thái Các học viên trong 1 Lớp
+     * Khi update trạng thái của lớp: Hoàn thành hay Tạm dừng
      * @param integer $class_id
      * @param integer $class_status
      * @return boolean
@@ -28,7 +29,7 @@ class ClassStudentService
         }
 
         $classInfo = DB::table('classes_hc', 'chc')
-            ->select('chc.course_id', 'c.length')
+            ->select('chc.course_id', 'c.length', 'c.fees')
             ->join('courses as c', 'chc.course_id', '=', 'c.id')
             ->where('chc.id', '=', $class_id)
             ->get();
@@ -49,12 +50,14 @@ class ClassStudentService
 
         $studentDone = [];
         $studentFail = [];
+        $studentFailFee = [];
 
         foreach ($results as $result) {
             if($result->learn / $classInfo->length >= 2/3) {
                 $studentDone[] = $result->student_code;
             } else {
                 $studentFail[] = $result->student_code;
+                $studentFailFee[$result->student_code] = $result->learn;
             }
         }
 
@@ -66,12 +69,33 @@ class ClassStudentService
                     ->update(['status' => 2]); //Hoàn thành khóa học
             }
 
+
             if(!empty($studentFail)) {
                 DB::table('classes_students')
                     ->where($whereCondition)
                     ->whereIn('student_code', $studentFail)
                     ->update(['status' => 4]); //Học lại khóa học
+
+                if($classInfo->length > 10) {
+
+                    foreach ($studentFailFee as $key => $value) {
+
+                        if($value < 10) {
+                            $courseFee = round($classInfo->fees / $classInfo->length, -4) * $value;
+                        } else {
+                            $courseFee = $classInfo->fees;
+                        }
+
+                        DB::table('classes_students')
+                            ->where([
+                                ['student_code', $key],
+                                ['class_id', $class_id],
+                            ])
+                            ->update(['fees' => $courseFee]);
+                    }
+                }
             }
+
             return true;
         } catch (\Exception $exception) {
             return false;
@@ -158,8 +182,9 @@ class ClassStudentService
                 ->update(['fees' => $courseFee]); //Cập nhập tiền học học viên
             return true;
         } catch (\Exception $exception) {
-            print_r($exception->getMessage());
-            die();
+//            print_r($exception->getMessage());
+//            die();
+            return false;
         }
     }
 }
