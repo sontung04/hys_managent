@@ -227,7 +227,7 @@ class ClassStudentController extends Controller
         $this->checkRequestAjax($request);
         $requestData = $request->all();
 
-        if (!StudentServices::checkIssetByCode($requestData['student_code'])) {
+        if (!StudentService::checkIssetByCode($requestData['student_code'])) {
             BaseHelper::ajaxResponse('Mã học viên không chính xác!',false);
         }
 
@@ -279,14 +279,14 @@ class ClassStudentController extends Controller
             $student->code       = $this->studentService->createNewCodeStudent();
             $student->created_at = Carbon::now();
 
-//            $checkUser = User::select('id')
-//                ->where('phone', '=', $requestData['phone'])
-//                ->orWhere('email', '=', $requestData['email'])
-//                ->get();
-//
-//            if(!is_null($checkUser)) {
-//                $student->user_id = $checkUser[0]->id;
-//            }
+            $checkUser = User::select('id')
+                ->where('phone', '=', $requestData['phone'])
+                ->orWhere('email', '=', $requestData['email'])
+                ->get();
+
+            if(count($checkUser)) {
+                $student->user_id = $checkUser[0]->id;
+            }
 
         } else {
             # update student
@@ -348,9 +348,9 @@ class ClassStudentController extends Controller
             $classStudent->save();
             BaseHelper::ajaxResponse('Chúc mừng bạn đã đăng ký học thành công!',true, $student->code);
         } catch (\Exception $exception){
-            $msg = $exception->getMessage();
-            print_r($exception->getMessage());
-            die();
+//            $msg = $exception->getMessage();
+//            print_r($exception->getMessage());
+//            die();
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
     }

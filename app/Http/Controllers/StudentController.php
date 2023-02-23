@@ -106,15 +106,15 @@ class StudentController extends Controller
             $student->code       = $this->studentService->createNewCodeStudent();
             $student->created_by = Auth::id();
             $student->created_at = Carbon::now();
-//
-//            $checkUser = User::select('id')
-//                ->where('phone', '=', $requestData['phone'])
-//                ->orWhere('email', '=', $requestData['email'])
-//                ->get();
-//
-//            if(!is_null($checkUser)) {
-//                $student->user_id = $checkUser[0]->id;
-//            }
+
+            $checkUser = User::select('id')
+                ->where('phone', '=', $requestData['phone'])
+                ->orWhere('email', '=', $requestData['email'])
+                ->get();
+
+            if(count($checkUser)) {
+                $student->user_id = $checkUser[0]->id;
+            }
         } else {
             # update student
             $student = Student::findOrFail($requestData['id']);
