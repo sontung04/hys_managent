@@ -104,6 +104,7 @@ class StudentController extends Controller
             # create a new student
             $student = new Student();
             $student->code       = $this->studentService->createNewCodeStudent();
+            $student->img        = config('app.avatarDefault');
             $student->created_by = Auth::id();
             $student->created_at = Carbon::now();
 
@@ -134,7 +135,6 @@ class StudentController extends Controller
         $student->name              = $requestData['name'];
         $student->gender            = $requestData['gender'];
         $student->birthday          = $this->changeFormatDateInput($requestData['birthday']);
-        $student->img               = config('app.avatarDefault');
         $student->native_place      = $requestData['native_place'];
         $student->nation            = $requestData['nation'];
         $student->religion          = $requestData['religion'];

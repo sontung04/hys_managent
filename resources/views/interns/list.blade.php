@@ -69,6 +69,7 @@
                                 <th>Điện thoại</th>
                                 <th>Facebook</th>
                                 <th>Ngày tham gia</th>
+                                <th>Ngày kết thúc</th>
                                 <th style="width: 10%">Trạng thái</th>
                                 <th style="width: 10%">Hành động</th>
                             </tr>
@@ -89,16 +90,21 @@
                                         @endif
                                     </td>
                                     <td>{{date('d/m/Y', strtotime($intern->starttime))}}</td>
+                                    <td>
+                                        @if(!empty($intern->finishtime))
+                                            {{date('d/m/Y', strtotime($intern->finishtime))}}
+                                        @endif
+                                    </td>
                                     <td style="text-align: center">
                                         <?php echo $intern->status ? '<span style="color:green;">Hoạt động</span>' : '<span style="color:red">Nghỉ</span>' ?>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$intern->id}}"
+                                        <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$intern->id}}" data-code="{{$intern->code}}"
                                                 data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btnView" data-id="{{$intern->id}}"
-                                                data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
+                                        <button type="button" class="btn btn-outline-primary btnView" data-id="{{$intern->id}}" data-code="{{$intern->code}}"
+                                                data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem thông tin">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </td>
@@ -159,7 +165,7 @@
                         <form action="" id="formUpdateIntern" class="form-horizontal" method="post">
                             @csrf
                             <div class="modal-body">
-                                <input type="hidden" id="intern_id" name="intern_id" >
+                                <input type="hidden" id="student_code" name="student_code" >
                                 <div class="row">
                                     <label class="col-lg-3 col-form-label" for="name">Họ và Tên: </label>
                                     <div class="form-group col-lg-9">

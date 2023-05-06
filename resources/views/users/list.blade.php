@@ -170,12 +170,12 @@
                                     <td class="cell-table-scroll" style="max-width: 175px;">
                                         {{$user->lastname . ' ' . $user->firstname}}
                                     </td>
-                                    <td>{{$user->gender ? "Nam" : "Nữ"}}</td>
+                                    <td style="text-align: center">{{$user->gender ? "Nam" : "Nữ"}}</td>
                                     <td class="cell-table-scroll" style="max-width: 175px;">
                                         {{$user->email}}
                                     </td>
                                     <td>{{$user->phone}}</td>
-                                    <td>
+                                    <td style="text-align: center">
                                         @if(!empty($user->facebook))
                                             <a href="{{$user->facebook}}" target="_blank">Link</a>
                                         @endif

@@ -21,7 +21,7 @@ class UserController extends Controller
         $filters = $request->all();
 
         $query = DB::table('users', 'u');
-        $query->orderBy('u.code', 'DESC');
+        $query->orderBy('u.jointime', 'DESC');
 
         $departs = DB::table('groups')
             ->select('id', 'name')

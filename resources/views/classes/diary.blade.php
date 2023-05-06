@@ -345,7 +345,7 @@
                                                 @foreach($listStuAtten as $key => $stuAtten)
                                                     <tr data-studentcode="{{$key}}">
                                                         <td style="min-width: 225px">
-                                                            <img src="{{asset($stuAtten['img'])}}" alt="Product 1" class="img-circle img-size-32 mr-2">
+{{--                                                            <img src="{{asset($stuAtten['img'])}}" alt="Product 1" class="img-circle img-size-32 mr-2">--}}
                                                             <span class="studentNameVal">{{$stuAtten['name']}}</span>
                                                         </td>
                                                         <?php

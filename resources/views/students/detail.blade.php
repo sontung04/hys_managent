@@ -116,7 +116,7 @@
                                                     <div class="col-sm-2"><b> Số CCCD <span style="float: right">:</span> </b></div>
                                                     <div class="col-sm-4">{{ $student->citizen_identify }}</div>
                                                     <div class="col-sm-2"><b> Ngày cấp CCCD <span style="float: right">:</span> </b></div>
-                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->date_of_issuue))}}</div>
+                                                    <div class="col-sm-4">{{date('d/m/Y', strtotime($student->date_of_issue))}}</div>
                                                 </div>
                                             </li>
 
