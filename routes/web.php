@@ -152,21 +152,23 @@ Route::middleware(['cors', 'auth'])->group(function (){
         //Route Fees
         Route::prefix('/fee')->group(function (){
             Route::get('/list', 'FeeController@studentList')->name('s.fee.list');
-            Route::get('/detail/{id}', 'FeeController@getDetailStudent');
+            Route::get('/detail/{id}', 'FeeController@getDetailStudent')->name('s.fee.detail');
+
+            Route::get('/paymentLogAjax/{id}', 'FeeController@getPaymentLogByIdAjax');
             Route::post('/paymentLogCreateAjax', 'FeeController@paymentLogCreateAjax');
+            Route::get('/paymentLogDeleteAjax/{id}', 'FeeController@paymentLogDeleteAjax');
+
             Route::post('/callLogCreateAjax', 'FeeController@callLogCreateAjax');
         });
     });
 
     //Route Class
     Route::prefix('/class')->group(function (){
-
         Route::get('/diary/{classId}', 'ClassHcController@diary');
 
         Route::match(['get', 'post'], '/list', 'ClassHcController@list')->name('class.list');
         Route::get('/getInfoAjax/{id}', 'ClassHcController@getInfoAjax');
         Route::post('/saveInfoAjax', 'ClassHcController@saveInfoAjax');
-
     });
 
     //Route Study
@@ -188,7 +190,5 @@ Route::middleware(['cors', 'auth'])->group(function (){
         Route::post('/addStudentToInternAjax', 'InternController@addStudentToInternAjax');
         Route::post('/updateInfoAjax', 'InternController@updateInfoAjax');
     });
-
-
 });
 

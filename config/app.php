@@ -233,8 +233,9 @@ return [
     'textGetSuccess'     => 'Lấy dữ liệu thành công!',
     'textGetError'       => 'Có lỗi trong quá trình lấy dữ liệu! Vui lòng thử lại sau!',
     'textGetEmpty'       => 'Dữ liệu trống! Vui lòng thử lại sau!',
-    'textSaveError'      => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
+    'textSaveError'      => 'Có lỗi trong quá trình lưu dữ liệu! Vui lòng thử lại sau!',
     'textRequestDataErr' => 'Dữ liệu đầu vào không hợp lệ!',
+    'textHandlingError'  => 'Có lỗi trong quá trình xử lý dữ liệu! Vui lòng thử lại sau!',
 
     'areaName' => [
         0 => 'Chưa xác định',

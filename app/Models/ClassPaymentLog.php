@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @method static findOrFail($id)
+ * @method static find(int $int)
+ */
 class ClassPaymentLog extends Model
 {
     use Notifiable;

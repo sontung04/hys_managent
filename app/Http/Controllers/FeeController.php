@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Plugins\BaseHelper;
-
-
 use App\Models\CallStudentLog;
 use App\Models\ClassPaymentLog;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FeeController extends Controller
@@ -79,6 +76,7 @@ class FeeController extends Controller
      * Function lấy ra chi tiết học phí,
      * lịch sử đóng tiền, lịch sử gọi điện
      * của 1 học viên và trả ra view
+     *
      * @param integer $id
      */
     public function getDetailStudent($id)
@@ -98,8 +96,6 @@ class FeeController extends Controller
             ->groupBy('cs.class_id')
             ->orderBy('cs.id', 'ASC')
             ->get();
-//        print_r($listClassStudent);
-//        die();
 
         $classPaymentLogs = DB::table('class_payment_logs', 'cpl')
             ->where('cpl.student_code', '=', $studentInfo->code)
@@ -177,48 +173,79 @@ class FeeController extends Controller
             }
         }
 
-//        print_r($coursesInfo);
-//        die();
-
         return view('students.fees.detail', compact('studentInfo',
             'classesInfo', 'coursesInfo', 'callLogs'));
     }
 
     /**
-     * function tạo lịch sử đóng học phí qua Ajax
+     * Get info record payment log by id return to Ajax
+     *
+     * @param Request $request
+     * @param $id
+     */
+    public function getPaymentLogByIdAjax(Request $request, $id)
+    {
+        $this->checkRequestAjax($request);
+        $paymentLog = ClassPaymentLog::findOrFail($id);
+        $paymentLog->date_paid = $this->changeFormatDateOutput($paymentLog->date_paid);
+        BaseHelper::ajaxResponse('success', true, $paymentLog);
+    }
+
+    /**
+     * Function tạo lịch sử đóng học phí qua Ajax
+     *
      * @param Request $request
      */
     public function paymentLogCreateAjax(Request $request)
     {
         $this->checkRequestAjax($request);
         $requestData = $request->all();
-
-//        print_r($requestData);
-//        die();
-
-        if (!isset($requestData['id']) || empty($requestData['id'])){
-            # Create new class
-            $classPaymentLog = new ClassPaymentLog();
-            $classPaymentLog->created_at = Carbon::now();
-        }else{
-            #update infomation class
-            $classPaymentLog = ClassPaymentLog::findOrFail($requestData['id']);
-            $classPaymentLog->updated_at = Carbon::now();
-        }
-        $classPaymentLog->course_id    = $requestData['course_id'];
-        $classPaymentLog->student_code = $requestData['student_code'];
-        $classPaymentLog->money_paid   = $requestData['money_paid'];
-        $classPaymentLog->cashier      = $requestData['cashier'];
-        $classPaymentLog->status       = $requestData['status'];
-        $classPaymentLog->date_paid    = $this->changeFormatDateInput($requestData['date_paid']);
-        $classPaymentLog->note         = $requestData['note'];
-
         try {
+            if (!isset($requestData['id']) || empty($requestData['id'])){
+                # Create new class
+                $classPaymentLog = new ClassPaymentLog();
+                $classPaymentLog->created_at = Carbon::now();
+            } else {
+                #update information class
+                $classPaymentLog = ClassPaymentLog::find($requestData['id']);
+                $classPaymentLog->updated_at = Carbon::now();
+            }
+            $classPaymentLog->course_id    = $requestData['course_id'];
+            $classPaymentLog->student_code = $requestData['student_code'];
+            $classPaymentLog->money_paid   = $requestData['money_paid'];
+            $classPaymentLog->cashier      = $requestData['cashier'];
+            $classPaymentLog->status       = $requestData['status'];
+            $classPaymentLog->date_paid    = $this->changeFormatDateInput($requestData['date_paid']);
+            $classPaymentLog->note         = $requestData['note'];
+
             $classPaymentLog->save();
             BaseHelper::ajaxResponse(config('app.textSaveSuccess'), true);
         } catch (\Exception $exception){
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
+    }
+
+    /**
+     * Delete record payment log by id Ajax
+     *
+     * @param Request $request
+     * @param $id
+     */
+    public function paymentLogDeleteAjax(Request $request, $id)
+    {
+        $this->checkRequestAjax($request);
+        try {
+            $paymentLog = ClassPaymentLog::find($id);
+            if($paymentLog) {
+                $this->checkEmptyDataAjax($paymentLog);
+                $paymentLog->delete();
+                BaseHelper::ajaxResponse('Xóa dữ liệu thành công!', true);
+            }
+            BaseHelper::ajaxResponse(config('app.textGetEmpty'), false);
+        } catch (\Exception $exception) {
+            BaseHelper::ajaxResponse(config('app.textHandlingError'), false);
+        }
+
     }
 
     /**

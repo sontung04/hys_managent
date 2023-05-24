@@ -10,21 +10,7 @@
 @endsection
 
 @section('style')
-    <style>
-        @media only screen and (min-width: 280px) and (max-width: 1880px) {
-            #tableListLesson {
-                display: block;
-                overflow-x: auto;
-            }
-            #tableListLesson .setMinWidthMediumText {
-                min-width: 150px;
-            }
-
-            #tableListLesson .setMinWidthLongText {
-                min-width: 200px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/lesson/list.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('themes/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">

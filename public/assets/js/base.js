@@ -46,35 +46,6 @@ $('#confirmModalMsg').on('click', '#btnConfirm, #btnDisagree', function(){
     window[func](data);
 });
 
-// sự kiện show popup
-var popup_modal = $("#deleteModal");
-function confirm_modal(txttitle = '',txtbody='', func = '',data = '') {
-        if (popup_modal == "undefined") {
-            return;
-    }
-    //conver data thành text
-    var listdata = JSON.stringify(data);
-    // show data lên modal
-    popup_modal.find("#modalTitle").text(txttitle);
-    popup_modal.find("#modalBody").text(txtbody);
-    // gán giá trị modalYes
-    popup_modal.find("#modalYes").attr("list-data", listdata);
-    // gán giá trị cho function
-    popup_modal.find("#modalYes").attr("func", func);
-    // show modal
-    popup_modal.modal("show");
-};
-//sư kiện bấm yes
-popup_modal.on("click", "#modalYes", function () {
-    // lấy giá trị attr khi click yes conver lại data thành json chuẩn
-    var data_yes = JSON.parse(popup_modal.find("#modalYes").attr("list-data"));
-    // lấy giá trị attr
-    let func = $(this).attr('func');
-    // gọi lại function attr và gán data
-    window[func](data_yes);
-});
-
-
 // Expect input as d/m/y: check valid date
 function isValidDate(s) {
   var bits = s.split('/');

@@ -3,6 +3,8 @@
 }
 @media only screen and (max-width: 540px) {
     .table.table-bordered.table-hover {
-        display: block; overflow-x: auto; white-space: nowrap;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 }

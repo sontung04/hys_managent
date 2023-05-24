@@ -1,0 +1,13 @@
+@media only screen and (min-width: 280px) and (max-width: 1880px) {
+    #tableListLesson {
+        display: block;
+        overflow-x: auto;
+    }
+    #tableListLesson .setMinWidthMediumText {
+        min-width: 150px;
+    }
+
+    #tableListLesson .setMinWidthLongText {
+        min-width: 200px;
+    }
+}

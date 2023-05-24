@@ -47,6 +47,7 @@ class TeacherController extends Controller
         $teacher->name          = $requestData['name'];
         $teacher->subname       = $requestData['subname'];
         $teacher->gender        = $requestData['gender'];
+        $teacher->status        = $requestData['status'];
         $teacher->birthday      = $this->changeFormatDateInput($requestData['birthday']);
         $teacher->img           = config('app.avatarDefault');
         $teacher->address       = $requestData['address'];
@@ -68,7 +69,9 @@ class TeacherController extends Controller
     {
         $this->checkRequestAjax($request);
 
-        $results = Teacher::select('id', 'name', 'subname')->get();
+        $results = Teacher::select('id', 'name', 'subname')
+            ->where('status', '=', 1)
+            ->get();
 
         $datas = [];
 

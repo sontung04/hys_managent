@@ -23,7 +23,7 @@ $(function () {
     });
 
     //* Edit Info 1 Teacher
-    $('#tableTeacherList').on('click', '.btnEdit', function () {
+    $('#tableListTeacher').on('click', '.btnEdit', function () {
         document.getElementById('modalAddTeacherTitle').innerText = 'Chỉnh sửa thông tin Giảng viên';
 
         let id = $(this).attr('data-id');
