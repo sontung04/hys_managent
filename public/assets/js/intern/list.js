@@ -22,6 +22,7 @@ $(function (){
         document.getElementById('modalUpdateInternTitle').innerText = 'Chỉnh sửa thông tin thực tập sinh ';
 
         let id = $(this).attr('data-id'); //student_id
+        let code = $(this).attr('data-code'); //student_code
         callAjaxGet(BASE_URL + '/student/getInfoAjax/' + id).done(function(res) {
 
             if (!res.status) {
@@ -31,7 +32,7 @@ $(function (){
             let studentInfo = res.data;
 
             /* set field value */
-            modalUpdateIntern.find('#intern_id').val(id);
+            modalUpdateIntern.find('#student_code').val(studentInfo['code']);
             [ 'name', 'gender', 'birthday', 'email', 'phone'].forEach(field => {
                 modalUpdateIntern.find('#' + field).val(studentInfo[field]);
             });
@@ -47,7 +48,7 @@ $(function (){
             // $(':radio:not(:checked)').attr('disabled', true);
         });
 
-        callAjaxGet(BASE_URL + '/intern/getInfoAjax/' + id).done(function (res) {
+        callAjaxGet(BASE_URL + '/intern/getInfoAjax/' + code).done(function (res) {
             if (!res.status) {
                 notifyMessage('Lỗi!', res.msg, 'error', 3000);
                 return;

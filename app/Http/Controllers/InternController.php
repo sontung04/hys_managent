@@ -21,10 +21,12 @@ class InternController extends Controller
      * @return void
      */
     public function list(){
+//        print_r(env('ADMIN_IDS'));
+//        die();
         $interns = DB::table('interns', 'i')
             ->join('students as s', 'i.student_code', '=', 's.code')
             ->orderBy('s.code', 'DESC')
-            ->get(['s.id', 's.code', 's.name','s.img', 's.phone', 's.facebook', 'i.status', 'i.starttime']);
+            ->get(['s.id', 's.code', 's.name','s.img', 's.phone', 's.facebook', 'i.status', 'i.starttime', 'i.finishtime']);
 
         return view('interns/list', compact('interns'));
     }
@@ -100,16 +102,16 @@ class InternController extends Controller
      * @param $id
      * @return void
      */
-    public function getInfoAjax(Request $request, $id){
+    public function getInfoAjax(Request $request, $code){
         $this->checkRequestAjax($request);
 
         $intern = DB::table('interns' )
-                    ->where('student_id', '=', $id)
+                    ->where('student_code', '=', $code)
                     ->get();
         $intern[0]->starttime = $this->changeFormatDateOutput($intern[0]->starttime);
         $intern[0]->finishtime = $this->changeFormatDateOutput($intern[0]->finishtime);
 
-        BaseHelper::ajaxResponse('Success', true, $intern[0]);          // Offset
+        BaseHelper::ajaxResponse('Success', true, $intern[0]);
     }
 
     /**
@@ -122,9 +124,17 @@ class InternController extends Controller
 
         $requestData = $request->all();
 
-        if (!empty($requestData['intern_id'])){
+        $vendor = DB::table('vendors', 'v')
+            ->join('products as p', 'v.id', '=', 'p.vendor_id')
+            ->join('orders as o', 'p.id', '=', 'o.product_id')
+            ->select('DISTINCT v.id', 'v.name', 'p.name', DB::raw('COUNT(o.id)'))
+            ->get();
+
+
+
+        if (!empty($requestData['student_code'])){
             DB::table('interns', 'i')
-                ->where('i.student_id', '=', $requestData['intern_id'])
+                ->where('i.student_code', '=', $requestData['student_code'])
                 ->update([
                     'finishtime'   => $this->changeFormatDateInput($requestData['finishtime']),
                     'status'       => $requestData['status'],

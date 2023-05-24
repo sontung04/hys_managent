@@ -2,6 +2,10 @@
 
 @section('title', 'HYS Manage - Danh sách giảng viên')
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/course/teacher.css') }}">
+@endsection
+
 @section('script')
     <!-- Ckeidtor -->
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
@@ -9,11 +13,6 @@
 @endsection
 
 @section("content")
-    <style>
-        .table th {
-            vertical-align: middle;
-        }
-    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -48,37 +47,51 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table class="table table-bordered table-hover">
+                                <table id="tableListTeacher" class="table table-bordered table-hover">
                                     <thead >
                                     <tr style="text-align: center" >
                                         <th style="width: 3%">STT</th>
-                                        <th>Tên</th>
-                                        <th style="width: 7%">Giới tính</th>
-                                        <th style="width: 7%">Ngày sinh</th>
+                                        <th style="min-width: 275px">Tên</th>
+                                        <th style="min-width: 85px">Giới tính</th>
+                                        <th style="min-width: 100px">Ngày sinh</th>
+                                        <th style="min-width: 135px">Trạng thái</th>
                                         <th>Quê quán</th>
                                         <th>Nghề nghệp</th>
                                         <th>Trình độ</th>
+                                        <th>Mô tả</th>
                                         <th style="width: 8%">Hành động</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="tableTeacherList">
+                                    <tbody>
                                     <?php $index = 0; ?>
                                     @forelse($teachers as $teacher)
                                         <tr>
                                             <th style="text-align: center">{{++$index}}</th>
                                             <th>{{$teacher->subname . " " . $teacher->name}}</th>
-                                            <th style="text-align: center">{{$teacher->gender ? "Nam" : "Nữ"}}</th>
-                                            <th style="text-align: center">{{date('d/m/Y',strtotime($teacher->birthday))}}</th>
-                                            <td>{{$teacher->address}}</td>
-                                            <td>{{$teacher->job}}</td>
-                                            <td>{{$teacher->level}}</td>
+                                            <td style="text-align: center; vertical-align: middle;">{{$teacher->gender ? "Nam" : "Nữ"}}</td>
+                                            <td style="text-align: center; vertical-align: middle;">{{date('d/m/Y',strtotime($teacher->birthday))}}</td>
                                             <th style="text-align: center">
-                                                <button type="button" class="btn btn-outline-primary btnView" data-id="{{$teacher->id}}"
-                                                        data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Xem chi tiết">
+                                                @if($teacher->status)
+                                                    <span style="color:green;">Đang giảng dạy</span>
+                                                @else
+                                                    <span style="color:red">Dừng giảng dạy</span>
+                                                @endif
+                                            </th>
+                                            <td>{{$teacher->address}}</td>
+                                            <td class="cell-table-scroll setMinWidth">{{$teacher->job}}</td>
+                                            <td class="cell-table-scroll setMinWidth">{{$teacher->level}}</td>
+                                            <td class="cell-table-scroll setMinWidth">{{$teacher->description}}</td>
+                                            <th style="text-align: center">
+                                                <button type="button" class="btn btn-outline-primary btnView"
+                                                        data-id="{{$teacher->id}}"
+                                                        data-toggle="popover" data-trigger="hover" data-placement="top"
+                                                        data-content="Xem chi tiết">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-outline-success btnEdit" data-id="{{$teacher->id}}"
-                                                        data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Chỉnh sửa">
+                                                <button type="button" class="btn btn-outline-success btnEdit"
+                                                        data-id="{{$teacher->id}}"
+                                                        data-toggle="popover" data-trigger="hover" data-placement="bottom"
+                                                        data-content="Chỉnh sửa">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                             </th>
@@ -161,6 +174,24 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <label class="col-lg-2 col-form-label" for="status">Trạng thái: </label>
+                            <div class="form-group col-lg-10">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status1" name="status" value="1" checked>
+                                    <label for="status1" style="margin-right: 10px">
+                                        Đang giảng dạy
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="status2" name="status" value="0">
+                                    <label for="status2">
+                                        Dừng giảng dạy
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label" for="address">Quê quán: </label>
                             <div class="form-group col-lg-10">
@@ -170,7 +201,7 @@
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label" for="level">Trình độ: </label>
                             <div class="form-group col-lg-10">
-                                <input type="text" name="level" id="level" class="form-control">
+                                <textarea name="level" id="level" class="form-control" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">

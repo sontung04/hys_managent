@@ -46,9 +46,9 @@ Route::middleware(['cors', 'auth'])->group(function (){
     Route::get('/error404', function () {
         return view('pages.errors.404');
     })->name('error404');
-    Route::get('/error403', function () {
-        return view('pages.errors.403');
-    })->name('error403');
+    Route::get('/errorAccessDenied', function () {
+        return view('pages.errors.accessDenied');
+    })->name('errorAccessDenied');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('password/change','Auth\ChangePasswordController@showChangeForm')->name('password.edit');
@@ -152,21 +152,23 @@ Route::middleware(['cors', 'auth'])->group(function (){
         //Route Fees
         Route::prefix('/fee')->group(function (){
             Route::get('/list', 'FeeController@studentList')->name('s.fee.list');
-            Route::get('/detail/{id}', 'FeeController@getDetailStudent');
+            Route::get('/detail/{id}', 'FeeController@getDetailStudent')->name('s.fee.detail');
+
+            Route::get('/paymentLogAjax/{id}', 'FeeController@getPaymentLogByIdAjax');
             Route::post('/paymentLogCreateAjax', 'FeeController@paymentLogCreateAjax');
+            Route::get('/paymentLogDeleteAjax/{id}', 'FeeController@paymentLogDeleteAjax');
+
             Route::post('/callLogCreateAjax', 'FeeController@callLogCreateAjax');
         });
     });
 
     //Route Class
     Route::prefix('/class')->group(function (){
-
         Route::get('/diary/{classId}', 'ClassHcController@diary');
 
         Route::match(['get', 'post'], '/list', 'ClassHcController@list')->name('class.list');
         Route::get('/getInfoAjax/{id}', 'ClassHcController@getInfoAjax');
         Route::post('/saveInfoAjax', 'ClassHcController@saveInfoAjax');
-
     });
 
     //Route Study
@@ -184,11 +186,9 @@ Route::middleware(['cors', 'auth'])->group(function (){
     //Route Intern
     Route::prefix('/intern')->group(function (){
         Route::get('/list','InternController@list')->name('intern.list');
-        Route::get('/getInfoAjax/{id}', 'InternController@getInfoAjax');
+        Route::get('/getInfoAjax/{code}', 'InternController@getInfoAjax');
         Route::post('/addStudentToInternAjax', 'InternController@addStudentToInternAjax');
         Route::post('/updateInfoAjax', 'InternController@updateInfoAjax');
     });
-
-
 });
 

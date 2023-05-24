@@ -91,9 +91,24 @@
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#timelineCourse" data-toggle="tab">Khóa học</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#paymentLog" data-toggle="tab">Lịch sử đóng tiền</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#callLog" data-toggle="tab">Lịch sử gọi điện</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active"
+                                           href="#timelineCourseTab" data-toggle="tab">
+                                            Khóa học
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="#paymentLogTab" data-toggle="tab">
+                                            Lịch sử đóng tiền
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="#callLogTab" data-toggle="tab">
+                                            Lịch sử gọi điện
+                                        </a>
+                                    </li>
                                     <li class="nav-item mr-2" id="liBtnAddPaymentLog">
                                         <a class="btn btn-success text-white" id="btnAddPaymentLog">
                                             <i class="fa-solid fa-credit-card"></i>
@@ -112,7 +127,7 @@
                                 <div class="tab-content">
 
                                     <!-- Tab lịch sử các khóa học -->
-                                    <div class="tab-pane active" id="timelineCourse">
+                                    <div class="tab-pane " id="timelineCourseTab">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -218,9 +233,8 @@
                                     </div>
                                     <!-- End Tab lịch sử các khóa học -->
 
-
                                     <!-- Tab lịch sử các lần nộp tiền -->
-                                    <div class="tab-pane" id="paymentLog">
+                                    <div class="tab-pane active" id="paymentLogTab">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -271,6 +285,7 @@
                                                                             <th>Hình thức</th>
                                                                             <th>Ngày đóng</th>
                                                                             <th>Ghi chú</th>
+                                                                            <th style="width: 30px; max-width: 30px"></th>
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -283,11 +298,30 @@
                                                                             <td><?php echo $log['status'] ? 'Online' : 'Offline'; ?></td>
                                                                             <td>{{date('d/m/Y', strtotime($log['date_paid']))}}</td>
                                                                             <td>{{$log['note']}}</td>
+                                                                            <td>
+                                                                                <button class="btn text-success btnEdit"
+                                                                                        data-id="{{$log['id']}}"
+                                                                                        data-toggle="popover"
+                                                                                        data-trigger="hover"
+                                                                                        data-placement="bottom"
+                                                                                        data-content="Chỉnh sửa"
+                                                                                        style="padding: 0">
+                                                                                    <i class="fas fa-edit"></i>
+                                                                                </button>
+                                                                                <button class="btn text-danger btnDelete"
+                                                                                        data-id="{{$log['id']}}"
+                                                                                        data-toggle="popover"
+                                                                                        data-trigger="hover"
+                                                                                        data-placement="bottom"
+                                                                                        data-content="Xóa"
+                                                                                        style="padding: 0">
+                                                                                    <i class="fas fa-trash"></i>
+                                                                                </button>
+                                                                            </td>
                                                                         </tr>
                                                                     @endforeach
                                                                         </tbody>
                                                                     </table>
-
                                                                 @else
                                                                     <p><b>Chưa đóng tiền khóa học</b></p>
                                                                 @endif
@@ -302,9 +336,8 @@
                                     </div>
                                     <!-- End Tab lịch sử các lần nộp tiền -->
 
-
                                     <!-- Tab lịch sử các lần nộp tiền -->
-                                    <div class="tab-pane" id="callLog">
+                                    <div class="tab-pane" id="callLogTab">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">

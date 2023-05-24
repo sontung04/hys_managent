@@ -157,7 +157,7 @@
                                                     <th>SĐT</th>
                                                     <th>Email</th>
                                                     <th>Ngày sinh</th>
-                                                    <th>Quê quán</th>
+                                                    <th style="min-width: 150px">Quê quán</th>
                                                     <th>Facebook</th>
                                                     <th style="min-width: 130px">Trạng thái</th>
                                                     <th style="min-width:225px; max-width: 240px">Biết tới khóa học từ</th>
@@ -194,8 +194,14 @@
                                                                 {{$listStatusClassStudent[$student->status]}}
                                                             </span>
                                                         </th>
-                                                        <td class="cell-table-scroll setMinWidth" >{{$student->course_where}}</td>
-                                                        <td class="cell-table-scroll setMinWidth" style="max-width: 240px">{{$student->desire}}</td>
+                                                        <td class="cell-table-scroll setMinWidth"
+                                                            style="max-width: 240px">
+                                                            {{$student->course_where}}
+                                                        </td>
+                                                        <td class="cell-table-scroll setMinWidth"
+                                                            style="max-width: 240px">
+                                                            {{$student->desire}}
+                                                        </td>
                                                         <td style="text-align: center">
                                                             @if(!is_null($student->starttime))
                                                                 {{date('d/m/Y', strtotime($student->starttime))}}
@@ -345,7 +351,7 @@
                                                 @foreach($listStuAtten as $key => $stuAtten)
                                                     <tr data-studentcode="{{$key}}">
                                                         <td style="min-width: 225px">
-                                                            <img src="{{asset($stuAtten['img'])}}" alt="Product 1" class="img-circle img-size-32 mr-2">
+{{--                                                            <img src="{{asset($stuAtten['img'])}}" alt="Product 1" class="img-circle img-size-32 mr-2">--}}
                                                             <span class="studentNameVal">{{$stuAtten['name']}}</span>
                                                         </td>
                                                         <?php

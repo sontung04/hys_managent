@@ -26,6 +26,30 @@ $(function() {
         modalAddPaymentLog.modal('show');
     });
 
+    /* Edit Info a Payment Log */
+    $('#paymentLogTab').on('click', '.btnEdit', function() {
+        document.getElementById('modalAddPaymentLogTitle').innerText = 'Sửa thông tin Lịch sử đóng tiền';
+
+        let id = $(this).attr('data-id');
+        callAjaxGet(BASE_URL + '/student/fee/paymentLogAjax/' + id).done(function(res) {
+            if (!res.status) {
+                notifyMessage('Lỗi!', res.msg, 'error', 3000);
+                return;
+            }
+            let paymentLogInfo = res.data;
+
+            /* set field value */
+            ['id', 'money_paid', 'cashier', 'date_paid', 'note'].forEach(field => {
+                modalAddPaymentLog.find('#' + field).val(paymentLogInfo[field]);
+            });
+            modalAddPaymentLog.find('#course_id')
+                .find(`option[value="${paymentLogInfo['course_id']}"]`).prop('selected', true);
+            modalAddPaymentLog.find('#status' + paymentLogInfo['status']).prop('checked', true);
+
+            modalAddPaymentLog.modal('show');
+        });
+    });
+
     //Sự kiện Đóng modal
     modalAddPaymentLog.on('click', '.closeModal', function() {
         eventCloseHiddenModal(modalAddPaymentLog, ['course_id']);
@@ -36,6 +60,34 @@ $(function() {
     modalAddPaymentLog.on('hidden.bs.modal', function() {
         eventCloseHiddenModal(modalAddPaymentLog, ['course_id']);
         modalAddPaymentLog.find('#date_paid').val(currentMaxDate);
+    });
+
+    /* Delete a Payment Log */
+    $('#paymentLogTab').on('click', '.btnDelete', function(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Cảnh báo!',
+            icon: 'error',
+            text: 'Bạn có chắc chắn muốn bản ghi này?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy bỏ',
+        }).then((result) => {
+            if (result.value) {
+                let id = $(this).attr('data-id');
+                callAjaxGet(BASE_URL + '/student/fee/paymentLogDeleteAjax/' + id).done(function(res) {
+                    if (!res.status) {
+                        notifyMessage('Thông báo lỗi!', res.msg, 'error', 5000);
+                        return;
+                    }
+                    notifyMessage('Thông báo!', res.msg,'success')
+                    setTimeout(function(){ window.location.reload(); }, 1000);
+                });
+            }
+        })
     });
 
     /* Validate form modal Add Payment Log */
