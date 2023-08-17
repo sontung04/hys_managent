@@ -38,7 +38,7 @@ class StudentService
      */
     public static function checkIssetByCode($code) {
         try {
-            if (Student::where('code', '=', $code)->exists()) {
+            if (Student::where('phone', '=', $code)->exists() || Student::where('email', '=', $code)->exists()) {
                 return true;
             }
             return false;

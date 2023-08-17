@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Student;
 
 class AttendanceController extends Controller
 {
@@ -153,45 +154,64 @@ class AttendanceController extends Controller
         $requestData = $request->all();
 
         $studyInfo = Study::find($requestData['study_id']);
+        $studentInfo = Student::where('email', '=', $requestData['student_code'])->orWhere('phone', '=', $requestData['student_code'])->first();
+
+        if (is_numeric($requestData['student_code'])) {
+            if (!preg_match('/^(09|03|07|08|05)+[0-9]{8}$/', $requestData['student_code'])) {
+                BaseHelper::ajaxResponse('Số điện thoại không hợp lệ!', false);
+            }
+
+            if (!StudentService::checkIssetByCode($requestData['student_code'])) {
+                BaseHelper::ajaxResponse('Số điện thoại không tồn tại!',false);
+            }
+        }
+        else {
+           if (!filter_var($request['student_code'], FILTER_VALIDATE_EMAIL)) {
+            BaseHelper::ajaxResponse('Email không hợp lệ!', false);
+            }
+
+            if (!StudentService::checkIssetByCode($requestData['student_code'])) {
+                BaseHelper::ajaxResponse('Email không tồn tại!',false);
+            }
+        }
+
+        if (!($studentInfo->status == 1)) {
+            BaseHelper::ajaxResponse('Thành viên này đang không hoạt động ở CLB!');
+        }
 
         if(!isset($requestData['student_code'])) {
             BaseHelper::ajaxResponse(config('app.textRequestDataErr'), false);
         }
 
-        //Kiểm tra MHV có tồn tại hay không
-        if (!StudentService::checkIssetByCode($requestData['student_code'])) {
-            BaseHelper::ajaxResponse('Mã học viên không chính xác!',false);
-        }
-
         //CNL và TG không checkin vào phần của HV
         if($requestData['student_type'] == 0) {
-            if($requestData['student_code'] == $studyInfo->carer_staff) {
+            if($studentInfo->code == $studyInfo->carer_staff) {
                 BaseHelper::ajaxResponse('Chủ nhiệm không được checkin phần của học viên!',false);
             }
 
-            if($requestData['student_code'] == $studyInfo->coach) {
+            if($studentInfo->code == $studyInfo->coach) {
                 BaseHelper::ajaxResponse('Trợ giảng không được checkin phần của học viên!',false);
             }
         }
 
         //Kiểm tra Mã Chủ nhiệm lớp có chính xác không
-        if($requestData['student_type'] == 1 && $requestData['student_code'] != $studyInfo->carer_staff) {
+        if($requestData['student_type'] == 1 && $studentInfo->code != $studyInfo->carer_staff) {
             BaseHelper::ajaxResponse('Mã Chủ nhiệm lớp không chính xác!',false);
         }
 
         //Kiểm tra Mã Trợ giảng lớp có chính xác không
-        if($requestData['student_type'] == 2 && $requestData['student_code'] != $studyInfo->coach) {
+        if($requestData['student_type'] == 2 && $studentInfo->code != $studyInfo->coach) {
             BaseHelper::ajaxResponse('Mã Trợ giảng lớp không chính xác!',false);
         }
 
         //Kiểm tra học viên đã checkin hay chưa
         if(Attendance::where([['study_id', '=', $requestData['study_id']],
-            ['student_code', '=', $requestData['student_code']]])->exists()) {
+            ['student_code', '=', $studentInfo->code]])->exists()) {
             BaseHelper::ajaxResponse('Bạn đã checkin buổi học này!',false);
         }
 
         $studentInfo = DB::table('students')
-            ->where('code', '=', $requestData['student_code'])
+            ->where('code', '=', $studentInfo->code)
             ->get(['code', 'name']);
         BaseHelper::ajaxResponse(config('app.textGetSuccess'),true, $studentInfo[0]);
     }
@@ -205,6 +225,8 @@ class AttendanceController extends Controller
         $this->checkRequestAjax($request);
         $requestData = $request->all();
 
+        $studentInfo = Student::where('email', '=', $requestData['student_code'])->orWhere('phone', '=', $requestData['student_code'])->first();
+
         if(Attendance::where([['study_id', '=', $requestData['study_id']],
             ['student_code', '=', $requestData['student_code']]])->exists()) {
             BaseHelper::ajaxResponse('Phản hồi của bạn đã được ghi nhận!',false);
@@ -212,7 +234,7 @@ class AttendanceController extends Controller
 
         $attendance = new Attendance();
         $attendance->study_id     = $requestData['study_id'];
-        $attendance->student_code = $requestData['student_code'];
+        $attendance->student_code = $studentInfo->code;
         $attendance->student_type = $requestData['student_type'];
         if($requestData['student_type'] == 0) {
             $attendance->status = $requestData['status'];
