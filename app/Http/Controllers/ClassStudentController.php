@@ -232,9 +232,11 @@ class ClassStudentController extends Controller
         $this->checkRequestAjax($request);
         $requestData = $request->all();
 
+        // Lấy thông tin học viên thông qua email và số điện thoại
         $studentInfo = Student::where('email', '=', $requestData['student_info'])
-        ->orWhere('phone', '=', $requestData['student_info'])->first();;
+            ->orWhere('phone', '=', $requestData['student_info'])->first();;
 
+        // Kiểm tra xem requestData là số điện thoại hay email học viên có tồn tại và hợp lệ không
         if (is_numeric($requestData['student_info'])) {
             $phoneValidation = $this->pageFormService->phoneValidation($requestData['student_info']);
             if ($phoneValidation != null) {
@@ -248,12 +250,14 @@ class ClassStudentController extends Controller
             }
         }
 
+        // Kiểm tra xem mã học viên có trùng với của CNL không
         if($studentInfo->code == $requestData['carer_staff']) {
-            BaseHelper::ajaxResponse('Mã học viên trùng với Mã chủ nhiệm lớp!',false);
+            BaseHelper::ajaxResponse('Email hoặc số điện thoại của học viên trùng với của Chủ nhiệm lớp!',false);
         }
 
+        // Kiểm tra xem mã học viên có trùng với của TG không
         if($studentInfo->code == $requestData['coach']) {
-            BaseHelper::ajaxResponse('Mã học viên trùng với Mã Trợ giảng lớp!',false);
+            BaseHelper::ajaxResponse('Email hoặc số điện thoại của học viên trùng với của Trợ giảng lớp!',false);
         }
 
         if(ClassStudent::where([['class_id', '=', $requestData['class_id']],

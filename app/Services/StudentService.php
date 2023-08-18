@@ -48,6 +48,10 @@ class StudentService
         }
     }
 
+    /**
+     * Function kiểm tra số điện thoại học viên có tồn tại hay không
+     * @param string $phone
+     */
     public static function checkIssetByPhone($phone) {
         try {
             if (Student::where('phone', '=', $phone)->exists()) {
@@ -60,6 +64,10 @@ class StudentService
         }
     }
 
+    /**
+     * Function kiểm tra email học viên có tồn tại hay không
+     * @param string $email
+     */
     public static function checkIssetByEmail($email) {
         try {
             if (Student::where('email', '=', $email)->exists()) {
