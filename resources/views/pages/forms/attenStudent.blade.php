@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="form-group input-group mb-3">
-                            <input type="text" class="form-control" name="student_code" id="student_code" placeholder="Email hoặc số điện thoại">
+                            <input type="text" class="form-control" name="student_info" id="student_info" placeholder="Email hoặc số điện thoại">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>

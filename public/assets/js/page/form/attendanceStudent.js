@@ -16,7 +16,7 @@ $(document).ready(function() {
                 let studentInfo = res.data;
                 divCheckIssetStudent.attr('hidden', 'hidden');
                 let student_type = divCheckIssetStudent.find('#student_type').val();
-                let student_code = divCheckIssetStudent.find('#student_code').val();
+                let student_info = divCheckIssetStudent.find('#student_info').val();
 
                 if(student_type == 1) {
                     document.getElementById('nameCodeStudentTitle').innerText = "Chủ nhiệm: ";
@@ -30,7 +30,7 @@ $(document).ready(function() {
                 }
                 document.getElementById('nameCodeStudent').innerHTML = studentInfo.name + ' - ' + studentInfo.code;
                 divFormCheckinStudent.find('#student_type').val(student_type);
-                divFormCheckinStudent.find('#student_code').val(student_code);
+                divFormCheckinStudent.find('#student_info').val(student_info);
                 divFormCheckinStudent.removeAttr('hidden');
             });
         },
@@ -39,7 +39,7 @@ $(document).ready(function() {
             student_type: {
                 required: true,
             },
-            student_code: {
+            student_info: {
                 required: true,
             },
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
             student_type: {
                 required: "Vui lòng xác định vai trò của bạn!",
             },
-            student_code: {
+            student_info: {
                 required: "Email hoặc số điện thoại không để trống!",
             },
         },

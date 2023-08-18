@@ -61,7 +61,7 @@
             <div class="card" id="divCheckStudentInfo" style="width: 360px"
                  @if($classInfo->reg_status == 0 || $classInfo->status != 1) hidden="hidden" @endif>
                 <div class="card-body register-card-body" style="border-radius: 25px">
-                    <p class="login-box-msg">Vui lòng nhập mã học viên của bạn!</p>
+                    <p class="login-box-msg">Vui lòng nhập email hoặc số điện thoại của bạn!</p>
 
                     <form id="" action="" method="post">
                         @csrf
@@ -70,7 +70,7 @@
                         <input type="hidden" id="carer_staff" name="carer_staff" value="{{$classInfo->carer_staff}}">
 
                         <div class="form-group input-group mb-3">
-                            <input type="number" class="form-control" name="student_code" id="student_code" placeholder="Mã học viên">
+                            <input type="text" class="form-control" name="student_info" id="student_info" placeholder="Email hoặc số điện thoại">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>

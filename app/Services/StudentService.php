@@ -47,4 +47,28 @@ class StudentService
             return false;
         }
     }
+
+    public static function checkIssetByPhone($phone) {
+        try {
+            if (Student::where('phone', '=', $phone)->exists()) {
+                return true;
+            }
+            return false;
+
+        } catch (\Exception $exception){
+            return false;
+        }
+    }
+
+    public static function checkIssetByEmail($email) {
+        try {
+            if (Student::where('email', '=', $email)->exists()) {
+                return true;
+            }
+            return false;
+
+        } catch (\Exception $exception){
+            return false;
+        }
+    }
 }

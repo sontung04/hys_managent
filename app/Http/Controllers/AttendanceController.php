@@ -11,12 +11,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
+use App\Services\PageFormService;
 
 class AttendanceController extends Controller
 {
-    public function __construct()
-    {
+    private $pageFormService;
 
+    public function __construct(PageFormService $pageFormService)
+    {
+        $this->pageFormService = $pageFormService;
     }
 
     /**
@@ -40,7 +43,7 @@ class AttendanceController extends Controller
             }
         }
 
-        if(isset($requestData['study_id']) && isset($requestData['student_code']) && isset($requestData['student_type']))
+        if(isset($requestData['study_id']) && isset($requestData['student_info']) && isset($requestData['student_type']))
         {
             $attendance = DB::table('attendances', 'a')
                 ->join('students as s', 'a.student_code', '=', 's.code')
@@ -48,7 +51,7 @@ class AttendanceController extends Controller
                     'a.status', 'a.note', 'a.feedback', 'a.question', 'a.comment')
                 ->where([
                     ['a.study_id',     '=', $requestData['study_id']],
-                    ['a.student_code', '=', $requestData['student_code']],
+                    ['a.student_code', '=', $requestData['student_info']],
                     ['a.student_type', '=', $requestData['student_type']],
                 ])
                 ->get();
@@ -154,32 +157,46 @@ class AttendanceController extends Controller
         $requestData = $request->all();
 
         $studyInfo = Study::find($requestData['study_id']);
-        $studentInfo = Student::where('email', '=', $requestData['student_code'])->orWhere('phone', '=', $requestData['student_code'])->first();
+        $studentInfo = Student::where('email', '=', $requestData['student_info'])
+        ->orWhere('phone', '=', $requestData['student_info'])->first();;
 
-        if (is_numeric($requestData['student_code'])) {
-            if (!preg_match('/^(09|03|07|08|05)+[0-9]{8}$/', $requestData['student_code'])) {
-                BaseHelper::ajaxResponse('Số điện thoại không hợp lệ!', false);
-            }
-
-            if (!StudentService::checkIssetByCode($requestData['student_code'])) {
-                BaseHelper::ajaxResponse('Số điện thoại không tồn tại!',false);
+        if (is_numeric($requestData['student_info'])) {
+            $phoneValidation = $this->pageFormService->phoneValidation($requestData['student_info']);
+            if ($phoneValidation != null) {
+                BaseHelper::ajaxResponse($phoneValidation['msg'], false);
             }
         }
         else {
-           if (!filter_var($request['student_code'], FILTER_VALIDATE_EMAIL)) {
-            BaseHelper::ajaxResponse('Email không hợp lệ!', false);
-            }
-
-            if (!StudentService::checkIssetByCode($requestData['student_code'])) {
-                BaseHelper::ajaxResponse('Email không tồn tại!',false);
+            $emailValidation = $this->pageFormService->emailValidation($requestData['student_info']);
+            if ($emailValidation != null) {
+                BaseHelper::ajaxResponse($emailValidation['msg'], false);
             }
         }
+
+        // if (is_numeric($requestData['student_code'])) {
+        //     if (!preg_match('/^(09|03|07|08|05)+[0-9]{8}$/', $requestData['student_code'])) {
+        //         BaseHelper::ajaxResponse('Số điện thoại không hợp lệ!', false);
+        //     }
+
+        //     if (!StudentService::checkIssetByCode($requestData['student_code'])) {
+        //         BaseHelper::ajaxResponse('Số điện thoại không tồn tại!',false);
+        //     }
+        // }
+        // else {
+        //    if (!filter_var($request['student_code'], FILTER_VALIDATE_EMAIL)) {
+        //     BaseHelper::ajaxResponse('Email không hợp lệ!', false);
+        //     }
+
+        //     if (!StudentService::checkIssetByCode($requestData['student_code'])) {
+        //         BaseHelper::ajaxResponse('Email không tồn tại!',false);
+        //     }
+        // }
 
         if (!($studentInfo->status == 1)) {
             BaseHelper::ajaxResponse('Thành viên này đang không hoạt động ở CLB!');
         }
 
-        if(!isset($requestData['student_code'])) {
+        if(!isset($requestData['student_info'])) {
             BaseHelper::ajaxResponse(config('app.textRequestDataErr'), false);
         }
 
@@ -225,17 +242,17 @@ class AttendanceController extends Controller
         $this->checkRequestAjax($request);
         $requestData = $request->all();
 
-        $studentInfo = Student::where('email', '=', $requestData['student_code'])->orWhere('phone', '=', $requestData['student_code'])->first();
+        $studentInfo = Student::where('email', '=', $requestData['student_info'])->orWhere('phone', '=', $requestData['student_info'])->first();
 
         if(Attendance::where([['study_id', '=', $requestData['study_id']],
-            ['student_code', '=', $requestData['student_code']]])->exists()) {
+            ['student_code', '=', $requestData['student_info']]])->exists()) {
             BaseHelper::ajaxResponse('Phản hồi của bạn đã được ghi nhận!',false);
         }
 
         $attendance = new Attendance();
         $attendance->study_id     = $requestData['study_id'];
         $attendance->student_code = $studentInfo->code;
-        $attendance->student_type = $requestData['student_type'];
+            $attendance->student_type = $requestData['student_type'];
         if($requestData['student_type'] == 0) {
             $attendance->status = $requestData['status'];
         } else {
