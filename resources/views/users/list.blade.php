@@ -146,7 +146,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="usersTable" class="table table-bordered table-striped table-hover" style="overflow-x: auto; white-space: nowrap;">
+                        <table id="usersTable" class="table table-bordered table-striped table-hover">
                             <thead>
                             <tr style="text-align: center; position: sticky;" >
                                 <th>Mã thành viên</th>
@@ -215,7 +215,7 @@
                             @endforelse
 
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                             <tr style="text-align: center">
                                 <th>Mã thành viên</th>
                                 <th>Họ tên</th>
@@ -229,7 +229,7 @@
                                 <th>Khu vực</th>
                                 <th>Hành động</th>
                             </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                     @if ($users->hasPages())
