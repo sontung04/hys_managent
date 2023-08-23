@@ -17,3 +17,9 @@
     }
 
 }
+
+.card-body table {
+    white-space: nowrap;
+    overflow-x: auto;
+    display: block;
+}
