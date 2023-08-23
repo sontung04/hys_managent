@@ -215,7 +215,7 @@
                             @endforelse
 
                             </tbody>
-                            {{-- <tfoot>
+                            <tfoot>
                             <tr style="text-align: center">
                                 <th>Mã thành viên</th>
                                 <th>Họ tên</th>
@@ -229,7 +229,7 @@
                                 <th>Khu vực</th>
                                 <th>Hành động</th>
                             </tr>
-                            </tfoot> --}}
+                            </tfoot>
                         </table>
                     </div>
                     @if ($users->hasPages())
