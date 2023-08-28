@@ -58,7 +58,7 @@
         <div style="width: 100%; display: flex; justify-content: center;">
 
             <!-- form check isset student -->
-            <div class="card" id="divCheckStudentInfo" style="width: 360px"
+            <div class="card" id="divCheckStudentInfo" style="width: 390px"
                  @if($classInfo->reg_status == 0 || $classInfo->status != 1) hidden="hidden" @endif>
                 <div class="card-body register-card-body" style="border-radius: 25px">
                     <p class="login-box-msg">Vui lòng nhập email hoặc số điện thoại của bạn!</p>
@@ -85,7 +85,7 @@
                                     Kiểm tra thông tin &nbsp; <i class="fa-solid fa-id-card"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-block" id="btnEmptyCodeStudent">
-                                    Chưa có mã học viên &nbsp; <i class="fa-solid fa-pen-to-square"></i>
+                                    Chưa có thông tin học viên &nbsp; <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                             </div>
                             <div class="col-2"></div>
