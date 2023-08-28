@@ -63,6 +63,8 @@ class CronFeeReminder extends Command
 
         $course = DB::table('courses')->pluck('name', 'id');
 
+        Log::info(print_r($students));
+
         // Lưu những thông tin cần thiết để gửi email cho học viên
         $listStudent = [];
         $count = 0;
@@ -81,6 +83,7 @@ class CronFeeReminder extends Command
                 ];
             }
 
+            Log::info(print_r($count));
             $studentInfo = $listStudent[$student->code];
             $count++;
 
@@ -97,8 +100,6 @@ class CronFeeReminder extends Command
                     } catch (\Exception $e) {
                         Log::error('Error sending email: ' . $e->getMessage());
                     }
-                }
-                else {
                     $count = 0;
                 }
             }
