@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FeeReminder;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AutoFeeReminder extends Command
 {
@@ -33,56 +35,54 @@ class AutoFeeReminder extends Command
     {
 
         // Lấy ra những học viên đã quá hạn 30 ngày kể từ lần thông báo cuối.
-        $students = DB::table('classes_students', 'cs')
+        $students = DB::table('classes_students as cs')
             ->join('students as s', 'cs.student_code', '=', 's.code')
-            ->select('s.code', 's.name', 's.email', 'cs.course_id',
-                DB::raw('MAX(cs.fees) as fees')
+            ->select('s.code', 's.name', 's.email', 'cs.course_id', 'cs.date_payment',
+                DB::raw('MAX(cs.fees) as fees'),
+                DB::raw('(SELECT COALESCE(SUM(cpl.money_paid), 0) FROM class_payment_logs cpl
+                WHERE cpl.student_code = s.code AND cpl.course_id = cs.course_id) as money_paid'),
+                DB::raw('DATE(cs.finishtime) as finishtime')
             )
-            ->whereRaw('DATEDIFF(NOW(), cs.date_payment) > 0')
-            ->whereRaw('DATEDIFF(NOW(), cs.date_payment) % 30 = 0')
+            ->whereRaw("DATE_FORMAT(cs.date_payment, '%d') = DATE_FORMAT(CURRENT_DATE, '%d')")
+            ->whereRaw("DATE_FORMAT(cs.date_payment, '%m') = DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%m')")
+            ->orWhereNull('cs.date_payment')
+            ->whereNotNull('cs.finishtime') // De tam
+            ->havingRaw('fees > money_paid')
             ->groupBy('s.code', 'cs.course_id')
             ->orderBy('s.code', 'DESC')
             ->get();
 
-        // Tính số tiền của mỗi học viên đã trả.
-        $classPaymentLogs = DB::table('class_payment_logs', 'cpl')
-            ->select('cpl.student_code',
-                DB::raw('SUM(cpl.money_paid) as money_paid')
-            )
-            ->groupBy('cpl.student_code')
-            ->get();
+        Log::info(print_r($students));
 
         $course = DB::table('courses')->pluck('name', 'id');
 
         // Lưu những thông tin cần thiết để gửi email cho học viên
         $listStudent = [];
         foreach ($students as $student) {
-            if (!isset($listStudent[$student->code])) {
-                $listStudent[$student->code] = [
-                  'id'       => $course[$student->course_id],
-                  'name'     => $student->name,
-                  'email'    => $student->email,
-                  'total_fee'  => 0,
-                  'money_paid' => 0,
-                ];
-            }
+            $listStudent[$student->code][$student->course_id] = [
+                'id'            => $course[$student->course_id],
+                'name'          => $student->name,
+                'email'         => $student->email,
+                'finishtime'    => $student->finishtime,
+                'fees'          => $student->fees,
+                'money_paid'    => $student->money_paid,
+            ];
 
-            $listStudent[$student->code]['total_fee'] += $student->fees;
-        }
+            $studentInfo = $listStudent[$student->code][$student->course_id];
 
-        foreach ($classPaymentLogs as $log) {
-            $listStudent[$log->student_code]['money_paid'] = $log->money_paid;
-        }
+            $three_months_later = Carbon::parse($studentInfo['finishtime'])
+                ->copy()->addMonthNoOverflow(3)->format('Y-m-d');
 
-        // Gửi mail cho những học sinh nào chưa đóng đủ học phí
-        if ($students->count() > 0) {
-            foreach ($students as $student) {
-                $studentInfo = $listStudent[$student->code];
-                if ($studentInfo['total_fee'] > $studentInfo['money_paid']) {
-                    Mail::to($studentInfo['email'])
+            if ($three_months_later == now()->format('Y-m-d') || $student->date_payment != NULL) {
+                if ($studentInfo['fees'] > $studentInfo['money_paid']) {
+                    try {
+                        Mail::to($studentInfo['email'])
                         ->send(new FeeReminder($studentInfo['name'],
                                                $studentInfo['id'],
-                                               $studentInfo['total_fee'] - $studentInfo['money_paid']));
+                                               $studentInfo['fees'] - $studentInfo['money_paid']));
+                    } catch (\Exception $e) {
+                        Log::error('Error sending email: ' . $e->getMessage());
+                    }
                 }
             }
         }
