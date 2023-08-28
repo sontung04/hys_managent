@@ -83,7 +83,6 @@ class CronFeeReminder extends Command
                 ];
             }
 
-            Log::info(print_r($count));
             $studentInfo = $listStudent[$student->code];
             $count++;
 
