@@ -72,14 +72,14 @@ $(document).ready(function() {
         },
 
         rules: {
-            code: {
+            student_info: {
                 required: true,
             },
 
         },
         messages: {
-            code: {
-                required: "",
+            student_info: {
+                required: "Email hoặc số điện thoại không để trống!",
             },
         },
         errorElement: 'span',

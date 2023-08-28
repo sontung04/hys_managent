@@ -8,6 +8,7 @@ use App\Models\ClassStudent;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\ClassStudentService;
+use App\Services\PageFormService;
 use App\Services\StudentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,11 +22,15 @@ class ClassStudentController extends Controller
 
     private $classStudentService;
 
+    private $pageFormService;
+
     public function __construct(StudentService $studentService,
-                                ClassStudentService $classStudentService)
+                                ClassStudentService $classStudentService,
+                                PageFormService $pageFormService)
     {
         $this->studentService = $studentService;
         $this->classStudentService= $classStudentService;
+        $this->pageFormService = $pageFormService;
     }
 
     /**
@@ -47,9 +52,9 @@ class ClassStudentController extends Controller
             BaseHelper::ajaxResponse('Lớp học đã hoàn thành', false);
         }
 
-        if (isset($requestData['student_code'])) {
+        if (isset($requestData['student_info'])) {
             $student = DB::table('students')
-                ->where('code', '=', $requestData['student_code'])
+                ->where('code', '=', $requestData['student_info'])
                 ->get(['id', 'code', 'name', 'birthday', 'phone']);
 
             if (empty($student[0]->code) || $student[0]->code == $class[0]->coach || $student[0]->id == $class[0]->carer_staff) {
@@ -227,24 +232,41 @@ class ClassStudentController extends Controller
         $this->checkRequestAjax($request);
         $requestData = $request->all();
 
-        if (!StudentService::checkIssetByCode($requestData['student_code'])) {
-            BaseHelper::ajaxResponse('Mã học viên không chính xác!',false);
+        // Lấy thông tin học viên thông qua email và số điện thoại
+        $studentInfo = Student::where('email', '=', $requestData['student_info'])
+            ->orWhere('phone', '=', $requestData['student_info'])->first();;
+
+        // Kiểm tra xem requestData là số điện thoại hay email học viên có tồn tại và hợp lệ không
+        if (is_numeric($requestData['student_info'])) {
+            $phoneValidation = $this->pageFormService->phoneValidation($requestData['student_info']);
+            if ($phoneValidation != null) {
+                BaseHelper::ajaxResponse($phoneValidation['msg'], false);
+            }
+        }
+        else {
+            $emailValidation = $this->pageFormService->emailValidation($requestData['student_info']);
+            if ($emailValidation != null) {
+                BaseHelper::ajaxResponse($emailValidation['msg'], false);
+            }
         }
 
-        if($requestData['student_code'] == $requestData['carer_staff']) {
-            BaseHelper::ajaxResponse('Mã học viên trùng với Mã chủ nhiệm lớp!',false);
+        // Kiểm tra xem mã học viên có trùng với của CNL không
+        if($studentInfo->code == $requestData['carer_staff']) {
+            BaseHelper::ajaxResponse('Email hoặc số điện thoại của học viên trùng với của Chủ nhiệm lớp!',false);
         }
 
-        if($requestData['student_code'] == $requestData['coach']) {
-            BaseHelper::ajaxResponse('Mã học viên trùng với Mã Trợ giảng lớp!',false);
+        // Kiểm tra xem mã học viên có trùng với của TG không
+        if($studentInfo->code == $requestData['coach']) {
+            BaseHelper::ajaxResponse('Email hoặc số điện thoại của học viên trùng với của Trợ giảng lớp!',false);
         }
 
         if(ClassStudent::where([['class_id', '=', $requestData['class_id']],
-            ['student_code', '=', $requestData['student_code']]])->exists()) {
+            ['student_code', '=', $requestData['student_info']]])->exists()) {
             BaseHelper::ajaxResponse('Học viên đã tham gia lớp học này!',false);
         }
 
-        $student = Student::where('code', '=', $requestData['student_code'])->get();
+        $student = Student::where('email', '=', $requestData['student_info'])
+            ->orWhere('phone', '=', $requestData['student_info'])->get();
         $student = $student[0];
         $student->birthday        = $this->changeFormatDateOutput($student->birthday);
         $student->date_of_issue   = $this->changeFormatDateOutput($student->date_of_issue);
