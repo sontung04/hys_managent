@@ -30,7 +30,7 @@ $(document).ready(function() {
                 }
                 document.getElementById('nameCodeStudent').innerHTML = studentInfo.name + ' - ' + studentInfo.code;
                 divFormCheckinStudent.find('#student_type').val(student_type);
-                divFormCheckinStudent.find('#student_info').val(student_info);
+                divFormCheckinStudent.find('#student_code').val(studentInfo.code);
                 divFormCheckinStudent.removeAttr('hidden');
             });
         },

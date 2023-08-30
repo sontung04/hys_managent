@@ -43,7 +43,7 @@ class AttendanceController extends Controller
             }
         }
 
-        if(isset($requestData['study_id']) && isset($requestData['student_info']) && isset($requestData['student_type']))
+        if(isset($requestData['study_id']) && isset($requestData['student_code']) && isset($requestData['student_type']))
         {
             $attendance = DB::table('attendances', 'a')
                 ->join('students as s', 'a.student_code', '=', 's.code')
@@ -51,7 +51,7 @@ class AttendanceController extends Controller
                     'a.status', 'a.note', 'a.feedback', 'a.question', 'a.comment')
                 ->where([
                     ['a.study_id',     '=', $requestData['study_id']],
-                    ['a.student_code', '=', $requestData['student_info']],
+                    ['a.student_code', '=', $requestData['student_code']],
                     ['a.student_type', '=', $requestData['student_type']],
                 ])
                 ->get();
@@ -215,6 +215,7 @@ class AttendanceController extends Controller
         $studentInfo = DB::table('students')
             ->where('code', '=', $studentInfo->code)
             ->get(['code', 'name']);
+
         BaseHelper::ajaxResponse(config('app.textGetSuccess'),true, $studentInfo[0]);
     }
 
@@ -227,17 +228,14 @@ class AttendanceController extends Controller
         $this->checkRequestAjax($request);
         $requestData = $request->all();
 
-        $studentInfo = Student::where('email', '=', $requestData['student_info'])
-            ->orWhere('phone', '=', $requestData['student_info'])->first();
-
         if(Attendance::where([['study_id', '=', $requestData['study_id']],
-            ['student_code', '=', $requestData['student_info']]])->exists()) {
+            ['student_code', '=', $requestData['student_code']]])->exists()) {
             BaseHelper::ajaxResponse('Phản hồi của bạn đã được ghi nhận!',false);
         }
 
         $attendance = new Attendance();
         $attendance->study_id     = $requestData['study_id'];
-        $attendance->student_code = $studentInfo->code;
+        $attendance->student_code = $requestData['student_code'];
             $attendance->student_type = $requestData['student_type'];
         if($requestData['student_type'] == 0) {
             $attendance->status = $requestData['status'];
