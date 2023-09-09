@@ -158,7 +158,9 @@ Route::middleware(['cors', 'auth'])->group(function (){
             Route::post('/paymentLogCreateAjax', 'FeeController@paymentLogCreateAjax');
             Route::get('/paymentLogDeleteAjax/{id}', 'FeeController@paymentLogDeleteAjax');
 
+            Route::get('/callLogAjax/{id}', 'FeeController@getCallLogByIdAjax');
             Route::post('/callLogCreateAjax', 'FeeController@callLogCreateAjax');
+            Route::get('/callLogDeleteAjax/{id}', 'FeeController@callLogDeleteAjax');
         });
     });
 

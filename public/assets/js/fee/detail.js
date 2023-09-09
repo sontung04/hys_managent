@@ -69,7 +69,7 @@ $(function() {
         Swal.fire({
             title: 'Cảnh báo!',
             icon: 'error',
-            text: 'Bạn có chắc chắn muốn bản ghi này?',
+            text: 'Bạn có chắc chắn muốn xóa bản ghi này?',
             showConfirmButton: true,
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -159,10 +159,34 @@ $(function() {
         }
     });
 
-    /* Add new Record Call Log */
+    /* Add a new Record Call Log */
     $('#btnAddCallLog').on('click', function () {
-        document.getElementById('modalAddPaymentLogTitle').innerText = 'Thêm Lịch sử gọi điện';
+        document.getElementById('modalAddCallLogTitle').innerText = 'Thêm Lịch sử gọi điện';
         modalAddCallLog.modal('show');
+    });
+
+    /* Edit Info a Call Log */
+    $('#callLogTab').on('click', '.btnEdit', function() {
+        document.getElementById('modalAddCallLogTitle').innerText = 'Sửa thông tin Lịch sử gọi điện';
+
+        let id = $(this).attr('data-id');
+        callAjaxGet(BASE_URL + '/student/fee/callLogAjax/' + id).done(function(res) {
+            if (!res.status) {
+                notifyMessage('Lỗi!', res.msg, 'error', 3000);
+                return;
+            }
+            let callLogInfo = res.data;
+
+            /* set field value */
+            ['id', 'agent', 'date_call', 'channel', 'status', 'note'].forEach(field => {
+                modalAddCallLog.find('#' + field).val(callLogInfo[field]);
+            });
+            /*modalAddCallLog.find('#course_id')
+                .find(`option[value="${callLogInfo['course_id']}"]`).prop('selected', true);*/
+            modalAddCallLog.find('#status' + callLogInfo['status']).prop('checked', true);
+
+            modalAddCallLog.modal('show');
+        });
     });
 
     //Sự kiện Đóng modal
@@ -171,7 +195,7 @@ $(function() {
         modalAddCallLog.find('#agent').val('Vũ Thị Mai Huế')
         modalAddCallLog.find('#date_call').val(currentMaxDate)
         modalAddCallLog.find('#channel0').prop('checked', true);
-        modalAddCallLog.find('#status1').prop('checked', true);
+        modalAddCallLog.find('#statusCall1').prop('checked', true);
         modalAddCallLog.find('#note').val('')
     });
 
@@ -181,8 +205,36 @@ $(function() {
         modalAddCallLog.find('#agent').val('Vũ Thị Mai Huế')
         modalAddCallLog.find('#date_call').val(currentMaxDate)
         modalAddCallLog.find('#channel0').prop('checked', true);
-        modalAddCallLog.find('#status1').prop('checked', true);
+        modalAddCallLog.find('#statusCall1').prop('checked', true);
         modalAddCallLog.find('#note').val('')
+    });
+
+    //Delete a call log
+    $('#callLogTab').on('click', '.btnDelete', function(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Cảnh báo!',
+            icon: 'error',
+            text: 'Bạn có chắc chắn muốn xóa bản ghi này?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy bỏ',
+        }).then((result) => {
+            if (result.value) {
+                let id = $(this).attr('data-id');
+                callAjaxGet(BASE_URL + '/student/fee/callLogDeleteAjax/' + id).done(function(res) {
+                    if (!res.status) {
+                        notifyMessage('Thông báo lỗi!', res.msg, 'error', 5000);
+                        return;
+                    }
+                    notifyMessage('Thông báo!', res.msg,'success')
+                    setTimeout(function(){ window.location.reload(); }, 1000);
+                });
+            }
+        })
     });
 
     /* Validate form modal Add Payment Log */
@@ -222,7 +274,7 @@ $(function() {
             channel: {
                 required: "Kênh liên hệ không được để trống!",
             },
-            status: {
+            statusCall: {
                 required: "Trạng thái liên hệ không được để trống!",
             },
         },

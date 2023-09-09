@@ -127,7 +127,7 @@
                                 <div class="tab-content">
 
                                     <!-- Tab lịch sử các khóa học -->
-                                    <div class="tab-pane " id="timelineCourseTab">
+                                    <div class="tab-pane active" id="timelineCourseTab">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -234,7 +234,7 @@
                                     <!-- End Tab lịch sử các khóa học -->
 
                                     <!-- Tab lịch sử các lần nộp tiền -->
-                                    <div class="tab-pane active" id="paymentLogTab">
+                                    <div class="tab-pane" id="paymentLogTab">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -336,7 +336,7 @@
                                     </div>
                                     <!-- End Tab lịch sử các lần nộp tiền -->
 
-                                    <!-- Tab lịch sử các lần nộp tiền -->
+                                    <!-- Tab lịch sử các lần gọi điện -->
                                     <div class="tab-pane" id="callLogTab">
                                         <div class="card">
                                             <div class="card-body">
@@ -356,6 +356,7 @@
                                                                 <th>Kênh gọi</th>
                                                                 <th>Trạng thái</th>
                                                                 <th>Ghi chú</th>
+                                                                <th></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -368,6 +369,25 @@
                                                                     <td>{{$listChannelLog[$callLog->channel]}}</td>
                                                                     <td>{{$statusCallLog[$callLog->status]}}</td>
                                                                     <td>{{$callLog->note}}</td>
+                                                                    <td>
+                                                                        <button class="btn text-success btnEdit"
+                                                                                data-id="{{$callLog->id}}"
+                                                                                data-toggle="popover"
+                                                                                data-trigger="hover"
+                                                                                data-placement="bottom"
+                                                                                data-content="Chỉnh sửa"
+                                                                                style="padding: 0">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </button>
+                                                                        <button class="btn text-danger btnDelete"
+                                                                                data-id="{{$callLog->id}}"
+                                                                                data-toggle="popover"
+                                                                                data-trigger="hover"
+                                                                                data-placement="bottom"
+                                                                                data-content="Xóa"
+                                                                                style="padding: 0">
+                                                                            <i class="fas fa-trash"></i>
+                                                                    </td>
                                                                 </tr>
                                                             @empty
                                                                 <tr>
@@ -382,7 +402,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- End Tab lịch sử các lần nộp tiền -->
+                                    <!-- End Tab lịch sử các lần gọi điện -->
 
                                 </div>
                                 <!-- /.tab-content -->
@@ -570,22 +590,22 @@
                             <label class="col-lg-3 col-form-label" for="status">Trạng thái gọi: <span class="text-danger">*</span></label>
                             <div class="form-group col-lg-9">
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status1" name="status" value="1" checked>
-                                    <label for="status1" style="margin-right: 10px">
+                                    <input type="radio" id="statusCall1" name="statusCall" value="1" checked>
+                                    <label for="statusCall1" style="margin-right: 10px">
                                         Liên hệ được
                                     </label>
                                 </div>
 
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status0" name="status" value="0" >
-                                    <label for="status0" style="margin-right: 10px">
+                                    <input type="radio" id="statusCall0" name="statusCall" value="0" >
+                                    <label for="statusCall0" style="margin-right: 10px">
                                         Không liên hệ được
                                     </label>
                                 </div>
 
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="status2" name="status" value="2">
-                                    <label for="status2">
+                                    <input type="radio" id="statusCall2" name="statusCall" value="2">
+                                    <label for="statusCall2" style="margin-right: 10px">
                                         Thông tin liên hệ sai
                                     </label>
                                 </div>

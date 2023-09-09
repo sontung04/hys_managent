@@ -248,6 +248,20 @@ class FeeController extends Controller
 
     }
 
+     /**
+     * Get info record call log by id return to Ajax
+     *
+     * @param Request $request
+     * @param $id
+     */
+    public function getCallLogByIdAjax(Request $request, $id)
+    {
+        $this->checkRequestAjax($request);
+        $callLog = CallStudentLog::findOrFail($id);
+        $callLog->date_call = $this->changeFormatDateOutput($callLog->date_call);
+        BaseHelper::ajaxResponse('success', true, $callLog);
+    }
+
     /**
      * function tạo lịch sử gọi điện cho học viên qua Ajax
      * @param Request $request
@@ -270,7 +284,7 @@ class FeeController extends Controller
         $callLog->student_code = $requestData['student_code'];
         $callLog->date_call    = $this->changeFormatDateInput($requestData['date_call']);
         $callLog->channel      = $requestData['channel'];
-        $callLog->status       = $requestData['status'];
+        $callLog->status       = $requestData['statusCall'];
         $callLog->note         = $requestData['note'];
 
         try {
@@ -279,5 +293,28 @@ class FeeController extends Controller
         } catch (\Exception $exception){
             BaseHelper::ajaxResponse(config('app.textSaveError'), false);
         }
+    }
+
+    /**
+     * Delete record call log by id Ajax
+     *
+     * @param Request $request
+     * @param $id
+     */
+    public function callLogDeleteAjax(Request $request, $id)
+    {
+        $this->checkRequestAjax($request);
+        try {
+            $callLog = CallStudentLog::find($id);
+            if($callLog) {
+                $this->checkEmptyDataAjax($callLog);
+                $callLog->delete();
+                BaseHelper::ajaxResponse('Xóa dữ liệu thành công!', true);
+            }
+            BaseHelper::ajaxResponse(config('app.textGetEmpty'), false);
+        } catch (\Exception $exception) {
+            BaseHelper::ajaxResponse(config('app.textHandlingError'), false);
+        }
+
     }
 }
